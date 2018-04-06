@@ -1,6 +1,8 @@
 # SOMtoday API docs, routes with parameters and more
 ## some misc
-endpoint for auth: https://production.somtoday.nl
+Endpoint for the API: https://production.somtoday.nl
+
+Always include the header "Accept" with the value of "application/json" so you won't get XML
 
 you can do sample requests using curl, for example:
 ```bash
