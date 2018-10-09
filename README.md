@@ -1,5 +1,36 @@
 # SOMtoday REST API docs
-## some misc
+
+## Table of contents
+<!-- MarkdownTOC -->
+
+- [Some miscellaneous stuff](#some-miscellaneous-stuff)
+- [SOMtoday metadata](#somtoday-metadata)
+  - [Getting a list of schools: `GET https://servers.somtoday.nl`](#getting-a-list-of-schools-get-httpsserverssomtodaynl)
+- [Authentication / authorization](#authentication--authorization)
+  - [Fetching the access token: `POST /oauth2/token`](#fetching-the-access-token-post-oauth2token)
+    - [Parameters](#parameters)
+    - [Returns](#returns)
+    - [Example](#example)
+  - [Refreshing the token: `POST /oauth2/token`](#refreshing-the-token-post-oauth2token)
+    - [Parameters](#parameters-1)
+    - [Returns](#returns-1)
+    - [Example](#example-1)
+- [Getting information](#getting-information)
+  - [Current student\(s\): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
+    - [Parameters](#parameters-2)
+    - [Returns](#returns-2)
+    - [Example](#example-2)
+  - [Student by ID: `GET /rest/v1/leerlingen/[id]`](#student-by-id-get-restv1leerlingenid)
+    - [Parameters](#parameters-3)
+    - [Returns](#returns-3)
+    - [Example](#example-3)
+  - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
+    - [Parameters](#parameters-4)
+    - [Returns](#returns-4)
+
+<!-- /MarkdownTOC -->
+
+## Some miscellaneous stuff
 Endpoint for authentication: https://production.somtoday.nl
 
 Endpoint for the API is returned when you fetch the access token
@@ -72,7 +103,9 @@ Returns an array of schools
 ## Authentication / authorization
 baseurl: https://production.somtoday.nl
 
-### Fetching the access token: `POST baseurl/oauth2/token`
+All routes here are prefixed with that baseurl.
+
+### Fetching the access token: `POST /oauth2/token`
 
 #### Parameters
 
@@ -115,12 +148,12 @@ curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&usern
 
 **Note: We use `\\` here, because `\` is normally used to escape things like quotes (e.g. `\"`) (and only bash double quote strings can escape using `\`), so `\\` will translate to `\`, and you can just use `\` if you use single quotes**
 
-### Refreshing the token: `POST baseurl/oauth2/token`
+### Refreshing the token: `POST /oauth2/token`
 #### Parameters
 
 |Name|Type|Value|
 |----|----|-----|
-|grant_type|Body|refres_token|
+|grant_type|Body|refresh_token|
 |refresh_token|Body|[refresh_token]|
 |client_id|Body|D50E0C06-32D1-4B41-A137-A9A850C892C2|
 |client_secret|Body|vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX|
@@ -154,41 +187,191 @@ curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=refresh_token&
 ```
 
 ## Getting information
-### Current student: GET /rest/v1/leerlingen
-#### Headers
-```
-Authorization: "Bearer " + access_token
-```
+baseurl: returned when you fetch a token (`somtoday_api_url`), usually [lowercase snakecased schoolname]-api.somtoday.nl
+
+All routes here are prefixed with that baseurl.
+
+### Current student(s): `GET /rest/v1/leerlingen`
+This REST method might return multiple pupils (I cannot test), since it says /leerlingen (Dutch plural for Pupil).
+
+I suppose it returns all pupils the current user has access to (so if a school administrator runs it, it will return all pupils on the school).
+
+#### Parameters
+
+|Name|Type|Value|
+|----|----|-----|
+|Authorization|Header|Bearer [access_token]|
 
 #### Returns
-```
-items array containing an object:
-  $type (person type)
-  links array containing an object:
-    id (person ID, very important)
-    rel (= "self")
-    type (= $type)
-    href (somtoday_api_url + "/rest/v1/leerlingen/" + id)
-  permissions array containing an object:
-    full
-    type
-    operations array containing one string
-    instances array containing one string
-  additionalObjects (= empty object afaik)
-  leerlingnummer
-  roepnaam
-  achternaam
-  email
-  mobielNummer
-  geboortedatum
-  geslacht
+```json
+{
+  "items": [
+    {
+      "$type": "leerling.RLeerling",
+      "links": [
+        {
+          "id": 1234,
+          "rel": "self",
+          "type": "leerling.RLeerling",
+          "href": "https://bonhoeffer-api.somtoday.nl/rest/v1/leerlingen/1234"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234)",
+          "type": "leerling.RLeerlingPrimer",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(1234)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "leerlingnummer": 450000,
+      "roepnaam": "Eli",
+      "achternaam": "Saado",
+      "email": "450000@live.bc-enschede.nl",
+      "mobielNummer": "06-00000000",
+      "geboortedatum": "2000-00-00",
+      "geslacht": "Man"
+    }
+  ]
+}
 ```
 
-### Grades: GET /rest/v1/resultaten/huidigVoorLeerling/{id}
-#### URL parameters
-{id} = id from /rest/v1/leerlingen
-
-#### Headers
+#### Example
+```bash
+token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl
+curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
-Authorization: "Bearer" + access_token
+
+### Student by ID: `GET /rest/v1/leerlingen/[id]`
+#### Parameters
+
+|Name|Type|Value|
+|----|----|-----|
+|id|URL|[user id]|
+|Authorization|Header|Bearer [access_token]|
+
+#### Returns
+```json
+{
+  "links": [
+    {
+      "id": 1234,
+      "rel": "self",
+      "type": "leerling.RLeerling",
+      "href": "https://bonhoeffer-api.somtoday.nl/rest/v1/leerlingen/1234"
+    }
+  ],
+  "permissions": [
+    {
+      "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234)",
+      "type": "leerling.RLeerlingPrimer",
+      "operations": [
+        "READ"
+      ],
+      "instances": [
+        "INSTANCE(1234)"
+      ]
+    }
+  ],
+  "additionalObjects": {},
+  "leerlingnummer": 450000,
+  "roepnaam": "Eli",
+  "achternaam": "Saado",
+  "email": "450000@live.bc-enschede.nl",
+  "mobielNummer": "06-00000000",
+  "geboortedatum": "2000-00-00",
+  "geslacht": "Man"
+}
+```
+
+#### Example
+```bash
+token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
+curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
+```
+
+### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
+#### Parameters
+
+|Name|Type|Value|
+|----|----|-----|
+|id|URL|[user id]|
+|Authorization|Header|Bearer [access_token]|
+|Range|Header|<UNKOWN>|
+
+**Note: `Range` is optional and I do not yet know what kind of values it accepts**
+
+#### Returns
+I do not have any grades yet, so I cannot put some sample JSON here. I can however put the java class here that they use in SOMtoday.
+
+```java
+public class Resultaat {
+  public static final String Descriptor = "resultaten.RResultaat";
+  private Date datumInvoer;
+  private Integer examenWeging;
+  private String geldendResultaat;
+  private RResultaat herkansing;
+  private Integer herkansingsNummer;
+  private RHerkansing herkansingstype;
+  private Boolean isExamendossierResultaat;
+  private Boolean isVoortgangsdossierResultaat;
+  private int leerjaar;
+  private RLeerlingPrimer leerling;
+  private String omschrijving;
+  private RResultaat overschrevenDoor;
+  private int periode;
+  private String resultaat;
+  private String resultaatAfwijkendNiveau;
+  private String resultaatLabel;
+  private String resultaatLabelAfkorting;
+  private String resultaatLabelAfwijkendNiveau;
+  private String resultaatLabelAfwijkendNiveauAfkorting;
+  private Integer score;
+  private boolean teltNietmee;
+  private boolean toetsNietGemaakt;
+  private RResultaatkolomType type;
+  private RVak vak;
+  private Integer volgnummer;
+  private Integer weging;
+}
+```
+
+I ommited some stuff here like all the methods.
+
+that java class would result in the following JSON (I have not tested this)
+
+```json
+{
+  "datumInvoer": -,
+  "examenWeging": -,
+  "geldendResultaat": -,
+  "herkansing": -,
+  "herkansingsNummer": -,
+  "herkansingstype": -,
+  "isExamendossierResultaat": -,
+  "isVoortgangsdossierResultaat": -,
+  "leerjaar": -,
+  "leerling": -,
+  "omschrijving": -,
+  "overschrevenDoor": -,
+  "periode": -,
+  "resultaat": -,
+  "resultaatAfwijkendNiveau": -,
+  "resultaatLabel": -,
+  "resultaatLabelAfkorting": -,
+  "resultaatLabelAfwijkendNiveau": -,
+  "resultaatLabelAfwijkendNiveauAfkorting": -,
+  "score": -,
+  "teltNietmee": -,
+  "toetsNietGemaakt": -,
+  "type": -,
+  "vak": -,
+  "volgnummer": -,
+  "weging": -,
+}
 ```
