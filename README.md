@@ -78,27 +78,25 @@ Returns an array of schools
 ```json
 [
   {
-    "baseURL": "https://www.somtoday.nl/",
     "instellingen": [
       {
-        "naam": "Abel Tasman",
-        "afkorting": "luzacatc",
-        "brin": "29ZP",
-        "uuid": "a6088f01-7f39-41f0-94a5-78b100c1816f"
+        "uuid": "099ce144-c400-4468-95d4-ad36f9f5cb5c",
+        "naam": "Etty Hillesum Lyceum",
+        "plaats": "DEVENTER"
       },
       {
-        "naam": "Almeerse scholengroep",
-        "afkorting": "asg",
-        "brin": "17DN",
-        "uuid": "932cb2e1-bb3e-47dd-9a37-e5553e9c1b3c"
+        "uuid": "ee8c456e-a227-4b7f-bb33-8601147d3264",
+        "naam": "Scholengemeenschap Marianum",
+        "plaats": "GROENLO"
       },
       {
-        "naam": "Altena College",
-        "afkorting": "altena",
-        "brin": "02XS",
-        "uuid": "bb55c368-2823-4bfc-97b3-4a2cd98d2010"
+        "uuid": "dda02c4c-82e5-42a7-a80d-bba133fd0430",
+        "naam": "R.-K. Sg. Canisius",
+        "plaats": "ALMELO"
       },
       ...
+    ]
+  }
 ]
 ```
 
