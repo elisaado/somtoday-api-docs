@@ -66,6 +66,8 @@ I don't recommend using curl in your programming language, except for PHP but ev
    Go: [net/http](https://golang.org/pkg/net/http/)
 
    Ruby: [Faraday](https://github.com/lostisland/faraday), [HTTParty](https://github.com/jnunemaker/httparty)
+   
+   Python: [requests](http://docs.python-requests.org/en/master/)
 
    Please add more if you know more.
 </details>
