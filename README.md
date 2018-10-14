@@ -5,7 +5,7 @@
 
 - [Some miscellaneous stuff](#some-miscellaneous-stuff)
 - [SOMtoday metadata](#somtoday-metadata)
-  - [Getting a list of schools: `GET https://servers.somtoday.nl`](#getting-a-list-of-schools-get-httpsserverssomtodaynl)
+  - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynlorganisatiesjson)
 - [Authentication / authorization](#authentication--authorization)
   - [Fetching the access token: `POST /oauth2/token`](#fetching-the-access-token-post-oauth2token)
     - [Parameters](#parameters)
@@ -66,37 +66,37 @@ I don't recommend using curl in your programming language, except for PHP but ev
    Go: [net/http](https://golang.org/pkg/net/http/)
 
    Ruby: [Faraday](https://github.com/lostisland/faraday), [HTTParty](https://github.com/jnunemaker/httparty)
+   
+   Python: [requests](http://docs.python-requests.org/en/master/)
 
    Please add more if you know more.
 </details>
 
 ## SOMtoday metadata
-### Getting a list of schools: `GET https://servers.somtoday.nl`
+### Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`
 Returns an array of schools
 ```json
 [
   {
-    "baseURL": "https://www.somtoday.nl/",
     "instellingen": [
       {
-        "naam": "Abel Tasman",
-        "afkorting": "luzacatc",
-        "brin": "29ZP",
-        "uuid": "a6088f01-7f39-41f0-94a5-78b100c1816f"
+        "uuid": "099ce144-c400-4468-95d4-ad36f9f5cb5c",
+        "naam": "Etty Hillesum Lyceum",
+        "plaats": "DEVENTER"
       },
       {
-        "naam": "Almeerse scholengroep",
-        "afkorting": "asg",
-        "brin": "17DN",
-        "uuid": "932cb2e1-bb3e-47dd-9a37-e5553e9c1b3c"
+        "uuid": "ee8c456e-a227-4b7f-bb33-8601147d3264",
+        "naam": "Scholengemeenschap Marianum",
+        "plaats": "GROENLO"
       },
       {
-        "naam": "Altena College",
-        "afkorting": "altena",
-        "brin": "02XS",
-        "uuid": "bb55c368-2823-4bfc-97b3-4a2cd98d2010"
+        "uuid": "dda02c4c-82e5-42a7-a80d-bba133fd0430",
+        "naam": "R.-K. Sg. Canisius",
+        "plaats": "ALMELO"
       },
       ...
+    ]
+  }
 ]
 ```
 
