@@ -5,7 +5,7 @@
 
 - [Some miscellaneous stuff](#some-miscellaneous-stuff)
 - [SOMtoday metadata](#somtoday-metadata)
-  - [Getting a list of schools: `GET https://servers.somtoday.nl`](#getting-a-list-of-schools-get-httpsserverssomtodaynl)
+  - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynl)
 - [Authentication / authorization](#authentication--authorization)
   - [Fetching the access token: `POST /oauth2/token`](#fetching-the-access-token-post-oauth2token)
     - [Parameters](#parameters)
@@ -71,7 +71,7 @@ I don't recommend using curl in your programming language, except for PHP but ev
 </details>
 
 ## SOMtoday metadata
-### Getting a list of schools: `GET https://servers.somtoday.nl`
+### Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`
 Returns an array of schools
 ```json
 [
