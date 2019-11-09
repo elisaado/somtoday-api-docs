@@ -302,9 +302,7 @@ curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "
 |----|----|-----|
 |id|URL|[user id]|
 |Authorization|Header|Bearer [access_token]|
-|Range|Header|<UNKOWN>|
-
-**Note: `Range` is optional and I do not yet know what kind of values it accepts**
+|Range|Header|items=[LowerBound]-[UpperBound]|
 
 #### Returns
 I do not have any grades yet, so I cannot put some sample JSON here. I can however put the java class here that they use in SOMtoday.
