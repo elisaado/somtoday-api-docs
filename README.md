@@ -130,7 +130,7 @@ This means that it will be formatted as:
 
 This is then encoded with base64, as is standard for HTTP Basic authorization.
 
-This yields the authorization header we above.
+This yields the authorization header we see above.
 
 #### Returns
 ```json
