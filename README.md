@@ -117,10 +117,20 @@ All routes here are prefixed with that baseurl.
 |scope|Body|openid|
 |Authorization|Header|Basic RDUwRTBDMDYtMzJEMS00QjQxLUExMzctQTlBODUwQzg5MkMyOnZEZFdkS3dQTmFQQ3loQ0RoYUNuTmV5ZHlMeFNHTkpY|
 
-**Note: that authorization header is the result of this java code:**
-```java
-Base64.getEncoder().encodeToString(String.format("%s:%s", new Object[] { "D50E0C06-32D1-4B41-A137-A9A850C892C2" /* client ID */, "vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX" /* client secret */ }).getBytes(Charset.forName("UTF-8")))
+**Note: that authorization header is the result of the following parameters:**
 ```
+app ID (username): D50E0C06-32D1-4B41-A137-A9A850C892C2
+app secret (password): vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX
+```
+
+The app ID is used as the username and the app secret as the password for HTTP Basic authorization.
+
+This means that it will be formatted as:
+`app ID:app secret`, so `D50E0C06-32D1-4B41-A137-A9A850C892C2:vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX`.
+
+This is then encoded with base64, as is standard for HTTP Basic authorization.
+
+This yields the authorization header we above.
 
 #### Returns
 ```json
