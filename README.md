@@ -117,6 +117,19 @@ All routes here are prefixed with that baseurl.
 |scope|Body|openid|
 |Authorization|Header|Basic RDUwRTBDMDYtMzJEMS00QjQxLUExMzctQTlBODUwQzg5MkMyOnZEZFdkS3dQTmFQQ3loQ0RoYUNuTmV5ZHlMeFNHTkpY|
 
+OR
+
+|Name|Type|Value|
+|----|----|-----|
+|grant_type|Body|password|
+|username|Body|[school uuid]\\[username]|
+|password|Body|[password]|
+|scope|Body|openid|
+|client_id|Body|D50E0C06-32D1-4B41-A137-A9A850C892C2|
+|client_secret|Body|vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX|
+
+Both of them are tested to work.
+
 **Note: that authorization header is the result of the following parameters:**
 ```
 app ID (username): D50E0C06-32D1-4B41-A137-A9A850C892C2
@@ -151,6 +164,8 @@ The `somtoday_api_url` is used for all non-authentication requests, like for get
 token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
 
 #### Example
+This example uses the HTTP Basic authorization header method of authorization.
+
 ```bash
 school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
 curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid" -H "Authorization: Basic RDUwRTBDMDYtMzJEMS00QjQxLUExMzctQTlBODUwQzg5MkMyOnZEZFdkS3dQTmFQQ3loQ0RoYUNuTmV5ZHlMeFNHTkpY"
@@ -168,9 +183,17 @@ curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&usern
 |client_id|Body|D50E0C06-32D1-4B41-A137-A9A850C892C2|
 |client_secret|Body|vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX|
 
-You get that `refresh_token` when you fetch the access token with the username and password.
+OR
 
-Notice how here, we are not using the `Authorization` header which includes the `client_id` and `client_secret`, but we are just sending them in the HTTP Body.
+|Name|Type|Value|
+|----|----|-----|
+|grant_type|Body|refresh_token|
+|refresh_token|Body|[refresh_token]|
+|Authorization|Header|Basic RDUwRTBDMDYtMzJEMS00QjQxLUExMzctQTlBODUwQzg5MkMyOnZEZFdkS3dQTmFQQ3loQ0RoYUNuTmV5ZHlMeFNHTkpY|
+
+Both of them are tested to work.
+
+You get that `refresh_token` when you fetch the access token with the username and password.
 
 #### Returns
 ```json
@@ -191,6 +214,8 @@ The `somtoday_api_url` is used for all non-authentication requests, like for get
 token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
 
 #### Example
+This example uses the `client_id` and `client_secret` in body method of authorization.
+
 ```bash
 token='<REDACTED>'
 curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
