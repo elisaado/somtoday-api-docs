@@ -27,6 +27,9 @@
   - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
     - [Parameters](#parameters-4)
     - [Returns](#returns-4)
+  - [Schedule: `GET /rest/v1/resultaten/afspraken`](#schedule-get-restv1resultatenafspraken)
+    - [Parameters](#parameters-5)
+    - [Returns](#returns-5)
 
 <!-- /MarkdownTOC -->
 
@@ -407,4 +410,206 @@ that java class would result in the following JSON (I have not tested this)
   "volgnummer": -,
   "weging": -,
 }
+```
+
+### Schedule: `GET /rest/v1/resultaten/afspraken`
+#### Parameters
+
+|Name|Type|Value|
+|----|----|-----|
+|id|URL|[user id]|
+|Authorization|Header|Bearer [access_token]|
+|sort|Parameter|asc-id|
+|additional|Parameter|vak|
+|additional|Parameter|docentAfkortingen|
+|additional|Parameter|leerlingen|
+|begindatum|Parameter|yyyy-MM-dd|
+|einddatum|Parameter|yyyy-MM-dd|
+#### Returns
+
+```json
+{
+    "items": [
+           {
+            "$type": "participatie.RAfspraak",
+            "links": [
+                {
+                    "id": 8849104409,
+                    "rel": "self",
+                    "type": "participatie.RAfspraak",
+                    "href": "AFSPRAAK_URL"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "participatie.RAfspraak:READ:INSTANCE(8849104409)",
+                    "type": "participatie.RAfspraak",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(8849104409)"
+                    ]
+                }
+            ],
+            "additionalObjects": {
+                "vak": {
+                    "$type": "onderwijsinrichting.RVak",
+                    "links": [
+                        {
+                            "id": 126211284,
+                            "rel": "self",
+                            "type": "onderwijsinrichting.RVak",
+                            "href": "VAK_URL"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "onderwijsinrichting.RVak:READ:INSTANCE(126211284)",
+                            "type": "onderwijsinrichting.RVak",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(126211284)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "afkorting": "wisB",
+                    "naam": "wiskunde B"
+                },
+                "docentAfkortingen": "Stk",
+                "leerlingen": {
+                    "$type": "LinkableWrapper",
+                    "items": [
+                        {
+                            "$type": "leerling.RLeerlingPrimer",
+                            "links": [
+                                {
+                                    "id": 546308480,
+                                    "rel": "self",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "href": "LEERLING_URL"
+                                }
+                            ],
+                            "permissions": [
+                                {
+                                    "full": "leerling.RLeerlingPrimer:READ:INSTANCE(546308480)",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "operations": [
+                                        "READ"
+                                    ],
+                                    "instances": [
+                                        "INSTANCE(546308480)"
+                                    ]
+                                }
+                            ],
+                            "additionalObjects": {},
+                            "UUID": "UUID",
+                            "leerlingnummer": 119371,
+                            "roepnaam": "Christos",
+                            "achternaam": "Karapasias"
+                        }
+                    ]
+                }
+            },
+            "afspraakType": {
+                "links": [
+                    {
+                        "id": 144662674,
+                        "rel": "self",
+                        "type": "participatie.RAfspraakType",
+                        "href": "AFSPRAAK_TYPE_URL"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "participatie.RAfspraakType:READ:INSTANCE(144662674)",
+                        "type": "participatie.RAfspraakType",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(144662674)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "Les",
+                "omschrijving": "Les",
+                "standaardKleur": -2394583,
+                "categorie": "Rooster",
+                "activiteit": "Verplicht",
+                "percentageIIVO": 0,
+                "presentieRegistratieDefault": true,
+                "actief": true,
+                "vestiging": {
+                    "$type": "instelling.RVestiging",
+                    "links": [
+                        {
+                            "id": 126208855,
+                            "rel": "self",
+                            "type": "instelling.RVestiging",
+                            "href": "VESTIGING_URL"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "instelling.RVestiging:READ:INSTANCE(126208855)",
+                            "type": "instelling.RVestiging",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(126208855)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "naam": "Fortes Lyceum"
+                }
+            },
+            "locatie": "217",
+            "beginDatumTijd": "2020-05-04T11:15:00.000+02:00",
+            "eindDatumTijd": "2020-05-04T12:00:00.000+02:00",
+            "beginLesuur": 4,
+            "eindLesuur": 4,
+            "titel": "217 - A5wisB_2 - Stk",
+            "omschrijving": "217 - A5wisB_2 - Stk",
+            "presentieRegistratieVerplicht": true,
+            "presentieRegistratieVerwerkt": false,
+            "afspraakStatus": "ACTIEF",
+            "vestiging": {
+                "links": [
+                    {
+                        "id": 126208855,
+                        "rel": "self",
+                        "type": "instelling.RVestiging",
+                        "href": "VESTIGING_URL"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "instelling.RVestiging:READ:INSTANCE(126208855)",
+                        "type": "instelling.RVestiging",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(126208855)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "SCHOOL_NAAM"
+            }
+        }
+      ]
+}
+```
+
+#### Example
+```bash
+curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
