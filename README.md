@@ -30,6 +30,9 @@
   - [Schedule: `GET /rest/v1/resultaten/afspraken`](#schedule-get-restv1resultatenafspraken)
     - [Parameters](#parameters-5)
     - [Returns](#returns-5)
+  - [Homework: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](#homework-get-restv1studiewijzeritemafspraaktoekenningen)
+    - [Parameters](#parameters-6)
+    - [Returns](#returns-6)
 
 <!-- /MarkdownTOC -->
 
@@ -612,4 +615,210 @@ that java class would result in the following JSON (I have not tested this)
 #### Example
 ```bash
 curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
+```
+
+
+### Homework: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`
+This method fetches homework that the pupil can see.
+
+#### Parameters
+
+|Name|Type|Value|
+|----|----|-----|
+|begintNaOfOp|Parameter|Date as yyyy-MM-dd|
+|Authorization|Header|Bearer [access_token]|
+
+#### Returns
+```json
+{
+        "items": [
+            {
+                "$type": "studiewijzer.RSWIAfspraakToekenning",
+                "additionalObjects": {
+                },
+                "datumTijd": "<REDACTED>",
+                "lesgroep": {
+                    "additionalObjects": {
+                    },
+                    "examendossierOndersteund": false,
+                    "heeftStamgroep": true,
+                    "links": [
+                        {
+                            "href": "https://nassau-api.somtoday.nl/rest/v1/lesgroepen/<REDACTED>",
+                            "id": <REDACTED>,
+                            "rel": "self",
+                            "type": "lesgroep.RLesgroep"
+                        }
+                    ],
+                    "naam": "<REDACTED>",
+                    "permissions": [
+                        {
+                            "full": "lesgroep.RLesgroep:READ:INSTANCE(<REDACTED>)",
+                            "instances": [
+                                "INSTANCE(<REDACTED>)"
+                            ],
+                            "operations": [
+                                "READ"
+                            ],
+                            "type": "lesgroep.RLesgroep"
+                        }
+                    ],
+                    "schooljaar": {
+                        "$type": "onderwijsinrichting.RSchooljaar",
+                        "additionalObjects": {
+                        },
+                        "isHuidig": true,
+                        "links": [
+                            {
+                                "href": "https://nassau-api.somtoday.nl/rest/v1/schooljaren/<REDACTED>",
+                                "id": <REDACTED>,
+                                "rel": "self",
+                                "type": "onderwijsinrichting.RSchooljaar"
+                            }
+                        ],
+                        "naam": "2019/2020",
+                        "permissions": [
+                            {
+                                "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(<REDACTED>)",
+                                "instances": [
+                                    "INSTANCE(<REDACTED>)"
+                                ],
+                                "operations": [
+                                    "READ"
+                                ],
+                                "type": "onderwijsinrichting.RSchooljaar"
+                            }
+                        ],
+                        "totDatum": "2020-07-31",
+                        "vanafDatum": "2019-08-01"
+                    },
+                    "vak": {
+                        "additionalObjects": {
+                        },
+                        "afkorting": "<REDACTED>",
+                        "links": [
+                            {
+                                "href": "https://nassau-api.somtoday.nl/rest/v1/vakken/<REDACTED>",
+                                "id": <REDACTED>,
+                                "rel": "self",
+                                "type": "onderwijsinrichting.RVak"
+                            }
+                        ],
+                        "naam": "Latijnse taal en letterkunde",
+                        "permissions": [
+                            {
+                                "full": "onderwijsinrichting.RVak:READ:INSTANCE(<REDACTED>)",
+                                "instances": [
+                                    "INSTANCE(<REDACTED>)"
+                                ],
+                                "operations": [
+                                    "READ"
+                                ],
+                                "type": "onderwijsinrichting.RVak"
+                            }
+                        ]
+                    }
+                },
+                "links": [
+                    {
+                        "href": "https://nassau-api.somtoday.nl/rest/v1/studiewijzeritemafspraaktoekenningen/<REDACTED>",
+                        "id": <REDACTED>,
+                        "rel": "self",
+                        "type": "studiewijzer.RSWIAfspraakToekenning"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "studiewijzer.RSWIAfspraakToekenning:READ:INSTANCE(<REDACTED>)",
+                        "instances": [
+                            "INSTANCE(<REDACTED>)"
+                        ],
+                        "operations": [
+                            "READ"
+                        ],
+                        "type": "studiewijzer.RSWIAfspraakToekenning"
+                    }
+                ],
+                "sortering": 0,
+                "studiewijzer": {
+                    "additionalObjects": {
+                    },
+                    "links": [
+                        {
+                            "id": <REDACTED>,
+                            "rel": "koppeling",
+                            "type": "studiewijzer.RAbstractStudiewijzer"
+                        }
+                    ],
+                    "naam": "<REDACTED>",
+                    "permissions": [
+                    ],
+                    "uuid": "<REDACTED>",
+                    "vestiging": {
+                        "additionalObjects": {
+                        },
+                        "links": [
+                            {
+                                "href": "https://nassau-api.somtoday.nl/rest/v1/vestigingen/<REDACTED>",
+                                "id": <REDACTED>,
+                                "rel": "self",
+                                "type": "instelling.RVestiging"
+                            }
+                        ],
+                        "naam": "Quintus",
+                        "permissions": [
+                            {
+                                "full": "instelling.RVestiging:READ:INSTANCE(<REDACTED>)",
+                                "instances": [
+                                    "INSTANCE(<REDACTED>)"
+                                ],
+                                "operations": [
+                                    "READ"
+                                ],
+                                "type": "instelling.RVestiging"
+                            }
+                        ]
+                    }
+                },
+                "studiewijzerItem": {
+                    "additionalObjects": {
+                    },
+                    "bijlagen": [
+                    ],
+                    "externeMaterialen": [
+                    ],
+                    "huiswerkType": "TOETS",
+                    "inlevermomenten": [
+                    ],
+                    "inleverperiodes": false,
+                    "lesmateriaal": false,
+                    "links": [
+                        {
+                            "href": "https://nassau-api.somtoday.nl/rest/v1/studiewijzeritems/<REDACTED>",
+                            "id": <REDACTED>,
+                            "rel": "self",
+                            "type": "studiewijzer.RStudiewijzerItem"
+                        }
+                    ],
+                    "notitieZichtbaarVoorLeerling": false,
+                    "omschrijving": "REDACTED",
+                    "onderwerp": "<REDACTED>",
+                    "permissions": [
+                        {
+                            "full": "studiewijzer.RStudiewijzerItem:READ:INSTANCE(<REDACTED>)",
+                            "instances": [
+                                "INSTANCE(<REDACTED>)"
+                            ],
+                            "operations": [
+                                "READ"
+                            ],
+                            "type": "studiewijzer.RStudiewijzerItem"
+                        }
+                    ],
+                    "projectgroepen": false,
+                    "tonen": true
+                }
+            }
+        ]
+}
 ```
