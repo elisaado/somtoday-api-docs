@@ -1,5 +1,8 @@
 # SOMtoday REST API docs
 
+#### Discord  
+[![Discord Chat](https://img.shields.io/discord/789249810032361502.svg)](https://discord.gg/Gn9tuXAe)  
+
 ## Table of contents
 <!-- MarkdownTOC -->
 
