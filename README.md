@@ -361,7 +361,7 @@ curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "
 
 ### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
 
-Fetches the grades of the student.
+Fetches the grades of the student. Note that all average grades are also grade items returned by the API. There are the different types of columns: the `type` property in the json (e.g. 'Toetskolom', 'ToetssoortGemiddeldeKolom').
 
 #### Parameters
 
