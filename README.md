@@ -34,7 +34,7 @@
         - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
             - [Parameters](#parameters-4)
             - [Returns](#returns-4)
-        - [Schedule: `GET /rest/v1/resultaten/afspraken`](#schedule-get-restv1resultatenafspraken)
+        - [Schedule: `GET /rest/v1/afspraken`](#schedule-get-restv1afspraken)
             - [Parameters](#parameters-5)
             - [Returns](#returns-5)
             - [Example](#example-4)
@@ -550,7 +550,7 @@ The java class would result in the following JSON (not tested)
 }
 ```
 
-### Schedule: `GET /rest/v1/resultaten/afspraken`
+### Schedule: `GET /rest/v1/afspraken`
 
 Fetch the appointments from the schedule of the student.
 
