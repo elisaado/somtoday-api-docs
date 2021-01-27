@@ -558,7 +558,6 @@ Fetch the appointments from the schedule of the student.
 
 | Name          | Type      | Value                 |
 | ------------- | --------- | --------------------- |
-| id            | URL       | [user id]             |
 | Authorization | Header    | Bearer [access_token] |
 | sort          | Parameter | asc-id                |
 | additional    | Parameter | vak                   |
