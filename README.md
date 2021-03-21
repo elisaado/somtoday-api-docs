@@ -383,6 +383,14 @@ Fetches the grades of the student. Note that all average grades are also grade i
 | Authorization | Header | Bearer [access_token]           |
 | Range         | Header | items=[LowerBound]-[UpperBound] |
 
+These LowerBound and UpperBound values are the amount of grades you want to request (the API uses pagination here). The value may not exceed 100, so the way to request **all** grades is by doing the following:
+1. Request 0-99
+2. Request 100-199
+3. Request 200-299
+4. Request .00-.99
+5. Continue until the response contains less than 99 records
+6. Profit!
+
 #### Returns
 
 ```js
