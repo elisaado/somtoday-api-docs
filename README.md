@@ -145,7 +145,7 @@ All routes here are prefixed with that baseurl.
 |scope|Body|openid|
 |client_id|Body|D50E0C06-32D1-4B41-A137-A9A850C892C2|
 
-__ Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again. __
+**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
 
 #### Returns
 
@@ -168,8 +168,6 @@ token_type, scope and (probably) expires_in are always the same, the other value
 
 #### Example
 
-This example uses the HTTP Basic authorization header method of authorization.
-
 ```bash
 school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
 curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
@@ -188,15 +186,7 @@ curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&usern
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
 | client_secret | Body | vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX     |
 
-OR
-
-| Name          | Type   | Value                                                                                              |
-| ------------- | ------ | -------------------------------------------------------------------------------------------------- |
-| grant_type    | Body   | refresh_token                                                                                      |
-| refresh_token | Body   | [refresh_token]                                                                                    |
-| Authorization | Header | Basic RDUwRTBDMDYtMzJEMS00QjQxLUExMzctQTlBODUwQzg5MkMyOnZEZFdkS3dQTmFQQ3loQ0RoYUNuTmV5ZHlMeFNHTkpY |
-
-Both ways have been tested.
+**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
 
 You get the `refresh_token` when you fetch the access token with the username and password.
 
