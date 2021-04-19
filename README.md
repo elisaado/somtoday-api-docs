@@ -53,7 +53,7 @@
 
 ## Some miscellaneous stuff
 
-Endpoint for authentication: https://production.somtoday.nl
+Endpoint for authentication: https://somtoday.nl
 
 Endpoint for the API is returned when you fetch the access token
 
@@ -129,7 +129,7 @@ Returns an array of schools
 
 ## Authentication / authorization
 
-baseurl: https://production.somtoday.nl
+baseurl: https://somtoday.nl
 
 All routes here are prefixed with that baseurl.
 
@@ -170,7 +170,7 @@ token_type, scope and (probably) expires_in are always the same, the other value
 
 ```bash
 school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
-curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
 ```
 
 **Note: We use `\\` here, because `\` is normally used to escape things like quotes (e.g. `\"`) (and only bash double quote strings can escape using `\`), so `\\` will translate to `\`, and you can just use `\` if you use single quotes**
@@ -215,7 +215,7 @@ This example uses the `client_id` and `client_secret` in body method of authoriz
 
 ```bash
 token='<REDACTED>'
-curl "https://production.somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
 ```
 
 ## Fetching information
