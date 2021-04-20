@@ -38,16 +38,9 @@
       - [Parameters](#parameters-5)
       - [Returns](#returns-5)
       - [Example](#example-4)
-  - [Homework](#homework)
-    - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
-      - [Parameters](#parameters-6)
+    - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
+         - [Parameters](#parameters-6)
       - [Returns](#returns-6)
-    - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
-      - [Parameters](#parameters-7)
-      - [Returns](#returns-7)
-    - [3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`](#3-homework-from-weeks-get-restv1studiewijzeritemweektoekenningen)
-      - [Parameters](#parameters-8)
-      - [Returns](#returns-8)
 
 <!-- /TOC -->
 
@@ -279,6 +272,8 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl
 curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
+------
+
 ### Student by ID: `GET /rest/v1/leerlingen/[id]`
 
 #### Parameters
@@ -325,6 +320,8 @@ curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Acce
 token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
 curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
+
+------
 
 ### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
 
@@ -444,6 +441,8 @@ These LowerBound and UpperBound values are the amount of grades you want to requ
     ...
 }
 ```
+
+------
 
 ### Schedule: `GET /rest/v1/afspraken`
 
@@ -627,245 +626,114 @@ Fetch the appointments from the schedule of the student.
 curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-## Homework
+------
 
-There are 3 different types of homework in Somtoday. In picture below you can see how they look on the website.
+### Absence Reports: `GET /rest/v1/absentiemeldingen`
 
-![Homework Types](pics/homework-types.png)
-
-### 1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`
-
-Receives the homework from appointments after a specified date.
+Fetches the absence reports of the user 
 
 #### Parameters
 
 | Name          | Type      | Value                 |
 | ------------- | --------- | --------------------- |
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | Authorization | Header    | Bearer [access_token] |
+| begindatumtijd| Parameter | yyyy-MM-dd            |
+| einddatumtijd | Parameter | yyyy-MM-dd            |
 
 #### Returns
 
+Array of absance reports
 ```json
 {
-        "items": [
-            {
-                "$type": "studiewijzer.RSWIAfspraakToekenning",
-                "additionalObjects": {
-                },
-                "datumTijd": "<REDACTED>",
-                "lesgroep": {
-                    "additionalObjects": {
-                    },
-                    "examendossierOndersteund": false,
-                    "heeftStamgroep": true,
-                    "links": [
-                        {
-                            "href": "https://nassau-api.somtoday.nl/rest/v1/lesgroepen/<REDACTED>",
-                            "id": <REDACTED>,
-                            "rel": "self",
-                            "type": "lesgroep.RLesgroep"
-                        }
-                    ],
-                    "naam": "<REDACTED>",
-                    "permissions": [
-                        {
-                            "full": "lesgroep.RLesgroep:READ:INSTANCE(<REDACTED>)",
-                            "instances": [
-                                "INSTANCE(<REDACTED>)"
-                            ],
-                            "operations": [
-                                "READ"
-                            ],
-                            "type": "lesgroep.RLesgroep"
-                        }
-                    ],
-                    "schooljaar": {
-                        "$type": "onderwijsinrichting.RSchooljaar",
-                        "additionalObjects": {
-                        },
-                        "isHuidig": true,
-                        "links": [
-                            {
-                                "href": "https://nassau-api.somtoday.nl/rest/v1/schooljaren/<REDACTED>",
-                                "id": <REDACTED>,
-                                "rel": "self",
-                                "type": "onderwijsinrichting.RSchooljaar"
-                            }
-                        ],
-                        "naam": "2019/2020",
-                        "permissions": [
-                            {
-                                "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(<REDACTED>)",
-                                "instances": [
-                                    "INSTANCE(<REDACTED>)"
-                                ],
-                                "operations": [
-                                    "READ"
-                                ],
-                                "type": "onderwijsinrichting.RSchooljaar"
-                            }
-                        ],
-                        "totDatum": "2020-07-31",
-                        "vanafDatum": "2019-08-01"
-                    },
-                    "vak": {
-                        "additionalObjects": {
-                        },
-                        "afkorting": "<REDACTED>",
-                        "links": [
-                            {
-                                "href": "https://nassau-api.somtoday.nl/rest/v1/vakken/<REDACTED>",
-                                "id": <REDACTED>,
-                                "rel": "self",
-                                "type": "onderwijsinrichting.RVak"
-                            }
-                        ],
-                        "naam": "Latijnse taal en letterkunde",
-                        "permissions": [
-                            {
-                                "full": "onderwijsinrichting.RVak:READ:INSTANCE(<REDACTED>)",
-                                "instances": [
-                                    "INSTANCE(<REDACTED>)"
-                                ],
-                                "operations": [
-                                    "READ"
-                                ],
-                                "type": "onderwijsinrichting.RVak"
-                            }
-                        ]
-                    }
-                },
-                "links": [
-                    {
-                        "href": "https://nassau-api.somtoday.nl/rest/v1/studiewijzeritemafspraaktoekenningen/<REDACTED>",
-                        "id": <REDACTED>,
-                        "rel": "self",
-                        "type": "studiewijzer.RSWIAfspraakToekenning"
-                    }
-                ],
-                "permissions": [
-                    {
-                        "full": "studiewijzer.RSWIAfspraakToekenning:READ:INSTANCE(<REDACTED>)",
-                        "instances": [
-                            "INSTANCE(<REDACTED>)"
-                        ],
-                        "operations": [
-                            "READ"
-                        ],
-                        "type": "studiewijzer.RSWIAfspraakToekenning"
-                    }
-                ],
-                "sortering": 0,
-                "studiewijzer": {
-                    "additionalObjects": {
-                    },
-                    "links": [
-                        {
-                            "id": <REDACTED>,
-                            "rel": "koppeling",
-                            "type": "studiewijzer.RAbstractStudiewijzer"
-                        }
-                    ],
-                    "naam": "<REDACTED>",
-                    "permissions": [
-                    ],
-                    "uuid": "<REDACTED>",
-                    "vestiging": {
-                        "additionalObjects": {
-                        },
-                        "links": [
-                            {
-                                "href": "https://nassau-api.somtoday.nl/rest/v1/vestigingen/<REDACTED>",
-                                "id": <REDACTED>,
-                                "rel": "self",
-                                "type": "instelling.RVestiging"
-                            }
-                        ],
-                        "naam": "Quintus",
-                        "permissions": [
-                            {
-                                "full": "instelling.RVestiging:READ:INSTANCE(<REDACTED>)",
-                                "instances": [
-                                    "INSTANCE(<REDACTED>)"
-                                ],
-                                "operations": [
-                                    "READ"
-                                ],
-                                "type": "instelling.RVestiging"
-                            }
-                        ]
-                    }
-                },
-                "studiewijzerItem": {
-                    "additionalObjects": {
-                    },
-                    "bijlagen": [
-                    ],
-                    "externeMaterialen": [
-                    ],
-                    "huiswerkType": "TOETS",
-                    "inlevermomenten": [
-                    ],
-                    "inleverperiodes": false,
-                    "lesmateriaal": false,
-                    "links": [
-                        {
-                            "href": "https://nassau-api.somtoday.nl/rest/v1/studiewijzeritems/<REDACTED>",
-                            "id": <REDACTED>,
-                            "rel": "self",
-                            "type": "studiewijzer.RStudiewijzerItem"
-                        }
-                    ],
-                    "notitieZichtbaarVoorLeerling": false,
-                    "omschrijving": "REDACTED",
-                    "onderwerp": "<REDACTED>",
-                    "permissions": [
-                        {
-                            "full": "studiewijzer.RStudiewijzerItem:READ:INSTANCE(<REDACTED>)",
-                            "instances": [
-                                "INSTANCE(<REDACTED>)"
-                            ],
-                            "operations": [
-                                "READ"
-                            ],
-                            "type": "studiewijzer.RStudiewijzerItem"
-                        }
-                    ],
-                    "projectgroepen": false,
-                    "tonen": true
-                }
-            }
-        ]
+  "items": [
+    {
+      "$type": "participatie.RAbsentieMelding",
+      "links": [
+        {
+          "id": 1234567890123,
+          "rel": "self",
+          "type": "participatie.RAbsentieMelding",
+          "href": "{{api_url}}/rest/v1/waarnemingen/1234567890123"
+        }
+      ],
+      "permissions": [],
+      "additionalObjects": {},
+      "leerling": {
+        "links": [
+          {
+            "id": 1234567890,
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
+        "leerlingnummer": 100000,
+        "roepnaam": "Name",
+        "achternaam": "Name"
+      },
+      "absentieReden": {
+        "links": [
+          {
+            "id": 1234567890,
+            "rel": "self",
+            "type": "participatie.RAbsentieRedenPrimer",
+            "href": "{{api_url}}/rest/v1/absentieredenen/1234567890"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "absentieSoort": "Absent",
+        "afkorting": "XC",
+        "omschrijving": "Onbekend",
+        "geoorloofd": false
+      },
+      "datumTijdInvoer": "yyyy-MM-dd'T'HH:mm:ss.SSS+HH:mm",
+      "beginDatumTijd": "yyyy-MM-dd'T'HH:mm:ss.SSS+HH:mm",
+      "eindDatumTijd": "yyyy-MM-dd'T'HH:mm:ss.SSS+HH:mm",
+      "beginLesuur": 3,
+      "eindLesuur": 3,
+      "afgehandeld": true,
+      "eigenaar": {
+        "links": [
+          {
+            "id": 1234567890,
+            "rel": "self",
+            "type": "medewerker.RMedewerker",
+            "href": "{{api_url}}/rest/v1/medewerkers/1234567890"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
+        "nummer": 100000,
+        "afkorting": "HH",
+        "achternaam": "Henk",
+        "geslacht": "MAN",
+        "voorletters": "H.H.",
+        "roepnaam": "Hans"
+      }
+    }
+  ]
 }
+
 ```
 
-### 2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`
+------
 
-Receives the homework from days after a specified date.
 
-#### Parameters
 
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
-| Authorization | Header    | Bearer [access_token] |
+Undocumented:
+`GET /rest/v1/medewerkers/ontvangers`
+`GET/rest/v1/leerlingadresseringen`
+`GET/rest/v1/account/2555374351`
+`GET/rest/v1/maatregeltoekenningen` 
+`GET/rest/v1/schooljaren/huidig`
+`GET/rest/v1/studiewijzers`
+`GET/rest/v1/vakkeuzes`
+`GET/rest/v1/verzorgers/`
+`GET /rest/v1/waarnemingen/` 
+`GET /rest/v1/onderwijsopafstandperiodes/`
 
-#### Returns
-
-A list of homework items.
-
-### 3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`
-
-Receives the homework from weeks after a specified date.
-
-#### Parameters
-
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
-| Authorization | Header    | Bearer [access_token] |
-
-#### Returns
-
-A list of homework items.
