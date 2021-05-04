@@ -559,6 +559,7 @@ Receives the homework from weeks after a specified date.
 | Name          | Type      | Value                 |
 | ------------- | --------- | --------------------- |
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
+| schooljaar    | Parameter | School Year ID        |
 | weeknummer    | Parameter | [number]              |
 | weeknummer    | Parameter | etc..                 |
 | additional    | Parameter | swigemaaktVinkjes     |
