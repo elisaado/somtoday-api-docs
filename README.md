@@ -329,11 +329,17 @@ Fetches the grades of the student. Note that all average grades are also grade i
 
 #### Parameters
 
-| Name          | Type   | Value                           |
-| ------------- | ------ | ------------------------------- |
-| id            | URL    | [user id]                       |
-| Authorization | Header | Bearer [access_token]           |
-| Range         | Header | items=[LowerBound]-[UpperBound] |
+| Name          | Type      | Value                           |
+| ------------- | --------- | ------------------------------- |
+| id            | URL       | [user id]                       |
+| Authorization | Header    | Bearer [access_token]           |
+| Range         | Header    | items=[LowerBound]-[UpperBound] |
+| additional    | Parameter | berekendRapportCijfer           |
+| additional    | Parameter | samengesteldeToetskolomId       |
+| additional    | Parameter | resultaatkolomId                |
+| additional    | Parameter | cijferkolomId                   |
+| additional    | Parameter | toetssoortnaam                  |
+| additional    | Parameter | huidigeAnderVakKolommen         |
 
 These LowerBound and UpperBound values are the amount of grades you want to request (the API uses pagination here). The value may not exceed 100, so the way to request **all** grades is by doing the following:
 
