@@ -217,11 +217,15 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_tok
 | Name          | Type | Value                                |
 | ------------- | ---- | ------------------------------------ |
 | grant_type    | Body | authorization_code                   |
-| redirect_uri  | Body | [uri]                                |
-| code_verifier | Body | [verifier]                           |
+| redirect_uri  | Body | [redirect_uri]                       |
+| code_verifier | Body | [code_verifier]                      |
 | code          | Body | [code]                               |
 | scope         | Body | openid                               |
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of the by the SSO specified values)
+`code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
+`code` is the code that has been send to the redirect uri.
 
 #### Returns
 
