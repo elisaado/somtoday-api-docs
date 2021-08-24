@@ -253,11 +253,9 @@ token_type, scope and (probably) expires_in are always the same, the other value
 #### Example
 
 ```bash
-school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
-curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+redirect_uri='somtodayleerling://oauth/callback' code_verifier='SOME_BASE64_CODE' code='SOME_TOKEN'
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redirect_uri=$redirect_uri&code_verifier=$code_verifier&code=$code&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
 ```
-
-**Note: We use `\\` here, because `\` is normally used to escape things like quotes (e.g. `\"`) (and only bash double quote strings can escape using `\`), so `\\` will translate to `\`, and you can just use `\` if you use single quotes**
 
 ## Fetching information
 
