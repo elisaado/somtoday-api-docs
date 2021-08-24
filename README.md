@@ -14,7 +14,7 @@
   - [SOMtoday metadata](#somtoday-metadata)
     - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynlorganisatiesjson)
   - [Authentication / authorization](#authentication--authorization)
-    - [Fetching the access token: `POST /oauth2/token`](#fetching-the-access-token-post-oauth2token)
+    - [Fetching the access token via Somtoday login: `POST /oauth2/token`](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
       - [Parameters](#parameters)
       - [Returns](#returns)
       - [Example](#example)
@@ -22,6 +22,10 @@
       - [Parameters](#parameters-1)
       - [Returns](#returns-1)
       - [Example](#example-1)
+    - [Fetching the access token via SSO: `POST /oauth2/token`](#fetching-the-access-token-via-sso-post-oauth2token)
+      - [Parameters](#parameters)
+      - [Returns](#returns)
+      - [Example](#example)
   - [Fetching information](#fetching-information)
     - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
       - [Parameters](#parameters-2)
@@ -210,7 +214,7 @@ This example uses the `client_id` and `client_secret` in body method of authoriz
 token='<REDACTED>'
 curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
 ```
-### Fetching the access token via OSS: `POST /oauth2/token`
+### Fetching the access token via SSO: `POST /oauth2/token`
 
 #### Parameters
 
