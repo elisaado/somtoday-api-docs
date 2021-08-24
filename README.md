@@ -126,7 +126,7 @@ baseurl: https://somtoday.nl
 
 All routes here are prefixed with that baseurl.
 
-### Fetching the access token: `POST /oauth2/token`
+### Fetching the access token via Somtoday login: `POST /oauth2/token`
 
 #### Parameters
 
@@ -210,6 +210,46 @@ This example uses the `client_id` and `client_secret` in body method of authoriz
 token='<REDACTED>'
 curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
 ```
+### Fetching the access token via OSS: `POST /oauth2/token`
+
+#### Parameters
+
+| Name          | Type | Value                                |
+| ------------- | ---- | ------------------------------------ |
+| grant_type    | Body | authorization_code                   |
+| redirect_uri  | Body | [uri]                                |
+| code_verifier | Body | [verifier]                           |
+| code          | Body | [code]                               |
+| scope         | Body | openid                               |
+| client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+#### Returns
+
+```json
+{
+  "access_token": "<REDACTED>",
+  "refresh_token": "<REDACTED>",
+  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
+  "scope": "openid",
+  "somtoday_tenant": "bonhoeffer",
+  "id_token": "<REDACTED>",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
+
+token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
+
+#### Example
+
+```bash
+school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+```
+
+**Note: We use `\\` here, because `\` is normally used to escape things like quotes (e.g. `\"`) (and only bash double quote strings can escape using `\`), so `\\` will translate to `\`, and you can just use `\` if you use single quotes**
 
 ## Fetching information
 
