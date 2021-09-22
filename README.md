@@ -26,6 +26,7 @@
       - [Parameters](#parameters-2)
       - [Returns](#returns-2)
       - [Example](#example-2)
+      - [Code verifier and challenge](#code-verifier-and-challenge)
   - [Fetching information](#fetching-information)
     - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
       - [Parameters](#parameters-3)
@@ -227,7 +228,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_tok
 | scope         | Body | openid                               |
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
 
-`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of the by the SSO specified values)
+`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of the by the SSO provider specified values)
 `code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
 `code` is the code that has been send to the redirect uri.
 
@@ -255,6 +256,29 @@ token_type, scope and (probably) expires_in are always the same, the other value
 ```bash
 redirect_uri='somtodayleerling://oauth/callback' code_verifier='SOME_BASE64_CODE' code='SOME_TOKEN'
 curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redirect_uri=$redirect_uri&code_verifier=$code_verifier&code=$code&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+```
+
+#### Code verifier and challenge
+
+To generate the verifier you need to generate a random 32-byte url encoced base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
+
+```javascript
+// source: https://auth0.com/docs/authorization/flows/call-your-api-using-the-authorization-code-flow-with-pkce#create-code-challenge
+// Dependency: Node.js crypto module
+// https://nodejs.org/api/crypto.html#crypto_crypto
+function base64URLEncode(str) {
+    return str.toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+}
+var verifier = base64URLEncode(crypto.randomBytes(32));
+function sha256(buffer) {
+    return crypto.createHash('sha256').update(buffer).digest();
+}
+var challenge = base64URLEncode(sha256(verifier));
+console.log(verifier)
+console.log(challenge)
 ```
 
 ## Fetching information
