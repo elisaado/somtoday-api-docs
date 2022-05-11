@@ -26,7 +26,8 @@
       - [Parameters](#parameters-2)
       - [Returns](#returns-2)
       - [Example](#example-2)
-      - [Code verifier and challenge](#code-verifier-and-challenge)
+      - [Example](#example-2)
+      - [The Url format](#the-url-format)
   - [Fetching information](#fetching-information)
     - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
       - [Parameters](#parameters-3)
@@ -228,9 +229,9 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_tok
 | scope         | Body | openid                               |
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
 
-`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of the by the SSO provider specified values)
+`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of a few specified values. An example is: `somtodayleerling://oauth/callback`)
 `code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
-`code` is the code that has been send to the redirect uri.
+`code` is the code that has been send to the redirect uri. it is a JWT token (5 base64 url encoded blocks sepperated by '.')
 
 #### Returns
 
@@ -280,6 +281,40 @@ var challenge = base64URLEncode(sha256(verifier));
 console.log(verifier)
 console.log(challenge)
 ```
+
+### The Url format
+
+The url that the client has to visit to get a login window
+
+| Name                  | Type | Value                                |
+| --------------------- | ---- | ------------------------------------ |
+| redirect_uri          | Body | [uri]                                |
+| code_challenge        | Body | [code_challenge]                     |
+| tenant_uuid           | Body | [tenant_uuid]                        |
+| oidc_iss              | Body | [oidc_iss]                           |
+| code_challenge_method | Body | [code_challenge_method]              |
+| (state)               | Body | [custom_state]                       |
+| response_type         | Body | code                                 |
+| prompt                | Body | login                                |
+| scope                 | Body | openid                               |
+| client_id             | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`uri` and `code_challenge` have been described already.
+`tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
+`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
+`state` is an optional paramater.
+`custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
+
+After the user has logged in the page will redirect to the `uri` with these paramaters
+
+| Name           | Type | Value        |
+| ------- | ---- | ------------------- |
+| code    | Body | [code]              |
+| (state) | Body | [custom_state]      |
+| iss     | Body | https://somtoday.nl |
+
+`custom_state` is the previously defined value.
+`code` has already been described
 
 ## Fetching information
 
