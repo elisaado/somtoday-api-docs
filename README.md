@@ -284,17 +284,18 @@ console.log(challenge)
 
 ### The Url format
 
-The url that the client has to visit to get a login window
+The url that the client has to visit to get a login window is `https://somtoday.nl/oauth2/authorize`.
+These are the parameters:
 
 | Name                  | Type | Value                                |
 | --------------------- | ---- | ------------------------------------ |
+| response_type         | Body | code                                 |
 | redirect_uri          | Body | [uri]                                |
 | code_challenge        | Body | [code_challenge]                     |
 | tenant_uuid           | Body | [tenant_uuid]                        |
 | oidc_iss              | Body | [oidc_iss]                           |
 | code_challenge_method | Body | [code_challenge_method]              |
 | (state)               | Body | [custom_state]                       |
-| response_type         | Body | code                                 |
 | prompt                | Body | login                                |
 | scope                 | Body | openid                               |
 | client_id             | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
@@ -302,7 +303,7 @@ The url that the client has to visit to get a login window
 `uri` and `code_challenge` have been described already.
 `tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
 `code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
-`state` is an optional paramater.
+`state` is an optional parameter.
 `custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
 
 After the user has logged in the page will redirect to the `uri` with these paramaters
