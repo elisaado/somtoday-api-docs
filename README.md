@@ -39,7 +39,7 @@
       - [Returns](#returns-5)
       - [Example](#example-4)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
-         - [Parameters](#parameters-6)
+      - [Parameters](#parameters-6)
       - [Returns](#returns-6)
 
 <!-- /TOC -->
@@ -272,7 +272,7 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl
 curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Student by ID: `GET /rest/v1/leerlingen/[id]`
 
@@ -321,7 +321,7 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
 curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
 
@@ -448,7 +448,7 @@ These LowerBound and UpperBound values are the amount of grades you want to requ
 }
 ```
 
-------
+---
 
 ### Schedule: `GET /rest/v1/afspraken`
 
@@ -632,23 +632,24 @@ Fetch the appointments from the schedule of the student.
 curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Absence Reports: `GET /rest/v1/absentiemeldingen`
 
-Fetches the absence reports of the user 
+Fetches the absence reports of the user
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| Authorization | Header    | Bearer [access_token] |
-| begindatumtijd| Parameter | yyyy-MM-dd            |
-| einddatumtijd | Parameter | yyyy-MM-dd            |
+| Name           | Type      | Value                 |
+| -------------- | --------- | --------------------- |
+| Authorization  | Header    | Bearer [access_token] |
+| begindatumtijd | Parameter | yyyy-MM-dd            |
+| einddatumtijd  | Parameter | yyyy-MM-dd            |
 
 #### Returns
 
 Array of absance reports
+
 ```json
 {
   "items": [
@@ -724,22 +725,19 @@ Array of absance reports
     }
   ]
 }
-
 ```
 
-------
+---
 
+### Undocumented:
 
-
-Undocumented:
-`GET /rest/v1/medewerkers/ontvangers`
-`GET/rest/v1/leerlingadresseringen`
-`GET/rest/v1/account/2555374351`
-`GET/rest/v1/maatregeltoekenningen` 
-`GET/rest/v1/schooljaren/huidig`
-`GET/rest/v1/studiewijzers`
-`GET/rest/v1/vakkeuzes`
-`GET/rest/v1/verzorgers/`
-`GET /rest/v1/waarnemingen/` 
-`GET /rest/v1/onderwijsopafstandperiodes/`
-
+- `GET /rest/v1/medewerkers/ontvangers`
+- `GET/rest/v1/account/2555374351`
+- `GET/rest/v1/maatregeltoekenningen`
+- `GET/rest/v1/leerlingadresseringen`
+- `GET/rest/v1/schooljaren/huidig`
+- `GET/rest/v1/studiewijzers`
+- `GET/rest/v1/vakkeuzes`
+- `GET/rest/v1/verzorgers/`
+- `GET /rest/v1/waarnemingen/`
+- `GET /rest/v1/onderwijsopafstandperiodes/`
