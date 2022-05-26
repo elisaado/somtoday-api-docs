@@ -727,6 +727,104 @@ Array of absance reports
 }
 ```
 
+### Study Guides: `GET /rest/v1/studiewijzers`
+
+Fetches the study guides for the user
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+| ------------- | --------- | --------------------- |
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | leerlingen            |
+| additional    | Parameter | bijlagen              |
+| additional    | Parameter | externeMaterialen     |
+| additional    | Parameter | bijlageMappen         |
+
+The additional parameters are optional GET parameters to include information in the result. `leerlingen` will only give back 1 result when queried by a student, but will fetch all students when queried by a teacher/school admin.
+
+#### Returns
+
+Depending on the additional parameters that are set/not set, some of the items in the result may not be present. Assuming all 4 are set:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<co:items xmlns:co="http://cobra.topicus.nl/v0.1" xmlns:ea="http://platinum.topicus.nl/v0.1">
+    <rStudiewijzer>
+        <co:link id="{{somtoday_study_guide_id}}" rel="self" type="studiewijzer.RStudiewijzer" href="https://api.somtoday.nl/rest/v1/studiewijzers/{{somtoday_study_guide_id}}" />
+        <co:permission full="studiewijzer.RStudiewijzer:READ:INSTANCE({{somtoday_study_guide_id}})" type="studiewijzer.RStudiewijzer" operations="READ" instances="INSTANCE({{somtoday_study_guide_id}})" />
+        <co:additionalObjects>
+            <co:additionalObject>
+                <co:name>bijlageMappen</co:name>
+                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
+            </co:additionalObject>
+            <co:additionalObject>
+                <co:name>bijlagen</co:name>
+                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
+            </co:additionalObject>
+            <co:additionalObject>
+                <co:name>leerlingen</co:name>
+                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper">
+                    <rLeerlingPrimer>
+                        <co:link id="{{somtoday_student_id}}" rel="self" type="leerling.RLeerlingPrimer" href="https://api.somtoday.nl/rest/v1/leerlingen/{{somtoday_student_id}}" />
+                        <co:permission full="leerling.RLeerlingPrimer:READ:INSTANCE({{somtoday_student_id}})" type="leerling.RLeerlingPrimer" operations="READ" instances="INSTANCE({{somtoday_student_id}})" />
+                        <co:additionalObjects />
+                        <UUID>{{uuidv4}}</UUID>
+                        <leerlingnummer>{{student_number}}</leerlingnummer>
+                        <roepnaam>{{first_name}}</roepnaam>
+                        <achternaam>{{last_name}}</achternaam>
+                    </rLeerlingPrimer>
+                </co:value>
+            </co:additionalObject>
+            <co:additionalObject>
+                <co:name>externeMaterialen</co:name>
+                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
+            </co:additionalObject>
+        </co:additionalObjects>
+        <uuid>4d2188a0-03d8-4dca-9f51-0e54d3c353c6</uuid>
+        <naam>vwo5.schka</naam>
+        <vestiging>
+            <co:link id="9496567717" rel="self" type="instelling.RVestiging" href="https://api.somtoday.nl/rest/v1/vestigingen/9496567717" />
+            <co:permission full="instelling.RVestiging:READ:INSTANCE(9496567717)" type="instelling.RVestiging" operations="READ" instances="INSTANCE(9496567717)" />
+            <co:additionalObjects />
+            <ea:naam>{{school_name}}</ea:naam>
+        </vestiging>
+        <lesgroep>
+            <co:link id="3543707887108" rel="self" type="lesgroep.RLesgroep" href="https://api.somtoday.nl/rest/v1/lesgroepen/3543707887108" />
+            <co:permission full="lesgroep.RLesgroep:READ:INSTANCE(3543707887108)" type="lesgroep.RLesgroep" operations="READ" instances="INSTANCE(3543707887108)" />
+            <co:additionalObjects />
+            <UUID>d4afb5b8-fbf6-4bbd-ac73-cb50cc883392</UUID>
+            <naam>vwo5.schka</naam>
+            <schooljaar>
+                <co:link id="40851957" rel="self" type="onderwijsinrichting.RSchooljaar" href="https://api.somtoday.nl/rest/v1/schooljaren/40851957" />
+                <co:permission full="onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851957)" type="onderwijsinrichting.RSchooljaar" operations="READ" instances="INSTANCE(40851957)" />
+                <co:additionalObjects />
+                <naam>2021/2022</naam>
+                <vanafDatum>2021-08-01T00:00:00+02:00</vanafDatum>
+                <totDatum>2022-07-31T00:00:00+02:00</totDatum>
+                <isHuidig>true</isHuidig>
+            </schooljaar>
+            <vak>
+                <co:link id="9505018979" rel="self" type="onderwijsinrichting.RVak" href="https://api.somtoday.nl/rest/v1/vakken/9505018979" />
+                <co:permission full="onderwijsinrichting.RVak:READ:INSTANCE(9505018979)" type="onderwijsinrichting.RVak" operations="READ" instances="INSTANCE(9505018979)" />
+                <co:additionalObjects />
+                <afkorting>schk</afkorting>
+                <naam>Scheikunde</naam>
+            </vak>
+            <heeftStamgroep>false</heeftStamgroep>
+            <examendossierOndersteund>true</examendossierOndersteund>
+            <vestiging>
+                <co:link id="9496567717" rel="self" type="instelling.RVestiging" href="https://api.somtoday.nl/rest/v1/vestigingen/9496567717" />
+                <co:permission full="instelling.RVestiging:READ:INSTANCE(9496567717)" type="instelling.RVestiging" operations="READ" instances="INSTANCE(9496567717)" />
+                <co:additionalObjects />
+                <ea:naam>{{school_name}}</ea:naam>
+            </vestiging>
+        </lesgroep>
+    </rStudiewijzer>
+    ...
+</co:items>
+```
+
 ---
 
 ### Undocumented:
@@ -736,7 +834,6 @@ Array of absance reports
 - `GET/rest/v1/maatregeltoekenningen`
 - `GET/rest/v1/leerlingadresseringen`
 - `GET/rest/v1/schooljaren/huidig`
-- `GET/rest/v1/studiewijzers`
 - `GET/rest/v1/vakkeuzes`
 - `GET/rest/v1/verzorgers/`
 - `GET /rest/v1/waarnemingen/`
