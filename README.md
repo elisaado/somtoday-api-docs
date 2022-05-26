@@ -41,6 +41,9 @@
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
       - [Parameters](#parameters-6)
       - [Returns](#returns-6)
+    - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
+      - [Parameters](#parameters-7)
+      - [Returns](#returns-7)
 
 <!-- /TOC -->
 
@@ -745,7 +748,7 @@ The additional parameters are optional GET parameters to include information in 
 
 #### Returns
 
-Depending on the additional parameters that are set/not set, some of the items in the result may not be present. Assuming all 4 are set:
+Depending on the additional parameters, some of the items in the result may not be present. Assuming all 4 are set:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
