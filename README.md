@@ -750,82 +750,212 @@ The additional parameters are optional GET parameters to include information in 
 
 Depending on the additional parameters, some of the items in the result may not be present. Assuming all 4 are set:
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<co:items xmlns:co="http://cobra.topicus.nl/v0.1" xmlns:ea="http://platinum.topicus.nl/v0.1">
-    <rStudiewijzer>
-        <co:link id="{{somtoday_study_guide_id}}" rel="self" type="studiewijzer.RStudiewijzer" href="https://api.somtoday.nl/rest/v1/studiewijzers/{{somtoday_study_guide_id}}" />
-        <co:permission full="studiewijzer.RStudiewijzer:READ:INSTANCE({{somtoday_study_guide_id}})" type="studiewijzer.RStudiewijzer" operations="READ" instances="INSTANCE({{somtoday_study_guide_id}})" />
-        <co:additionalObjects>
-            <co:additionalObject>
-                <co:name>bijlageMappen</co:name>
-                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
-            </co:additionalObject>
-            <co:additionalObject>
-                <co:name>bijlagen</co:name>
-                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
-            </co:additionalObject>
-            <co:additionalObject>
-                <co:name>leerlingen</co:name>
-                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper">
-                    <rLeerlingPrimer>
-                        <co:link id="{{somtoday_student_id}}" rel="self" type="leerling.RLeerlingPrimer" href="https://api.somtoday.nl/rest/v1/leerlingen/{{somtoday_student_id}}" />
-                        <co:permission full="leerling.RLeerlingPrimer:READ:INSTANCE({{somtoday_student_id}})" type="leerling.RLeerlingPrimer" operations="READ" instances="INSTANCE({{somtoday_student_id}})" />
-                        <co:additionalObjects />
-                        <UUID>{{uuidv4}}</UUID>
-                        <leerlingnummer>{{student_number}}</leerlingnummer>
-                        <roepnaam>{{first_name}}</roepnaam>
-                        <achternaam>{{last_name}}</achternaam>
-                    </rLeerlingPrimer>
-                </co:value>
-            </co:additionalObject>
-            <co:additionalObject>
-                <co:name>externeMaterialen</co:name>
-                <co:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="co:linkableWrapper" />
-            </co:additionalObject>
-        </co:additionalObjects>
-        <uuid>4d2188a0-03d8-4dca-9f51-0e54d3c353c6</uuid>
-        <naam>vwo5.schka</naam>
-        <vestiging>
-            <co:link id="9496567717" rel="self" type="instelling.RVestiging" href="https://api.somtoday.nl/rest/v1/vestigingen/9496567717" />
-            <co:permission full="instelling.RVestiging:READ:INSTANCE(9496567717)" type="instelling.RVestiging" operations="READ" instances="INSTANCE(9496567717)" />
-            <co:additionalObjects />
-            <ea:naam>{{school_name}}</ea:naam>
-        </vestiging>
-        <lesgroep>
-            <co:link id="3543707887108" rel="self" type="lesgroep.RLesgroep" href="https://api.somtoday.nl/rest/v1/lesgroepen/3543707887108" />
-            <co:permission full="lesgroep.RLesgroep:READ:INSTANCE(3543707887108)" type="lesgroep.RLesgroep" operations="READ" instances="INSTANCE(3543707887108)" />
-            <co:additionalObjects />
-            <UUID>d4afb5b8-fbf6-4bbd-ac73-cb50cc883392</UUID>
-            <naam>vwo5.schka</naam>
-            <schooljaar>
-                <co:link id="40851957" rel="self" type="onderwijsinrichting.RSchooljaar" href="https://api.somtoday.nl/rest/v1/schooljaren/40851957" />
-                <co:permission full="onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851957)" type="onderwijsinrichting.RSchooljaar" operations="READ" instances="INSTANCE(40851957)" />
-                <co:additionalObjects />
-                <naam>2021/2022</naam>
-                <vanafDatum>2021-08-01T00:00:00+02:00</vanafDatum>
-                <totDatum>2022-07-31T00:00:00+02:00</totDatum>
-                <isHuidig>true</isHuidig>
-            </schooljaar>
-            <vak>
-                <co:link id="9505018979" rel="self" type="onderwijsinrichting.RVak" href="https://api.somtoday.nl/rest/v1/vakken/9505018979" />
-                <co:permission full="onderwijsinrichting.RVak:READ:INSTANCE(9505018979)" type="onderwijsinrichting.RVak" operations="READ" instances="INSTANCE(9505018979)" />
-                <co:additionalObjects />
-                <afkorting>schk</afkorting>
-                <naam>Scheikunde</naam>
-            </vak>
-            <heeftStamgroep>false</heeftStamgroep>
-            <examendossierOndersteund>true</examendossierOndersteund>
-            <vestiging>
-                <co:link id="9496567717" rel="self" type="instelling.RVestiging" href="https://api.somtoday.nl/rest/v1/vestigingen/9496567717" />
-                <co:permission full="instelling.RVestiging:READ:INSTANCE(9496567717)" type="instelling.RVestiging" operations="READ" instances="INSTANCE(9496567717)" />
-                <co:additionalObjects />
-                <ea:naam>{{school_name}}</ea:naam>
-            </vestiging>
-        </lesgroep>
-    </rStudiewijzer>
-    ...
-</co:items>
+```json
+{
+    "items": [
+        {
+            "$type": "studiewijzer.RStudiewijzer",
+            "links": [
+                {
+                    "id": 3709468886305,
+                    "rel": "self",
+                    "type": "studiewijzer.RStudiewijzer",
+                    "href": "https://api.somtoday.nl/rest/v1/studiewijzers/3709468886305"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "studiewijzer.RStudiewijzer:READ:INSTANCE(3709468886305)",
+                    "type": "studiewijzer.RStudiewijzer",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(3709468886305)"
+                    ]
+                }
+            ],
+            "additionalObjects": {
+                "bijlageMappen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                },
+                "bijlagen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                },
+                "leerlingen": {
+                    "$type": "LinkableWrapper",
+                    "items": [
+                        {
+                            "$type": "leerling.RLeerlingPrimer",
+                            "links": [
+                                {
+                                    "id": 9496745174,
+                                    "rel": "self",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "href": "https://api.somtoday.nl/rest/v1/leerlingen/9496745174"
+                                }
+                            ],
+                            "permissions": [
+                                {
+                                    "full": "leerling.RLeerlingPrimer:READ:INSTANCE(9496745174)",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "operations": [
+                                        "READ"
+                                    ],
+                                    "instances": [
+                                        "INSTANCE(9496745174)"
+                                    ]
+                                }
+                            ],
+                            "additionalObjects": {},
+                            "UUID": "f8cf6f6c-c213-4526-8ba1-6a306cf724a4",
+                            "leerlingnummer": 123456,
+                            "roepnaam": "{{first_name}}",
+                            "achternaam": "{{last_name}}"
+                        }
+                    ]
+                },
+                "externeMaterialen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                }
+            },
+            "uuid": "4d2188a0-03d8-4dca-9f51-0e54d3c353c6",
+            "naam": "vwo5.schka",
+            "vestiging": {
+                "links": [
+                    {
+                        "id": 9496567717,
+                        "rel": "self",
+                        "type": "instelling.RVestiging",
+                        "href": "https://api.somtoday.nl/rest/v1/vestigingen/9496567717"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "instelling.RVestiging:READ:INSTANCE(9496567717)",
+                        "type": "instelling.RVestiging",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(9496567717)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "Stella Maris College Meerssen"
+            },
+            "lesgroep": {
+                "links": [
+                    {
+                        "id": 3543707887108,
+                        "rel": "self",
+                        "type": "lesgroep.RLesgroep",
+                        "href": "https://api.somtoday.nl/rest/v1/lesgroepen/3543707887108"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "lesgroep.RLesgroep:READ:INSTANCE(3543707887108)",
+                        "type": "lesgroep.RLesgroep",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(3543707887108)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "UUID": "d4afb5b8-fbf6-4bbd-ac73-cb50cc883392",
+                "naam": "vwo5.schka",
+                "schooljaar": {
+                    "$type": "onderwijsinrichting.RSchooljaar",
+                    "links": [
+                        {
+                            "id": 40851957,
+                            "rel": "self",
+                            "type": "onderwijsinrichting.RSchooljaar",
+                            "href": "https://api.somtoday.nl/rest/v1/schooljaren/40851957"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851957)",
+                            "type": "onderwijsinrichting.RSchooljaar",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(40851957)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "naam": "2021/2022",
+                    "vanafDatum": "2021-08-01",
+                    "totDatum": "2022-07-31",
+                    "isHuidig": true
+                },
+                "vak": {
+                    "links": [
+                        {
+                            "id": 9505018979,
+                            "rel": "self",
+                            "type": "onderwijsinrichting.RVak",
+                            "href": "https://api.somtoday.nl/rest/v1/vakken/9505018979"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "onderwijsinrichting.RVak:READ:INSTANCE(9505018979)",
+                            "type": "onderwijsinrichting.RVak",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(9505018979)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "afkorting": "schk",
+                    "naam": "Scheikunde"
+                },
+                "heeftStamgroep": false,
+                "examendossierOndersteund": true,
+                "vestiging": {
+                    "links": [
+                        {
+                            "id": 9496567717,
+                            "rel": "self",
+                            "type": "instelling.RVestiging",
+                            "href": "https://api.somtoday.nl/rest/v1/vestigingen/9496567717"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "instelling.RVestiging:READ:INSTANCE(9496567717)",
+                            "type": "instelling.RVestiging",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(9496567717)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "naam": "Stella Maris College Meerssen"
+                }
+            }
+        }
+        ...
+    ]
+}
 ```
 
 ---
