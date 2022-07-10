@@ -8,7 +8,8 @@
 
 <!-- TOC -->
 
-- [SOMtoday REST API docs](#somtoday-rest-api-docs) - [Discord](#discord)
+- [SOMtoday REST API docs](#somtoday-rest-api-docs)
+  - [Discord](#discord)
   - [Table of contents](#table-of-contents)
   - [Some miscellaneous stuff](#some-miscellaneous-stuff)
   - [SOMtoday metadata](#somtoday-metadata)
