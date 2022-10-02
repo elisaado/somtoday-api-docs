@@ -40,8 +40,11 @@
       - [Returns](#returns-5)
       - [Example](#example-4)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
-         - [Parameters](#parameters-6)
+      - [Parameters](#parameters-6)
       - [Returns](#returns-6)
+    - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
+      - [Parameters](#parameters-7)
+      - [Returns](#returns-7)
 
 <!-- /TOC -->
 
@@ -273,7 +276,7 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl
 curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Student by ID: `GET /rest/v1/leerlingen/[id]`
 
@@ -322,7 +325,7 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
 curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
 
@@ -449,7 +452,7 @@ These LowerBound and UpperBound values are the amount of grades you want to requ
 }
 ```
 
-------
+---
 
 ### Schedule: `GET /rest/v1/afspraken`
 
@@ -633,23 +636,24 @@ Fetch the appointments from the schedule of the student.
 curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
-------
+---
 
 ### Absence Reports: `GET /rest/v1/absentiemeldingen`
 
-Fetches the absence reports of the user 
+Fetches the absence reports of the user
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| Authorization | Header    | Bearer [access_token] |
-| begindatumtijd| Parameter | yyyy-MM-dd            |
-| einddatumtijd | Parameter | yyyy-MM-dd            |
+| Name           | Type      | Value                 |
+| -------------- | --------- | --------------------- |
+| Authorization  | Header    | Bearer [access_token] |
+| begindatumtijd | Parameter | yyyy-MM-dd            |
+| einddatumtijd  | Parameter | yyyy-MM-dd            |
 
 #### Returns
 
 Array of absance reports
+
 ```json
 {
   "items": [
@@ -725,22 +729,246 @@ Array of absance reports
     }
   ]
 }
-
 ```
 
-------
+### Study Guides: `GET /rest/v1/studiewijzers`
 
+Fetches the study guides for the user
 
+#### Parameters
 
-Undocumented:
-`GET /rest/v1/medewerkers/ontvangers`
-`GET/rest/v1/leerlingadresseringen`
-`GET/rest/v1/account/2555374351`
-`GET/rest/v1/maatregeltoekenningen` 
-`GET/rest/v1/schooljaren/huidig`
-`GET/rest/v1/studiewijzers`
-`GET/rest/v1/vakkeuzes`
-`GET/rest/v1/verzorgers/`
-`GET /rest/v1/waarnemingen/` 
-`GET /rest/v1/onderwijsopafstandperiodes/`
+| Name          | Type      | Value                 |
+| ------------- | --------- | --------------------- |
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | leerlingen            |
+| additional    | Parameter | bijlagen              |
+| additional    | Parameter | externeMaterialen     |
+| additional    | Parameter | bijlageMappen         |
 
+The additional parameters are optional GET parameters to include information in the result. `leerlingen` will only give back 1 result when queried by a student, but will fetch all students when queried by a teacher/school admin.
+
+#### Returns
+
+Depending on the additional parameters, some of the items in the result may not be present. Assuming all 4 are set:
+
+```json
+{
+    "items": [
+        {
+            "$type": "studiewijzer.RStudiewijzer",
+            "links": [
+                {
+                    "id": 3709468886305,
+                    "rel": "self",
+                    "type": "studiewijzer.RStudiewijzer",
+                    "href": "https://api.somtoday.nl/rest/v1/studiewijzers/3709468886305"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "studiewijzer.RStudiewijzer:READ:INSTANCE(3709468886305)",
+                    "type": "studiewijzer.RStudiewijzer",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(3709468886305)"
+                    ]
+                }
+            ],
+            "additionalObjects": {
+                "bijlageMappen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                },
+                "bijlagen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                },
+                "leerlingen": {
+                    "$type": "LinkableWrapper",
+                    "items": [
+                        {
+                            "$type": "leerling.RLeerlingPrimer",
+                            "links": [
+                                {
+                                    "id": 9496745174,
+                                    "rel": "self",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "href": "https://api.somtoday.nl/rest/v1/leerlingen/9496745174"
+                                }
+                            ],
+                            "permissions": [
+                                {
+                                    "full": "leerling.RLeerlingPrimer:READ:INSTANCE(9496745174)",
+                                    "type": "leerling.RLeerlingPrimer",
+                                    "operations": [
+                                        "READ"
+                                    ],
+                                    "instances": [
+                                        "INSTANCE(9496745174)"
+                                    ]
+                                }
+                            ],
+                            "additionalObjects": {},
+                            "UUID": "f8cf6f6c-c213-4526-8ba1-6a306cf724a4",
+                            "leerlingnummer": 123456,
+                            "roepnaam": "{{first_name}}",
+                            "achternaam": "{{last_name}}"
+                        }
+                    ]
+                },
+                "externeMaterialen": {
+                    "$type": "LinkableWrapper",
+                    "items": []
+                }
+            },
+            "uuid": "4d2188a0-03d8-4dca-9f51-0e54d3c353c6",
+            "naam": "vwo5.schka",
+            "vestiging": {
+                "links": [
+                    {
+                        "id": 9496567717,
+                        "rel": "self",
+                        "type": "instelling.RVestiging",
+                        "href": "https://api.somtoday.nl/rest/v1/vestigingen/9496567717"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "instelling.RVestiging:READ:INSTANCE(9496567717)",
+                        "type": "instelling.RVestiging",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(9496567717)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "Stella Maris College Meerssen"
+            },
+            "lesgroep": {
+                "links": [
+                    {
+                        "id": 3543707887108,
+                        "rel": "self",
+                        "type": "lesgroep.RLesgroep",
+                        "href": "https://api.somtoday.nl/rest/v1/lesgroepen/3543707887108"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "lesgroep.RLesgroep:READ:INSTANCE(3543707887108)",
+                        "type": "lesgroep.RLesgroep",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(3543707887108)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "UUID": "d4afb5b8-fbf6-4bbd-ac73-cb50cc883392",
+                "naam": "vwo5.schka",
+                "schooljaar": {
+                    "$type": "onderwijsinrichting.RSchooljaar",
+                    "links": [
+                        {
+                            "id": 40851957,
+                            "rel": "self",
+                            "type": "onderwijsinrichting.RSchooljaar",
+                            "href": "https://api.somtoday.nl/rest/v1/schooljaren/40851957"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851957)",
+                            "type": "onderwijsinrichting.RSchooljaar",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(40851957)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "naam": "2021/2022",
+                    "vanafDatum": "2021-08-01",
+                    "totDatum": "2022-07-31",
+                    "isHuidig": true
+                },
+                "vak": {
+                    "links": [
+                        {
+                            "id": 9505018979,
+                            "rel": "self",
+                            "type": "onderwijsinrichting.RVak",
+                            "href": "https://api.somtoday.nl/rest/v1/vakken/9505018979"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "onderwijsinrichting.RVak:READ:INSTANCE(9505018979)",
+                            "type": "onderwijsinrichting.RVak",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(9505018979)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "afkorting": "schk",
+                    "naam": "Scheikunde"
+                },
+                "heeftStamgroep": false,
+                "examendossierOndersteund": true,
+                "vestiging": {
+                    "links": [
+                        {
+                            "id": 9496567717,
+                            "rel": "self",
+                            "type": "instelling.RVestiging",
+                            "href": "https://api.somtoday.nl/rest/v1/vestigingen/9496567717"
+                        }
+                    ],
+                    "permissions": [
+                        {
+                            "full": "instelling.RVestiging:READ:INSTANCE(9496567717)",
+                            "type": "instelling.RVestiging",
+                            "operations": [
+                                "READ"
+                            ],
+                            "instances": [
+                                "INSTANCE(9496567717)"
+                            ]
+                        }
+                    ],
+                    "additionalObjects": {},
+                    "naam": "Stella Maris College Meerssen"
+                }
+            }
+        }
+        ...
+    ]
+}
+```
+
+---
+
+### Undocumented:
+
+- `GET /rest/v1/medewerkers/ontvangers`
+- `GET/rest/v1/account/2555374351`
+- `GET/rest/v1/maatregeltoekenningen`
+- `GET/rest/v1/leerlingadresseringen`
+- `GET/rest/v1/schooljaren/huidig`
+- `GET/rest/v1/vakkeuzes`
+- `GET/rest/v1/verzorgers/`
+- `GET /rest/v1/waarnemingen/`
+- `GET /rest/v1/onderwijsopafstandperiodes/`
