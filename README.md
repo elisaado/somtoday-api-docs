@@ -961,14 +961,145 @@ Depending on the additional parameters, some of the items in the result may not 
 
 ---
 
+### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]`
+
+fetches information about the account that is connected with the Somtoday access token
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| id            | URL    | [user-id]      |
+| Authorization | Header | Bearer [access_token] |
+
+There are some parameters seeing the 'additionalObjects' field, but I don't know what they are.
+#### Returns
+
+
+
+```json
+{
+  "items": [
+    {
+      "$type": "auth.RAccount",
+      "links": [
+        {
+          "id": 1234567890,
+          "rel": "self",
+          "type": "auth.RAccount",
+          "href": "https://api.somtoday.nl/rest/v1/account/1234567890"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "auth.RAccount:READ:INSTANCE(1234567890)",
+          "type": "auth.RAccount",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(1234567890)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "gebruikersnaam": "[REDACTED]",
+      "accountPermissions": [],
+      "persoon": {
+        "$type": "leerling.RLeerlingPrimer",
+        "links": [
+          {
+            "id": "0123456789",
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/leerlingen/0123456789"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1409824200)",
+            "type": "leerling.RLeerlingPrimer",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(0123456789)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "leerlingnummer": 100000,
+        "roepnaam": "Name",
+        "voorvoegsel": "Name",
+        "achternaam": "Name"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Account: `GET /rest/v1/schooljaren/[huidig]`
+
+fetches information about the current school year
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| huidig        | URL    | huidig                |
+| Authorization | Header | Bearer [access_token] |
+
+when you want info about specificly the current school year add /huidig to the url
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "onderwijsinrichting.RSchooljaar",
+      "links": [
+        {
+          "id": 40851958, //this id is for everyone the same (in this case for year 2022/2023)
+          "rel": "self",
+          "type": "onderwijsinrichting.RSchooljaar",
+          "href": "https://api.somtoday.nl/rest/v1/schooljaren/40851958"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851958)",
+          "type": "onderwijsinrichting.RSchooljaar",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(40851958)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "naam": "2022/2023",
+      "vanafDatum": "2022-08-01",
+      "totDatum": "2023-07-31",
+      "isHuidig": true
+    },
+    ...
+  ]
+}
+```
+
+---
+
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
-- `GET/rest/v1/account/2555374351`
 - `GET/rest/v1/maatregeltoekenningen`
 - `GET/rest/v1/leerlingadresseringen`
-- `GET/rest/v1/schooljaren/huidig`
 - `GET/rest/v1/vakkeuzes`
-- `GET/rest/v1/verzorgers/`
+- `GET/rest/v1/verzorgers/` (probably 403 Forbidden)
 - `GET /rest/v1/waarnemingen/`
 - `GET /rest/v1/onderwijsopafstandperiodes/`
