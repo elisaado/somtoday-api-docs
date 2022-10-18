@@ -1030,7 +1030,8 @@ Fetches information about a school year
 
 | Name          | Type   | Value                 |
 |---------------|--------|-----------------------|
-| huidig        | URL    | huidig                |
+| id            | URL    | [id]                  |
+| id            | URL    | huidig                |
 | Authorization | Header | Bearer [access_token] |
 
 when you want info about specificly the current school year add /huidig to the url
