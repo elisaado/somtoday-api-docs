@@ -24,8 +24,8 @@
     - [Schedule: `GET /rest/v1/afspraken`](#schedule-get-restv1afspraken)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
     - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
-    - [Study Guides: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
-    - [Study Guides: `GET /rest/v1/schooljaren`](#account-get-restv1schooljarenhuidig)
+    - [user account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
+    - [school years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
 
 <!-- /TOC -->
 
