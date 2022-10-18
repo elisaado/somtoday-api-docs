@@ -1024,7 +1024,7 @@ There are some parameters seeing the 'additionalObjects' field, but I don't know
 
 ### Account: `GET /rest/v1/schooljaren/[huidig]`
 
-fetches information about the current school year
+Fetches information about a school year
 
 #### Parameters
 
