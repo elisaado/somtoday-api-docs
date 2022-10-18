@@ -944,7 +944,7 @@ Depending on the additional parameters, some of the items in the result may not 
 
 ### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]`
 
-fetches information about the account that is connected with the Somtoday access token
+Fetches information about the account that is connected with the Somtoday access token
 
 #### Parameters
 
