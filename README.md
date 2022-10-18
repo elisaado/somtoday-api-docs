@@ -1022,7 +1022,7 @@ There are some parameters seeing the 'additionalObjects' field, but I don't know
 
 ---
 
-### Account: `GET /rest/v1/schooljaren/[huidig]`
+### Schooljaren: `GET /rest/v1/schooljaren` / `GET /rest/v1/schooljaren/[id]`
 
 Fetches information about a school year
 
