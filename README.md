@@ -46,11 +46,11 @@
       - [Returns](#returns-6)
       - [Example](#example-5)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
-      - [Parameters](#parameters-6)
-      - [Returns](#returns-6)
-    - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
       - [Parameters](#parameters-7)
       - [Returns](#returns-7)
+    - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
+      - [Parameters](#parameters-8)
+      - [Returns](#returns-8)
 
 <!-- /TOC -->
 
