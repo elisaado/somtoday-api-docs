@@ -15,7 +15,7 @@
   - [SOMtoday metadata](#somtoday-metadata)
     - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynlorganisatiesjson)
   - [Authentication / authorization](#authentication--authorization)
-    - [Fetching the access token: `POST /oauth2/token`](#fetching-the-access-token-post-oauth2token)
+    - [Fetching the access token via Somtoday login: `POST /oauth2/token`](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
       - [Parameters](#parameters)
       - [Returns](#returns)
       - [Example](#example)
@@ -23,22 +23,28 @@
       - [Parameters](#parameters-1)
       - [Returns](#returns-1)
       - [Example](#example-1)
-  - [Fetching information](#fetching-information)
-    - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
+    - [Fetching the access token via SSO: `POST /oauth2/token`](#fetching-the-access-token-via-sso-post-oauth2token)
       - [Parameters](#parameters-2)
       - [Returns](#returns-2)
       - [Example](#example-2)
-    - [Student by ID: `GET /rest/v1/leerlingen/[id]`](#student-by-id-get-restv1leerlingenid)
+      - [Example](#example-2)
+      - [The Url format](#the-url-format)
+  - [Fetching information](#fetching-information)
+    - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
       - [Parameters](#parameters-3)
       - [Returns](#returns-3)
       - [Example](#example-3)
-    - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
+    - [Student by ID: `GET /rest/v1/leerlingen/[id]`](#student-by-id-get-restv1leerlingenid)
       - [Parameters](#parameters-4)
       - [Returns](#returns-4)
-    - [Schedule: `GET /rest/v1/afspraken`](#schedule-get-restv1afspraken)
+      - [Example](#example-4)
+    - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
       - [Parameters](#parameters-5)
       - [Returns](#returns-5)
-      - [Example](#example-4)
+    - [Schedule: `GET /rest/v1/afspraken`](#schedule-get-restv1afspraken)
+      - [Parameters](#parameters-6)
+      - [Returns](#returns-6)
+      - [Example](#example-5)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
       - [Parameters](#parameters-6)
       - [Returns](#returns-6)
@@ -130,7 +136,7 @@ baseurl: https://somtoday.nl
 
 All routes here are prefixed with that baseurl.
 
-### Fetching the access token: `POST /oauth2/token`
+### Fetching the access token via Somtoday login: `POST /oauth2/token`
 
 #### Parameters
 
@@ -214,6 +220,106 @@ This example uses the `client_id` and `client_secret` in body method of authoriz
 token='<REDACTED>'
 curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
 ```
+### Fetching the access token via SSO: `POST /oauth2/token`
+
+#### Parameters
+
+| Name          | Type | Value                                |
+| ------------- | ---- | ------------------------------------ |
+| grant_type    | Body | authorization_code                   |
+| redirect_uri  | Body | [redirect_uri]                       |
+| code_verifier | Body | [code_verifier]                      |
+| code          | Body | [code]                               |
+| scope         | Body | openid                               |
+| client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of a few specified values. An example is: `somtodayleerling://oauth/callback`)
+`code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
+`code` is the code that has been send to the redirect uri. it is a JWT token (5 base64 url encoded blocks sepperated by '.')
+
+#### Returns
+
+```json
+{
+  "access_token": "<REDACTED>",
+  "refresh_token": "<REDACTED>",
+  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
+  "scope": "openid",
+  "somtoday_tenant": "bonhoeffer",
+  "id_token": "<REDACTED>",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
+
+token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
+
+#### Example
+
+```bash
+redirect_uri='somtodayleerling://oauth/callback' code_verifier='SOME_BASE64_CODE' code='SOME_TOKEN'
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redirect_uri=$redirect_uri&code_verifier=$code_verifier&code=$code&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+```
+
+#### Code verifier and challenge
+
+To generate the verifier you need to generate a random 32-byte url encoced base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
+
+```javascript
+// source: https://auth0.com/docs/authorization/flows/call-your-api-using-the-authorization-code-flow-with-pkce#create-code-challenge
+// Dependency: Node.js crypto module
+// https://nodejs.org/api/crypto.html#crypto_crypto
+function base64URLEncode(str) {
+    return str.toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+}
+var verifier = base64URLEncode(crypto.randomBytes(32));
+function sha256(buffer) {
+    return crypto.createHash('sha256').update(buffer).digest();
+}
+var challenge = base64URLEncode(sha256(verifier));
+console.log(verifier)
+console.log(challenge)
+```
+
+### The Url format
+
+The url that the client has to visit to get a login window is `https://somtoday.nl/oauth2/authorize`.
+These are the parameters:
+
+| Name                  | Type | Value                                |
+| --------------------- | ---- | ------------------------------------ |
+| response_type         | Body | code                                 |
+| redirect_uri          | Body | [uri]                                |
+| code_challenge        | Body | [code_challenge]                     |
+| tenant_uuid           | Body | [tenant_uuid]                        |
+| oidc_iss              | Body | [oidc_iss]                           |
+| code_challenge_method | Body | [code_challenge_method]              |
+| (state)               | Body | [custom_state]                       |
+| prompt                | Body | login                                |
+| scope                 | Body | openid                               |
+| client_id             | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`uri` and `code_challenge` have been described already.
+`tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
+`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
+`state` is an optional parameter.
+`custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
+
+After the user has logged in the page will redirect to the `uri` with these paramaters
+
+| Name           | Type | Value        |
+| ------- | ---- | ------------------- |
+| code    | Body | [code]              |
+| (state) | Body | [custom_state]      |
+| iss     | Body | https://somtoday.nl |
+
+`custom_state` is the previously defined value.
+`code` has already been described
 
 ## Fetching information
 
