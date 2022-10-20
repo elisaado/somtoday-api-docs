@@ -51,6 +51,9 @@
     - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
       - [Parameters](#parameters-8)
       - [Returns](#returns-8)
+    - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
+      - [Parameters](#parameters-9)
+      - [Returns](#returns-9)
 
 <!-- /TOC -->
 
@@ -1062,6 +1065,52 @@ Depending on the additional parameters, some of the items in the result may not 
         }
         ...
     ]
+}
+```
+
+### Subjects: `GET /rest/v1/vakken`
+
+Fetches the subjects for the user
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+| ------------- | --------- | --------------------- |
+| Authorization | Header    | Bearer [access_token] |
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "onderwijsinrichting.RVak",
+      "links": [
+        {
+          "id": 123456789,
+          "rel": "self",
+          "type": "onderwijsinrichting.RVak",
+          "href": "https://api.somtoday.nl/rest/v1/vakken/123456789"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "onderwijsinrichting.RVak:READ:INSTANCE(123456789)",
+          "type": "onderwijsinrichting.RVak",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(123456789)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "afkorting": "<abbreviation>",
+      "naam": "<subject>"
+    }
+	...
+  ]
 }
 ```
 
