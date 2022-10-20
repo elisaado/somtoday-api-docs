@@ -335,11 +335,16 @@ I suppose it returns all students the current user has access to (so if a school
 
 #### Parameters
 
-| Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
-| Authorization | Header | Bearer [access_token] |
+| Name          | Type      | Value                 |
+| ------------- | --------- | --------------------- |
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | pasfoto               |
+
+The additional parameter is an optional GET parameter.
 
 #### Returns
+
+Depending on the additional parameters, some of the items in the result may not be present. Assuming `pasfoto` is set:
 
 ```json
 {
@@ -362,7 +367,20 @@ I suppose it returns all students the current user has access to (so if a school
           "instances": ["INSTANCE(1234)"]
         }
       ],
-      "additionalObjects": {},
+      "additionalObjects": {
+        "pasfoto": {
+          "$type": "leerling.RLeerlingpasfoto",
+          "links": [
+            {
+              "id": 1234,
+              "rel": "self"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "datauri": "<base64 image>"
+        }
+      },
       "leerlingnummer": 450000,
       "roepnaam": "Eli",
       "achternaam": "Saado",
