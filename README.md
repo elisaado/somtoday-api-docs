@@ -1248,6 +1248,6 @@ When you want info about the current school year add /huidig to the url
 - `GET/rest/v1/maatregeltoekenningen`
 - `GET/rest/v1/leerlingadresseringen`
 - `GET/rest/v1/vakkeuzes`
-- `GET/rest/v1/verzorgers/` (probably 403 Forbidden)
+- `GET/rest/v1/verzorgers/`
 - `GET /rest/v1/waarnemingen/`
 - `GET /rest/v1/onderwijsopafstandperiodes/`
