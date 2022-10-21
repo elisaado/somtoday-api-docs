@@ -16,44 +16,18 @@
     - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynlorganisatiesjson)
   - [Authentication / authorization](#authentication--authorization)
     - [Fetching the access token via Somtoday login: `POST /oauth2/token`](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
-      - [Parameters](#parameters)
-      - [Returns](#returns)
-      - [Example](#example)
     - [Refreshing the token: `POST /oauth2/token`](#refreshing-the-token-post-oauth2token)
-      - [Parameters](#parameters-1)
-      - [Returns](#returns-1)
-      - [Example](#example-1)
     - [Fetching the access token via SSO: `POST /oauth2/token`](#fetching-the-access-token-via-sso-post-oauth2token)
-      - [Parameters](#parameters-2)
-      - [Returns](#returns-2)
-      - [Example](#example-2)
-      - [Example](#example-2)
-      - [The Url format](#the-url-format)
   - [Fetching information](#fetching-information)
     - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
-      - [Parameters](#parameters-3)
-      - [Returns](#returns-3)
-      - [Example](#example-3)
     - [Student by ID: `GET /rest/v1/leerlingen/[id]`](#student-by-id-get-restv1leerlingenid)
-      - [Parameters](#parameters-4)
-      - [Returns](#returns-4)
-      - [Example](#example-4)
     - [Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`](#grades-get-restv1resultatenhuidigvoorleerlingid)
-      - [Parameters](#parameters-5)
-      - [Returns](#returns-5)
     - [Schedule: `GET /rest/v1/afspraken`](#schedule-get-restv1afspraken)
-      - [Parameters](#parameters-6)
-      - [Returns](#returns-6)
-      - [Example](#example-5)
     - [Absence Reports: `GET /rest/v1/absentiemeldingen`](#absence-reports-get-restv1absentiemeldingen)
-      - [Parameters](#parameters-7)
-      - [Returns](#returns-7)
     - [Study Guides: `GET /rest/v1/studiewijzers`](#study-guides-get-restv1studiewijzers)
-      - [Parameters](#parameters-8)
-      - [Returns](#returns-8)
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
-      - [Parameters](#parameters-9)
-      - [Returns](#returns-9)
+    - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
+    - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
 
 <!-- /TOC -->
 
@@ -1134,13 +1108,145 @@ Fetches the subjects for the user
 
 ---
 
+### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]`
+
+Fetches information about the account that is connected with the Somtoday access token
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| id            | URL    | [user-id]      |
+| Authorization | Header | Bearer [access_token] |
+
+There are some parameters seeing the 'additionalObjects' field, but I don't know what they are.
+#### Returns
+
+
+
+```json
+{
+  "items": [
+    {
+      "$type": "auth.RAccount",
+      "links": [
+        {
+          "id": 1234567890,
+          "rel": "self",
+          "type": "auth.RAccount",
+          "href": "https://api.somtoday.nl/rest/v1/account/1234567890"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "auth.RAccount:READ:INSTANCE(1234567890)",
+          "type": "auth.RAccount",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(1234567890)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "gebruikersnaam": "[REDACTED]",
+      "accountPermissions": [],
+      "persoon": {
+        "$type": "leerling.RLeerlingPrimer",
+        "links": [
+          {
+            "id": "0123456789",
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/leerlingen/0123456789"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1409824200)",
+            "type": "leerling.RLeerlingPrimer",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(0123456789)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "leerlingnummer": 100000,
+        "roepnaam": "Name",
+        "voorvoegsel": "Name",
+        "achternaam": "Name"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Schooljaren: `GET /rest/v1/schooljaren` / `GET /rest/v1/schooljaren/[id]`
+
+Fetches information about a school year
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| id            | URL    | [id]                  |
+| id            | URL    | huidig                |
+| Authorization | Header | Bearer [access_token] |
+
+When you want info about the current school year add /huidig to the url
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "onderwijsinrichting.RSchooljaar",
+      "links": [
+        {
+          "id": 40851958, //this id is for everyone the same (in this case for year 2022/2023)
+          "rel": "self",
+          "type": "onderwijsinrichting.RSchooljaar",
+          "href": "https://api.somtoday.nl/rest/v1/schooljaren/40851958"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(40851958)",
+          "type": "onderwijsinrichting.RSchooljaar",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(40851958)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "naam": "2022/2023",
+      "vanafDatum": "2022-08-01",
+      "totDatum": "2023-07-31",
+      "isHuidig": true
+    },
+    ...
+  ]
+}
+```
+
+---
+
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
-- `GET/rest/v1/account/2555374351`
 - `GET/rest/v1/maatregeltoekenningen`
 - `GET/rest/v1/leerlingadresseringen`
-- `GET/rest/v1/schooljaren/huidig`
 - `GET/rest/v1/vakkeuzes`
 - `GET/rest/v1/verzorgers/`
 - `GET /rest/v1/waarnemingen/`

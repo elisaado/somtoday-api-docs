@@ -765,7 +765,7 @@ Receives the homework from weeks after a specified date.
 
 ## Updating information
 
-### 1. Homework Made `PUT /rest/v1/swigemaakt/id`
+### 1. Homework Made `PUT /rest/v1/swigemaakt/[id]`
 
 Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object
 
@@ -781,24 +781,12 @@ This is the minimal information you need to update the `gemaakt` status, you can
 
 ```json
 {
-  "links": [
-    {
-      "rel": "self"
-    }
-  ],
   "leerling": {
     "links": [
       {
         "id": 1234567890,
-        "rel": "self"
-      }
-    ]
-  },
-  "swiToekenning": {
-    "links": [
-      {
-        "id": 1234567890123,
-        "rel": "koppeling"
+        "rel": "self",
+        "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234567890"
       }
     ]
   },
@@ -820,7 +808,19 @@ The now changed `studiewijzer.RSWIGemaakt` Object
       "href": "{{api_url}}/rest/v1/swigemaakt/1234567890123"
     }
   ],
-  "permissions": [],
+  "permissions": [
+    {
+      "full": "studiewijzer.RSWIGemaakt:READ,UPDATE:INSTANCE(1234567890123)",
+      "type": "studiewijzer.RSWIGemaakt",
+      "operations": [
+        "READ",
+        "UPDATE"
+      ],
+      "instances": [
+        "INSTANCE(1234567890123)"
+      ]
+    }
+  ],
   "additionalObjects": {},
   "leerling": {
     "links": [
@@ -831,75 +831,26 @@ The now changed `studiewijzer.RSWIGemaakt` Object
         "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
       }
     ],
-    "permissions": [],
-    "additionalObjects": {},
-    "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
-    "leerlingnummer": 100000,
-    "roepnaam": "Name",
-    "achternaam": "Name"
-  },
-  "swiToekenning": {
-    "links": [
+    "permissions": [
       {
-        "id": 1234567890123,
-        "rel": "koppeling",
-        "type": "studiewijzer.RSWIToekenning"
+        "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234567890)",
+        "type": "leerling.RLeerlingPrimer",
+        "operations": [
+          "READ"
+        ],
+        "instances": [
+          "INSTANCE(1234567890)"
+        ]
       }
     ],
-    "permissions": [],
     "additionalObjects": {},
-    "studiewijzer": {
-      "links": [
-        {
-          "id": 12345678901,
-          "rel": "koppeling",
-          "type": "studiewijzer.RAbstractStudiewijzer"
-        }
-      ],
-      "permissions": [],
-      "additionalObjects": {},
-      "uuid": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
-      "naam": "engels, leerjaar 6",
-      "vestiging": {
-        "links": [
-          {
-            "id": 1234567890,
-            "rel": "self",
-            "type": "instelling.RVestiging",
-            "href": "{{api_url}}/rest/v1/vestigingen/1234567890"
-          }
-        ],
-        "permissions": [],
-        "additionalObjects": {},
-        "naam": "School Name"
-      }
-    },
-    "studiewijzerItem": {
-      "links": [
-        {
-          "id": 1234567890123,
-          "rel": "self",
-          "type": "studiewijzer.RStudiewijzerItem",
-          "href": "{{api_url}}/rest/v1/studiewijzeritems/1234567890123"
-        }
-      ],
-      "permissions": [],
-      "additionalObjects": {},
-      "onderwerp": "Topic",
-      "huiswerkType": "GROTE_TOETS, TOETS or HUISWERK",
-      "omschrijving": "Description",
-      "inleverperiodes": false,
-      "lesmateriaal": false,
-      "projectgroepen": false,
-      "bijlagen": [],
-      "externeMaterialen": [],
-      "inlevermomenten": [],
-      "tonen": true,
-      "notitieZichtbaarVoorLeerling": false
-    },
-    "sortering": 0,
-    "synchroniseertMet": "Leerjaar 6, periode 4"
+    "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "leerlingnummer": 100000,
+    "roepnaam": "Name",
+    "voorvoegsel": "Name",
+    "achternaam": "Name"
   },
+  "swiToekenningId": 1234567890123,
   "gemaakt": true
 }
 ```
