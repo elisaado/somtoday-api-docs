@@ -871,7 +871,7 @@ Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object without 
 
 #### Body
 
-This is the minimal information you need to update the `gemaakt` status, for this you will need the id of the student and the id of the parrent object of the `studiewijzer.RSWIGemaakt`
+This is the minimal information you need to update the `gemaakt` status, for this you will need the id of the student and the id of the homework object.
 
 ```json
 {
@@ -884,7 +884,7 @@ This is the minimal information you need to update the `gemaakt` status, for thi
       }
     ]
   },
-  "swiToekenningId": [Parrent_id],
+  "swiToekenningId": [Homework_id],
   "gemaakt": false
 }
 ```
