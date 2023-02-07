@@ -28,6 +28,7 @@
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
     - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
+    - [Homework](#homework)
 
 <!-- /TOC -->
 
@@ -1239,6 +1240,12 @@ When you want info about the current school year add /huidig to the url
   ]
 }
 ```
+
+---
+
+### Homework
+
+See [the homework folder](homework/README.md)
 
 ---
 
