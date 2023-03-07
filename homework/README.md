@@ -15,6 +15,7 @@
     - [3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`](#3-homework-from-weeks-get-restv1studiewijzeritemweektoekenningen)
   - [Updating Information](#updating-information)
     - [1. Homework Made `PUT /rest/v1/swigemaakt/[id]`](#1-homework-made-put-restv1swigemaaktid)
+    - [2. Homework Made `PUT /rest/v1/swigemaakt/cou`](#2-homework-made-put-restv1swigemaaktcou)
 
 <!-- /TOC -->
 
@@ -846,7 +847,96 @@ The now changed `studiewijzer.RSWIGemaakt` Object
 }
 ```
 
+### 2. Homework Made `PUT /rest/v1/swigemaakt/cou`
 
+Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object without knowing the id
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+| ------------- | ------ | --------------------- |
+| Authorization | Header | Bearer [access_token] |
+
+#### Body
+
+This is the minimal information you need to update the `gemaakt` status, for this you will need the id of the student and the id of the homework object.
+
+```json
+{
+  "leerling": {
+    "links": [
+      {
+        "id": [Student_id],
+        "rel": "self",
+        "href": "https://api.somtoday.nl/rest/v1/leerlingen/[Student_id]"
+      }
+    ]
+  },
+  "swiToekenningId": [Homework_id],
+  "gemaakt": false
+}
+```
+
+#### Returns
+
+The now changed or created `studiewijzer.RSWIGemaakt` Object
+
+```json
+{
+  "links": [
+    {
+      "id": 1234567890123,
+      "rel": "self",
+      "type": "studiewijzer.RSWIGemaakt",
+      "href": "{{api_url}}/rest/v1/swigemaakt/1234567890123"
+    }
+  ],
+  "permissions": [
+    {
+      "full": "studiewijzer.RSWIGemaakt:READ,UPDATE:INSTANCE(1234567890123)",
+      "type": "studiewijzer.RSWIGemaakt",
+      "operations": [
+        "READ",
+        "UPDATE"
+      ],
+      "instances": [
+        "INSTANCE(1234567890123)"
+      ]
+    }
+  ],
+  "additionalObjects": {},
+  "leerling": {
+    "links": [
+      {
+        "id": 1234567890,
+        "rel": "self",
+        "type": "leerling.RLeerlingPrimer",
+        "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+      }
+    ],
+    "permissions": [
+      {
+        "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234567890)",
+        "type": "leerling.RLeerlingPrimer",
+        "operations": [
+          "READ"
+        ],
+        "instances": [
+          "INSTANCE(1234567890)"
+        ]
+      }
+    ],
+    "additionalObjects": {},
+    "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "leerlingnummer": 100000,
+    "roepnaam": "Name",
+    "voorvoegsel": "Name",
+    "achternaam": "Name"
+  },
+  "swiToekenningId": 1234567890123,
+  "gemaakt": true
+}
+```
 
 
 

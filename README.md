@@ -30,6 +30,8 @@
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
     - [vakkeuzes: `GET /rest/v1/vakkeuzes`](#vak-keuzes-get-restv1vakkeuzes)
     - [waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
+    - [Homework](#homework)
+
 
 <!-- /TOC -->
 
@@ -1542,6 +1544,13 @@ You can either provide a date range or a single date. If you provide a single da
 ```
 
 ---
+
+### Homework
+
+See [the homework folder](homework/README.md)
+
+---
+
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
