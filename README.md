@@ -28,6 +28,8 @@
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
     - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
+    - [vakkeuzes: `GET /rest/v1/vakkeuzes`](#vak-keuzes-get-restv1vakkeuzes)
+    - [waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
 
 <!-- /TOC -->
 
@@ -1242,12 +1244,308 @@ When you want info about the current school year add /huidig to the url
 
 ---
 
+### vak keuzes: `GET /rest/v1/vakkeuzes`
+
+Fetches all the subjects you are currently enrolled in.
+
+#### Parameters
+
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| Authorization | Header | Bearer [access_token] |
+| additional    | Parameter | vaknormering       |
+| additional    | Parameter | actiefOpPeildatum  |
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "onderwijsinrichting.RVakkeuze",
+      "links": [
+        {
+          "id": xxxxxxxxxx,
+          "rel": "self",
+          "type": "onderwijsinrichting.RVakkeuze",
+          "href": "https://api.somtoday.nl/rest/v1/vakkeuzes/xxxxxxxxxx"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "onderwijsinrichting.RVakkeuze:READ:INSTANCE(xxxxxxxxxx)",
+          "type": "onderwijsinrichting.RVakkeuze",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(xxxxxxxxxx)"
+          ]
+        }
+      ],
+      "additionalObjects": {
+        "vaknormering": {
+          "$type": "onderwijsinrichting.RVakNormering",
+          "vakId": yyyyyyyyyy,
+          "toetsnormering1": "Standaard",
+          "toetsnormering2": "Alternatief"
+        }
+      },
+      "vak": {
+        "links": [
+          {
+            "id": yyyyyyyyyy,
+            "rel": "self",
+            "type": "onderwijsinrichting.RVak",
+            "href": "https://api.somtoday.nl/rest/v1/vakken/yyyyyyyyyy"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "onderwijsinrichting.RVak:READ:INSTANCE(yyyyyyyyyy)",
+            "type": "onderwijsinrichting.RVak",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(yyyyyyyyyy)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "afkorting": "ne",
+        "naam": "Nederlandse taal"
+      }
+    },
+    ...
+  ]
+}
+```
+
+---
+
+
+### waarnemingen: `GET /rest/v1/waarnemingen`
+
+Fetches all the waarnemingen currently tied to your account, filter them by date, isGeoorloofd and/or waarnemingSoort.
+
+#### Parameters
+
+| Name                       | Type   | Value                 |
+|----------------------------|--------|-----------------------|
+| Authorization              | Header | Bearer [access_token] |
+| waarnemingSoort (optional) | Parameter | Afwezig/aanwezig      |
+| isGeoorloofd (optional) | Parameter | true/false              |
+
+You can, if you want, provide dates to filter the results. If you don't provide any dates, it will return all the results. 
+You can either provide a date range or a single date. If you provide a single date, it will return all the results from that date. If you provide a date range, it will return all the results inbetween those dates.
+
+| Date types    | Type   | Value                 |
+|---------------|--------|-----------------------|
+| begintNaOfOp  | Parameter | yyyy-MM-dd            |
+| OR            |
+| beginDatumTijd | Parameter | yyyy-MM-dd     |
+| eindDatumTijd | Parameter | yyyy-MM-dd     |
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "participatie.RWaarneming",
+      "links": [
+        {
+          "id": 1234567891234,
+          "rel": "self",
+          "type": "participatie.RWaarneming",
+          "href": "https://api.somtoday.nl/rest/v1/waarnemingen/1234567891234"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "participatie.RWaarneming:READ:INSTANCE(1234567891234)",
+          "type": "participatie.RWaarneming",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(1234567891234)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "beginDatumTijd": "2023-01-09T11:05:00.000+01:00",
+      "eindDatumTijd": "2023-01-09T11:55:00.000+01:00",
+      "beginLesuur": 4,
+      "eindLesuur": 4,
+      "waarnemingSoort": "Aanwezig",
+      "leerling": {
+        "links": [
+          {
+            "id": 1234567890,
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234567890"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234567890)",
+            "type": "leerling.RLeerlingPrimer",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(1234567890)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "leerlingnummer": 100000,
+        "roepnaam": "Name",
+        "voorvoegsel": "Name",
+        "achternaam": "Name"
+      },
+      "afspraak": {
+        "links": [
+          {
+            "id": 12345678901345,
+            "rel": "self",
+            "type": "participatie.RAfspraakPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/afspraken/12345678901345"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "participatie.RAfspraak:READ:INSTANCE(12345678901345)",
+            "type": "participatie.RAfspraak",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(12345678901345)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "afspraakType": {
+          "links": [
+            {
+              "id": 1234567890,
+              "rel": "self",
+              "type": "participatie.RAfspraakType",
+              "href": "https://api.somtoday.nl/rest/v1/afspraaktype/1234567890"
+            }
+          ],
+          "permissions": [
+            {
+              "full": "participatie.RAfspraakType:READ:INSTANCE(1234567890)",
+              "type": "participatie.RAfspraakType",
+              "operations": [
+                "READ"
+              ],
+              "instances": [
+                "INSTANCE(1234567890)"
+              ]
+            }
+          ],
+          "additionalObjects": {},
+          "naam": "LES",
+          "omschrijving": "LES",
+          "standaardKleur": -16448251,
+          "categorie": "Rooster",
+          "activiteit": "Verplicht",
+          "percentageIIVO": 100,
+          "presentieRegistratieDefault": true,
+          "actief": true,
+          "vestiging": {
+            "$type": "instelling.RVestiging",
+            "links": [
+              {
+                "id": 1234567890,
+                "rel": "self",
+                "type": "instelling.RVestiging",
+                "href": "https://api.somtoday.nl/rest/v1/vestigingen/1234567890"
+              }
+            ],
+            "permissions": [
+              {
+                "full": "instelling.RVestiging:READ:INSTANCE(1234567890)",
+                "type": "instelling.RVestiging",
+                "operations": [
+                  "READ"
+                ],
+                "instances": [
+                  "INSTANCE(1234567890)"
+                ]
+              }
+            ],
+            "additionalObjects": {},
+            "naam": "De super coole school",
+          }
+        },
+        "locatie": "lokaal naam",
+        "beginDatumTijd": "2023-01-09T11:05:00.000+01:00",
+        "eindDatumTijd": "2023-01-09T11:55:00.000+01:00",
+        "beginLesuur": 4,
+        "eindLesuur": 4,
+        "titel": "titel"
+      },
+      "afgehandeld": true,
+      "invoerDatum": "2023-01-09T11:09:08.000+01:00",
+      "laatstGewijzigdDatum": "2023-01-09T11:09:08.000+01:00",
+      "herkomst": "Medewerker",
+      "ingevoerdDoor": {
+        "links": [
+          {
+            "id": 1234567890123,
+            "rel": "self",
+            "type": "medewerker.RMedewerkerPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/medewerkers/1234567890123"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "nummer": 12345678,
+        "afkorting": "afkorting",
+        "achternaam": "name",
+        "geslacht": "VROUW/MAN",
+        "voorletters": "voorletter(s)",
+        "roepnaam": "roepnaam"
+      },
+      "laatstGewijzigdDoor": {
+        "links": [
+          {
+            "id": 1234567890123,
+            "rel": "self",
+            "type": "medewerker.RMedewerkerPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/medewerkers/1234567890123"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "nummer": 12345678,
+        "afkorting": "afkorting",
+        "achternaam": "name",
+        "geslacht": "VROUW/MAN",
+        "voorletters": "voorletter(s)",
+        "roepnaam": "roepnaam"
+      }
+    },
+    ...
+  ]
+}
+```
+
+---
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
-- `GET/rest/v1/maatregeltoekenningen`
-- `GET/rest/v1/leerlingadresseringen`
-- `GET/rest/v1/vakkeuzes`
-- `GET/rest/v1/verzorgers/`
-- `GET /rest/v1/waarnemingen/`
+- `GET /rest/v1/maatregeltoekenningen`
+- `GET /rest/v1/leerlingadresseringen`
+- `GET /rest/v1/verzorgers/`
 - `GET /rest/v1/onderwijsopafstandperiodes/`

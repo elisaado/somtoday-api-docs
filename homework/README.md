@@ -11,19 +11,10 @@
   - [General Info](#general-info)
   - [Fetching Information](#fetching-homework)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
-      - [Parameters](#parameters)
-      - [Returns](#returns)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
-      - [Parameters](#parameters-1)
-      - [Returns](#returns-1)
     - [3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`](#3-homework-from-weeks-get-restv1studiewijzeritemweektoekenningen)
-      - [Parameters](#parameters-2)
-      - [Returns](#returns-2)
   - [Updating Information](#updating-information)
     - [1. Homework Made `PUT /rest/v1/swigemaakt/[id]`](#1-homework-made-put-restv1swigemaaktid)
-      - [Parameters](#parameters-3)
-      - [Body](#body)
-      - [Returns](#returns-3)}
 
 <!-- /TOC -->
 
