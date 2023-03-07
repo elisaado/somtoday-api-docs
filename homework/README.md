@@ -37,7 +37,7 @@ Receives the homework from appointments after a specified date
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | additional    | Paramater | swigemaaktVinkjes     |
 | additional    | Paramater | leerlingen            |
@@ -295,7 +295,7 @@ Receives the homework from days after a specified date.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | additional    | Parameter | swigemaaktVinkjes     |
 | additional    | Parameter | leerlingen            |
@@ -549,7 +549,7 @@ Receives the homework from weeks after a specified date.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | schooljaar    | Parameter | School Year ID        |
 | weeknummer    | Parameter | [number]              |
@@ -764,7 +764,7 @@ Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | Authorization | Header | Bearer [access_token] |
 
 #### Body
@@ -854,7 +854,7 @@ Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object without 
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | Authorization | Header | Bearer [access_token] |
 
 #### Body

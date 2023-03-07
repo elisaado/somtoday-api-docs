@@ -28,8 +28,8 @@
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
     - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
-    - [vakkeuzes: `GET /rest/v1/vakkeuzes`](#vak-keuzes-get-restv1vakkeuzes)
-    - [waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
+    - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vak-keuzes-get-restv1vakkeuzes)
+    - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [Homework](#homework)
 
 
@@ -52,7 +52,7 @@ curl http://example.com/user/blah?active=true&limit=3 -d "key=value&otherkey=val
 which will be listed here as
 
 | Name     | Type   | Value |
-| -------- | ------ | ----- |
+|----------|--------|-------|
 | id       | URL    | blah  |
 | active   | Query  | true  |
 | limit    | Query  | 3     |
@@ -122,7 +122,7 @@ All routes here are prefixed with that baseurl.
 #### Parameters
 
 | Name       | Type | Value                                |
-| ---------- | ---- | ------------------------------------ |
+|------------|------|--------------------------------------|
 | grant_type | Body | password                             |
 | username   | Body | [school uuid]\\[username]            |
 | password   | Body | [password]                           |
@@ -164,7 +164,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school
 #### Parameters
 
 | Name          | Type | Value                                |
-| ------------- | ---- | ------------------------------------ |
+|---------------|------|--------------------------------------|
 | grant_type    | Body | refresh_token                        |
 | refresh_token | Body | [refresh_token]                      |
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
@@ -206,7 +206,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_tok
 #### Parameters
 
 | Name          | Type | Value                                |
-| ------------- | ---- | ------------------------------------ |
+|---------------|------|--------------------------------------|
 | grant_type    | Body | authorization_code                   |
 | redirect_uri  | Body | [redirect_uri]                       |
 | code_verifier | Body | [code_verifier]                      |
@@ -273,7 +273,7 @@ The url that the client has to visit to get a login window is `https://somtoday.
 These are the parameters:
 
 | Name                  | Type | Value                                |
-| --------------------- | ---- | ------------------------------------ |
+|-----------------------|------|--------------------------------------|
 | response_type         | Body | code                                 |
 | redirect_uri          | Body | [uri]                                |
 | code_challenge        | Body | [code_challenge]                     |
@@ -293,8 +293,8 @@ These are the parameters:
 
 After the user has logged in the page will redirect to the `uri` with these paramaters
 
-| Name           | Type | Value        |
-| ------- | ---- | ------------------- |
+| Name    | Type | Value               |
+|---------|------|---------------------|
 | code    | Body | [code]              |
 | (state) | Body | [custom_state]      |
 | iss     | Body | https://somtoday.nl |
@@ -317,7 +317,7 @@ I suppose it returns all students the current user has access to (so if a school
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | additional    | Parameter | pasfoto               |
 
@@ -388,7 +388,7 @@ curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Acce
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | id            | URL    | [user id]             |
 | Authorization | Header | Bearer [access_token] |
 
@@ -439,7 +439,7 @@ Fetches the grades of the student. Note that all average grades are also grade i
 #### Parameters
 
 | Name          | Type      | Value                           |
-| ------------- | --------- | ------------------------------- |
+|---------------|-----------|---------------------------------|
 | id            | URL       | [user id]                       |
 | Authorization | Header    | Bearer [access_token]           |
 | Range         | Header    | items=[LowerBound]-[UpperBound] |
@@ -566,7 +566,7 @@ Fetch the appointments from the schedule of the student.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | sort          | Parameter | asc-id                |
 | additional    | Parameter | vak                   |
@@ -750,7 +750,7 @@ Fetches the absence reports of the user
 #### Parameters
 
 | Name           | Type      | Value                 |
-| -------------- | --------- | --------------------- |
+|----------------|-----------|-----------------------|
 | Authorization  | Header    | Bearer [access_token] |
 | begindatumtijd | Parameter | yyyy-MM-dd            |
 | einddatumtijd  | Parameter | yyyy-MM-dd            |
@@ -843,7 +843,7 @@ Fetches the study guides for the user
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | additional    | Parameter | leerlingen            |
 | additional    | Parameter | bijlagen              |
@@ -1070,9 +1070,9 @@ Fetches the subjects for the user
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| Authorization | Header    | Bearer [access_token] |
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| Authorization | Header | Bearer [access_token] |
 
 #### Returns
 
@@ -1120,7 +1120,7 @@ Fetches information about the account that is connected with the Somtoday access
 
 | Name          | Type   | Value                 |
 |---------------|--------|-----------------------|
-| id            | URL    | [user-id]      |
+| id            | URL    | [user-id]             |
 | Authorization | Header | Bearer [access_token] |
 
 There are some parameters seeing the 'additionalObjects' field, but I don't know what they are.
@@ -1252,11 +1252,11 @@ Fetches all the subjects you are currently enrolled in.
 
 #### Parameters
 
-| Name          | Type   | Value                 |
-|---------------|--------|-----------------------|
-| Authorization | Header | Bearer [access_token] |
-| additional    | Parameter | vaknormering       |
-| additional    | Parameter | actiefOpPeildatum  |
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | vaknormering          |
+| additional    | Parameter | actiefOpPeildatum     |
 
 #### Returns
 
@@ -1333,21 +1333,21 @@ Fetches all the waarnemingen currently tied to your account, filter them by date
 
 #### Parameters
 
-| Name                       | Type   | Value                 |
-|----------------------------|--------|-----------------------|
-| Authorization              | Header | Bearer [access_token] |
+| Name                       | Type      | Value                 |
+|----------------------------|-----------|-----------------------|
+| Authorization              | Header    | Bearer [access_token] |
 | waarnemingSoort (optional) | Parameter | Afwezig/aanwezig      |
-| isGeoorloofd (optional) | Parameter | true/false              |
+| isGeoorloofd (optional)    | Parameter | true/false            |
 
 You can, if you want, provide dates to filter the results. If you don't provide any dates, it will return all the results. 
 You can either provide a date range or a single date. If you provide a single date, it will return all the results from that date. If you provide a date range, it will return all the results inbetween those dates.
 
-| Date types    | Type   | Value                 |
-|---------------|--------|-----------------------|
-| begintNaOfOp  | Parameter | yyyy-MM-dd            |
-| OR            |
-| beginDatumTijd | Parameter | yyyy-MM-dd     |
-| eindDatumTijd | Parameter | yyyy-MM-dd     |
+| Date types      | Type      | Value       |
+|-----------------|-----------|-------------|
+| begintNaOfOp    | Parameter | yyyy-MM-dd  |
+| OR              |
+| beginDatumTijd  | Parameter | yyyy-MM-dd  |
+| eindDatumTijd   | Parameter | yyyy-MM-dd  |
 
 #### Returns
 
