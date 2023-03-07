@@ -1246,7 +1246,7 @@ When you want info about the current school year add /huidig to the url
 
 ---
 
-### vak keuzes: `GET /rest/v1/vakkeuzes`
+### Vakkeuzes: `GET /rest/v1/vakkeuzes`
 
 Fetches all the subjects you are currently enrolled in.
 
