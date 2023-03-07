@@ -1327,7 +1327,7 @@ Fetches all the subjects you are currently enrolled in.
 ---
 
 
-### waarnemingen: `GET /rest/v1/waarnemingen`
+### Waarnemingen: `GET /rest/v1/waarnemingen`
 
 Fetches all the waarnemingen currently tied to your account, filter them by date, isGeoorloofd and/or waarnemingSoort.
 
