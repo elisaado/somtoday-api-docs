@@ -28,7 +28,7 @@
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
     - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
-    - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vak-keuzes-get-restv1vakkeuzes)
+    - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [Homework](#homework)
 
