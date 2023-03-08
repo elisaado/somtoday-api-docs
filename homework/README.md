@@ -11,23 +11,11 @@
   - [General Info](#general-info)
   - [Fetching Information](#fetching-homework)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
-      - [Parameters](#parameters)
-      - [Returns](#returns)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
-      - [Parameters](#parameters-1)
-      - [Returns](#returns-1)
     - [3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`](#3-homework-from-weeks-get-restv1studiewijzeritemweektoekenningen)
-      - [Parameters](#parameters-2)
-      - [Returns](#returns-2)
   - [Updating Information](#updating-information)
     - [1. Homework Made `PUT /rest/v1/swigemaakt/[id]`](#1-homework-made-put-restv1swigemaaktid)
-      - [Parameters](#parameters-3)
-      - [Body](#body)
-      - [Returns](#returns-3))
     - [2. Homework Made `PUT /rest/v1/swigemaakt/cou`](#2-homework-made-put-restv1swigemaaktcou)
-      - [Parameters](#parameters-3)
-      - [Body](#body)
-      - [Returns](#returns-3))
 
 <!-- /TOC -->
 
@@ -49,7 +37,7 @@ Receives the homework from appointments after a specified date
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | additional    | Paramater | swigemaaktVinkjes     |
 | additional    | Paramater | leerlingen            |
@@ -307,7 +295,7 @@ Receives the homework from days after a specified date.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | additional    | Parameter | swigemaaktVinkjes     |
 | additional    | Parameter | leerlingen            |
@@ -561,7 +549,7 @@ Receives the homework from weeks after a specified date.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
 | schooljaar    | Parameter | School Year ID        |
 | weeknummer    | Parameter | [number]              |
@@ -776,7 +764,7 @@ Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | Authorization | Header | Bearer [access_token] |
 
 #### Body
@@ -866,7 +854,7 @@ Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object without 
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | Authorization | Header | Bearer [access_token] |
 
 #### Body

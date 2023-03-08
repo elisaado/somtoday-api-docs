@@ -28,7 +28,10 @@
     - [Subjects: `GET /rest/v1/vakken`](#subjects-get-restv1vakken)
     - [User Account: `GET /rest/v1/account`](#account-get-restv1account--get-restv1accountid)
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
+    - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
+    - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [Homework](#homework)
+
 
 <!-- /TOC -->
 
@@ -49,7 +52,7 @@ curl http://example.com/user/blah?active=true&limit=3 -d "key=value&otherkey=val
 which will be listed here as
 
 | Name     | Type   | Value |
-| -------- | ------ | ----- |
+|----------|--------|-------|
 | id       | URL    | blah  |
 | active   | Query  | true  |
 | limit    | Query  | 3     |
@@ -119,7 +122,7 @@ All routes here are prefixed with that baseurl.
 #### Parameters
 
 | Name       | Type | Value                                |
-| ---------- | ---- | ------------------------------------ |
+|------------|------|--------------------------------------|
 | grant_type | Body | password                             |
 | username   | Body | [school uuid]\\[username]            |
 | password   | Body | [password]                           |
@@ -161,7 +164,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school
 #### Parameters
 
 | Name          | Type | Value                                |
-| ------------- | ---- | ------------------------------------ |
+|---------------|------|--------------------------------------|
 | grant_type    | Body | refresh_token                        |
 | refresh_token | Body | [refresh_token]                      |
 | client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
@@ -203,7 +206,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_tok
 #### Parameters
 
 | Name          | Type | Value                                |
-| ------------- | ---- | ------------------------------------ |
+|---------------|------|--------------------------------------|
 | grant_type    | Body | authorization_code                   |
 | redirect_uri  | Body | [redirect_uri]                       |
 | code_verifier | Body | [code_verifier]                      |
@@ -270,7 +273,7 @@ The url that the client has to visit to get a login window is `https://somtoday.
 These are the parameters:
 
 | Name                  | Type | Value                                |
-| --------------------- | ---- | ------------------------------------ |
+|-----------------------|------|--------------------------------------|
 | response_type         | Body | code                                 |
 | redirect_uri          | Body | [uri]                                |
 | code_challenge        | Body | [code_challenge]                     |
@@ -290,8 +293,8 @@ These are the parameters:
 
 After the user has logged in the page will redirect to the `uri` with these paramaters
 
-| Name           | Type | Value        |
-| ------- | ---- | ------------------- |
+| Name    | Type | Value               |
+|---------|------|---------------------|
 | code    | Body | [code]              |
 | (state) | Body | [custom_state]      |
 | iss     | Body | https://somtoday.nl |
@@ -314,7 +317,7 @@ I suppose it returns all students the current user has access to (so if a school
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | additional    | Parameter | pasfoto               |
 
@@ -385,7 +388,7 @@ curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Acce
 #### Parameters
 
 | Name          | Type   | Value                 |
-| ------------- | ------ | --------------------- |
+|---------------|--------|-----------------------|
 | id            | URL    | [user id]             |
 | Authorization | Header | Bearer [access_token] |
 
@@ -436,7 +439,7 @@ Fetches the grades of the student. Note that all average grades are also grade i
 #### Parameters
 
 | Name          | Type      | Value                           |
-| ------------- | --------- | ------------------------------- |
+|---------------|-----------|---------------------------------|
 | id            | URL       | [user id]                       |
 | Authorization | Header    | Bearer [access_token]           |
 | Range         | Header    | items=[LowerBound]-[UpperBound] |
@@ -563,7 +566,7 @@ Fetch the appointments from the schedule of the student.
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | sort          | Parameter | asc-id                |
 | additional    | Parameter | vak                   |
@@ -747,7 +750,7 @@ Fetches the absence reports of the user
 #### Parameters
 
 | Name           | Type      | Value                 |
-| -------------- | --------- | --------------------- |
+|----------------|-----------|-----------------------|
 | Authorization  | Header    | Bearer [access_token] |
 | begindatumtijd | Parameter | yyyy-MM-dd            |
 | einddatumtijd  | Parameter | yyyy-MM-dd            |
@@ -840,7 +843,7 @@ Fetches the study guides for the user
 #### Parameters
 
 | Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
+|---------------|-----------|-----------------------|
 | Authorization | Header    | Bearer [access_token] |
 | additional    | Parameter | leerlingen            |
 | additional    | Parameter | bijlagen              |
@@ -1067,9 +1070,9 @@ Fetches the subjects for the user
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-| ------------- | --------- | --------------------- |
-| Authorization | Header    | Bearer [access_token] |
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
+| Authorization | Header | Bearer [access_token] |
 
 #### Returns
 
@@ -1117,7 +1120,7 @@ Fetches information about the account that is connected with the Somtoday access
 
 | Name          | Type   | Value                 |
 |---------------|--------|-----------------------|
-| id            | URL    | [user-id]      |
+| id            | URL    | [user-id]             |
 | Authorization | Header | Bearer [access_token] |
 
 There are some parameters seeing the 'additionalObjects' field, but I don't know what they are.
@@ -1243,6 +1246,305 @@ When you want info about the current school year add /huidig to the url
 
 ---
 
+### Vakkeuzes: `GET /rest/v1/vakkeuzes`
+
+Fetches all the subjects you are currently enrolled in.
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | vaknormering          |
+| additional    | Parameter | actiefOpPeildatum     |
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "onderwijsinrichting.RVakkeuze",
+      "links": [
+        {
+          "id": xxxxxxxxxx,
+          "rel": "self",
+          "type": "onderwijsinrichting.RVakkeuze",
+          "href": "https://api.somtoday.nl/rest/v1/vakkeuzes/xxxxxxxxxx"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "onderwijsinrichting.RVakkeuze:READ:INSTANCE(xxxxxxxxxx)",
+          "type": "onderwijsinrichting.RVakkeuze",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(xxxxxxxxxx)"
+          ]
+        }
+      ],
+      "additionalObjects": {
+        "vaknormering": {
+          "$type": "onderwijsinrichting.RVakNormering",
+          "vakId": yyyyyyyyyy,
+          "toetsnormering1": "Standaard",
+          "toetsnormering2": "Alternatief"
+        }
+      },
+      "vak": {
+        "links": [
+          {
+            "id": yyyyyyyyyy,
+            "rel": "self",
+            "type": "onderwijsinrichting.RVak",
+            "href": "https://api.somtoday.nl/rest/v1/vakken/yyyyyyyyyy"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "onderwijsinrichting.RVak:READ:INSTANCE(yyyyyyyyyy)",
+            "type": "onderwijsinrichting.RVak",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(yyyyyyyyyy)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "afkorting": "ne",
+        "naam": "Nederlandse taal"
+      }
+    },
+    ...
+  ]
+}
+```
+
+---
+
+
+### Waarnemingen: `GET /rest/v1/waarnemingen`
+
+Fetches all the waarnemingen currently tied to your account, filter them by date, isGeoorloofd and/or waarnemingSoort.
+
+#### Parameters
+
+| Name                       | Type      | Value                 |
+|----------------------------|-----------|-----------------------|
+| Authorization              | Header    | Bearer [access_token] |
+| waarnemingSoort (optional) | Parameter | Afwezig/aanwezig      |
+| isGeoorloofd (optional)    | Parameter | true/false            |
+
+You can, if you want, provide dates to filter the results. If you don't provide any dates, it will return all the results. 
+You can either provide a date range or a single date. If you provide a single date, it will return all the results from that date. If you provide a date range, it will return all the results inbetween those dates.
+
+| Date types      | Type      | Value       |
+|-----------------|-----------|-------------|
+| begintNaOfOp    | Parameter | yyyy-MM-dd  |
+| OR              |
+| beginDatumTijd  | Parameter | yyyy-MM-dd  |
+| eindDatumTijd   | Parameter | yyyy-MM-dd  |
+
+#### Returns
+
+```json
+{
+  "items": [
+    {
+      "$type": "participatie.RWaarneming",
+      "links": [
+        {
+          "id": 1234567891234,
+          "rel": "self",
+          "type": "participatie.RWaarneming",
+          "href": "https://api.somtoday.nl/rest/v1/waarnemingen/1234567891234"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "participatie.RWaarneming:READ:INSTANCE(1234567891234)",
+          "type": "participatie.RWaarneming",
+          "operations": [
+            "READ"
+          ],
+          "instances": [
+            "INSTANCE(1234567891234)"
+          ]
+        }
+      ],
+      "additionalObjects": {},
+      "beginDatumTijd": "2023-01-09T11:05:00.000+01:00",
+      "eindDatumTijd": "2023-01-09T11:55:00.000+01:00",
+      "beginLesuur": 4,
+      "eindLesuur": 4,
+      "waarnemingSoort": "Aanwezig",
+      "leerling": {
+        "links": [
+          {
+            "id": 1234567890,
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234567890"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leerling.RLeerlingPrimer:READ:INSTANCE(1234567890)",
+            "type": "leerling.RLeerlingPrimer",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(1234567890)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "leerlingnummer": 100000,
+        "roepnaam": "Name",
+        "voorvoegsel": "Name",
+        "achternaam": "Name"
+      },
+      "afspraak": {
+        "links": [
+          {
+            "id": 12345678901345,
+            "rel": "self",
+            "type": "participatie.RAfspraakPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/afspraken/12345678901345"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "participatie.RAfspraak:READ:INSTANCE(12345678901345)",
+            "type": "participatie.RAfspraak",
+            "operations": [
+              "READ"
+            ],
+            "instances": [
+              "INSTANCE(12345678901345)"
+            ]
+          }
+        ],
+        "additionalObjects": {},
+        "afspraakType": {
+          "links": [
+            {
+              "id": 1234567890,
+              "rel": "self",
+              "type": "participatie.RAfspraakType",
+              "href": "https://api.somtoday.nl/rest/v1/afspraaktype/1234567890"
+            }
+          ],
+          "permissions": [
+            {
+              "full": "participatie.RAfspraakType:READ:INSTANCE(1234567890)",
+              "type": "participatie.RAfspraakType",
+              "operations": [
+                "READ"
+              ],
+              "instances": [
+                "INSTANCE(1234567890)"
+              ]
+            }
+          ],
+          "additionalObjects": {},
+          "naam": "LES",
+          "omschrijving": "LES",
+          "standaardKleur": -16448251,
+          "categorie": "Rooster",
+          "activiteit": "Verplicht",
+          "percentageIIVO": 100,
+          "presentieRegistratieDefault": true,
+          "actief": true,
+          "vestiging": {
+            "$type": "instelling.RVestiging",
+            "links": [
+              {
+                "id": 1234567890,
+                "rel": "self",
+                "type": "instelling.RVestiging",
+                "href": "https://api.somtoday.nl/rest/v1/vestigingen/1234567890"
+              }
+            ],
+            "permissions": [
+              {
+                "full": "instelling.RVestiging:READ:INSTANCE(1234567890)",
+                "type": "instelling.RVestiging",
+                "operations": [
+                  "READ"
+                ],
+                "instances": [
+                  "INSTANCE(1234567890)"
+                ]
+              }
+            ],
+            "additionalObjects": {},
+            "naam": "De super coole school",
+          }
+        },
+        "locatie": "lokaal naam",
+        "beginDatumTijd": "2023-01-09T11:05:00.000+01:00",
+        "eindDatumTijd": "2023-01-09T11:55:00.000+01:00",
+        "beginLesuur": 4,
+        "eindLesuur": 4,
+        "titel": "titel"
+      },
+      "afgehandeld": true,
+      "invoerDatum": "2023-01-09T11:09:08.000+01:00",
+      "laatstGewijzigdDatum": "2023-01-09T11:09:08.000+01:00",
+      "herkomst": "Medewerker",
+      "ingevoerdDoor": {
+        "links": [
+          {
+            "id": 1234567890123,
+            "rel": "self",
+            "type": "medewerker.RMedewerkerPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/medewerkers/1234567890123"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "nummer": 12345678,
+        "afkorting": "afkorting",
+        "achternaam": "name",
+        "geslacht": "VROUW/MAN",
+        "voorletters": "voorletter(s)",
+        "roepnaam": "roepnaam"
+      },
+      "laatstGewijzigdDoor": {
+        "links": [
+          {
+            "id": 1234567890123,
+            "rel": "self",
+            "type": "medewerker.RMedewerkerPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/medewerkers/1234567890123"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "nummer": 12345678,
+        "afkorting": "afkorting",
+        "achternaam": "name",
+        "geslacht": "VROUW/MAN",
+        "voorletters": "voorletter(s)",
+        "roepnaam": "roepnaam"
+      }
+    },
+    ...
+  ]
+}
+```
+
+---
+
 ### Homework
 
 See [the homework folder](homework/README.md)
@@ -1252,9 +1554,7 @@ See [the homework folder](homework/README.md)
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
-- `GET/rest/v1/maatregeltoekenningen`
-- `GET/rest/v1/leerlingadresseringen`
-- `GET/rest/v1/vakkeuzes`
-- `GET/rest/v1/verzorgers/`
-- `GET /rest/v1/waarnemingen/`
+- `GET /rest/v1/maatregeltoekenningen`
+- `GET /rest/v1/leerlingadresseringen`
+- `GET /rest/v1/verzorgers/`
 - `GET /rest/v1/onderwijsopafstandperiodes/`
