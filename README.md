@@ -12,12 +12,11 @@
   - [Discord](#discord)
   - [Table of contents](#table-of-contents)
   - [Some miscellaneous stuff](#some-miscellaneous-stuff)
-  - [SOMtoday metadata](#somtoday-metadata)
-    - [Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`](#getting-a-list-of-schools-get-httpsserverssomtodaynlorganisatiesjson)
-  - [Authentication / authorization](#authentication--authorization)
-    - [Fetching the access token via Somtoday login: `POST /oauth2/token`](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
-    - [Refreshing the token: `POST /oauth2/token`](#refreshing-the-token-post-oauth2token)
-    - [Fetching the access token via SSO: `POST /oauth2/token`](#fetching-the-access-token-via-sso-post-oauth2token)
+  - [Authentication / authorization](Authentication.md)
+    - [Getting a list of schools](Authentication.md#getting-a-list-of-schools)
+    - [Fetching the access token via SSO](Authentication.md#authentication-by-mimicking-the-somtoday-appwebapp)
+    - [Fetching the access token via Somtoday login: `POST /oauth2/token`](Authentication.md#fetching-the-access-token-via-somtoday-login)
+    - [Refreshing the token: `POST /oauth2/token`](Authentication.md#refreshing-the-access-token)
   - [Fetching information](#fetching-information)
     - [Current student(s): `GET /rest/v1/leerlingen`](#current-students-get-restv1leerlingen)
     - [Student by ID: `GET /rest/v1/leerlingen/[id]`](#student-by-id-get-restv1leerlingenid)
@@ -30,20 +29,18 @@
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
     - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
-    - [Homework](#homework)
+  - [Homework](Homework.md)
 
 
 <!-- /TOC -->
 
 ## Some miscellaneous stuff
 
-Endpoint for authentication: https://somtoday.nl
+ - Endpoint for authentication: https://somtoday.nl
+ - Endpoint for the API is returned when you fetch the access token
+ - Always include the header "Accept" with the value of "application/json" so you won't get XML. (except if you want XML :-) ) (the authentication stuff always returns JSON)<br><br>
 
-Endpoint for the API is returned when you fetch the access token
-
-Always include the header "Accept" with the value of "application/json" so you won't get XML. (except if you want XML :-) ) (the authentication stuff always returns JSON)
-
-you can do sample requests using curl, for example:
+ - you can do sample requests using curl, for example:
 
 ```bash
 curl http://example.com/user/blah?active=true&limit=3 -d "key=value&otherkey=value" -H "AHeader: Value"
@@ -64,243 +61,20 @@ When there is a value that is unique to you (like username, password, or token),
 
 I don't recommend using curl in your programming language, except for PHP but even there it's a pain. There are much better libraries.
 
-<details>
-  <summary>A list of libraries for your language </summary>
-   JavaScript: [window.fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch)
+<details><summary>A list of libraries for your language </summary>  
 
-NodeJS: [node-fetch](https://github.com/bitinn/node-fetch), [HTTP from stdlib](https://nodejs.org/api/http.html), [Request](https://github.com/request/request), [Axios](https://github.com/axios/axios)
-
-Go: [net/http](https://golang.org/pkg/net/http/)
-
-Ruby: [Faraday](https://github.com/lostisland/faraday), [HTTParty](https://github.com/jnunemaker/httparty)
-
-Python: [requests](http://docs.python-requests.org/en/master/)
+JavaScript: [window.fetch](https://developers.google.com/web/updates/2015/03/introduction-to-fetch)<br>
+NodeJS: [node-fetch](https://github.com/bitinn/node-fetch), [HTTP from stdlib](https://nodejs.org/api/http.html), [Request](https://github.com/request/request), [Axios](https://github.com/axios/axios)<br>
+Go: [net/http](https://golang.org/pkg/net/http/)<br>
+Ruby: [Faraday](https://github.com/lostisland/faraday), [HTTParty](https://github.com/jnunemaker/httparty)<br>
+Python: [requests](http://docs.python-requests.org/en/master/)<br>
 
 Please add more if you know more.
 
 </details>
 
-## SOMtoday metadata
 
-### Getting a list of schools: `GET https://servers.somtoday.nl/organisaties.json`
 
-Returns an array of schools
-
-```json
-[
-  {
-    "instellingen": [
-      {
-        "uuid": "099ce144-c400-4468-95d4-ad36f9f5cb5c",
-        "naam": "Etty Hillesum Lyceum",
-        "plaats": "DEVENTER"
-      },
-      {
-        "uuid": "ee8c456e-a227-4b7f-bb33-8601147d3264",
-        "naam": "Scholengemeenschap Marianum",
-        "plaats": "GROENLO"
-      },
-      {
-        "uuid": "dda02c4c-82e5-42a7-a80d-bba133fd0430",
-        "naam": "R.-K. Sg. Canisius",
-        "plaats": "ALMELO"
-      },
-      ...
-    ]
-  }
-]
-```
-
-## Authentication / authorization
-
-baseurl: https://somtoday.nl
-
-All routes here are prefixed with that baseurl.
-
-### Fetching the access token via Somtoday login: `POST /oauth2/token`
-
-#### Parameters
-
-| Name       | Type | Value                                |
-|------------|------|--------------------------------------|
-| grant_type | Body | password                             |
-| username   | Body | [school uuid]\\[username]            |
-| password   | Body | [password]                           |
-| scope      | Body | openid                               |
-| client_id  | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
-
-**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
-
-#### Returns
-
-```json
-{
-  "access_token": "<REDACTED>",
-  "refresh_token": "<REDACTED>",
-  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
-  "scope": "openid",
-  "somtoday_tenant": "bonhoeffer",
-  "id_token": "<REDACTED>",
-  "token_type": "Bearer",
-  "expires_in": 3600
-}
-```
-
-The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
-
-token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
-
-#### Example
-
-```bash
-school_uuid='4213a402-b898-4d16-9ebb-8c5f02b57474' username='450000@live.bc-enschede.nl' password='MYSECRETPASSWORD123'
-curl "https://somtoday.nl/oauth2/token" -d "grant_type=password&username=$school_uuid\\$username&password=$password&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
-```
-
-**Note: We use `\\` here, because `\` is normally used to escape things like quotes (e.g. `\"`) (and only bash double quote strings can escape using `\`), so `\\` will translate to `\`, and you can just use `\` if you use single quotes**
-
-### Refreshing the token: `POST /oauth2/token`
-
-#### Parameters
-
-| Name          | Type | Value                                |
-|---------------|------|--------------------------------------|
-| grant_type    | Body | refresh_token                        |
-| refresh_token | Body | [refresh_token]                      |
-| client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
-| client_secret | Body | vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX     |
-
-**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
-
-You get the `refresh_token` when you fetch the access token with the username and password.
-
-#### Returns
-
-```json
-{
-  "access_token": "<REDACTED>",
-  "refresh_token": "<REDACTED>",
-  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
-  "scope": "openid",
-  "somtoday_tenant": "bonhoeffer",
-  "id_token": "<REDACTED>",
-  "token_type": "Bearer",
-  "expires_in": 3600
-}
-```
-
-The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
-
-token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
-
-#### Example
-
-This example uses the `client_id` and `client_secret` in body method of authorization.
-
-```bash
-token='<REDACTED>'
-curl "https://somtoday.nl/oauth2/token" -d "grant_type=refresh_token&refresh_token=$token&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&client_secret=vDdWdKwPNaPCyhCDhaCnNeydyLxSGNJX"
-```
-### Fetching the access token via SSO: `POST /oauth2/token`
-
-#### Parameters
-
-| Name          | Type | Value                                |
-|---------------|------|--------------------------------------|
-| grant_type    | Body | authorization_code                   |
-| redirect_uri  | Body | [redirect_uri]                       |
-| code_verifier | Body | [code_verifier]                      |
-| code          | Body | [code]                               |
-| scope         | Body | openid                               |
-| client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
-
-`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of a few specified values. An example is: `somtodayleerling://oauth/callback`)
-`code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
-`code` is the code that has been send to the redirect uri. it is a JWT token (5 base64 url encoded blocks sepperated by '.')
-
-#### Returns
-
-```json
-{
-  "access_token": "<REDACTED>",
-  "refresh_token": "<REDACTED>",
-  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
-  "scope": "openid",
-  "somtoday_tenant": "bonhoeffer",
-  "id_token": "<REDACTED>",
-  "token_type": "Bearer",
-  "expires_in": 3600
-}
-```
-
-The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
-
-token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
-
-#### Example
-
-```bash
-redirect_uri='somtodayleerling://oauth/callback' code_verifier='SOME_BASE64_CODE' code='SOME_TOKEN'
-curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redirect_uri=$redirect_uri&code_verifier=$code_verifier&code=$code&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
-```
-
-#### Code verifier and challenge
-
-To generate the verifier you need to generate a random 32-byte url encoced base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
-
-```javascript
-// source: https://auth0.com/docs/authorization/flows/call-your-api-using-the-authorization-code-flow-with-pkce#create-code-challenge
-// Dependency: Node.js crypto module
-// https://nodejs.org/api/crypto.html#crypto_crypto
-function base64URLEncode(str) {
-    return str.toString('base64')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
-}
-var verifier = base64URLEncode(crypto.randomBytes(32));
-function sha256(buffer) {
-    return crypto.createHash('sha256').update(buffer).digest();
-}
-var challenge = base64URLEncode(sha256(verifier));
-console.log(verifier)
-console.log(challenge)
-```
-
-### The Url format
-
-The url that the client has to visit to get a login window is `https://somtoday.nl/oauth2/authorize`.
-These are the parameters:
-
-| Name                  | Type | Value                                |
-|-----------------------|------|--------------------------------------|
-| response_type         | Body | code                                 |
-| redirect_uri          | Body | [uri]                                |
-| code_challenge        | Body | [code_challenge]                     |
-| tenant_uuid           | Body | [tenant_uuid]                        |
-| oidc_iss              | Body | [oidc_iss]                           |
-| code_challenge_method | Body | [code_challenge_method]              |
-| (state)               | Body | [custom_state]                       |
-| prompt                | Body | login                                |
-| scope                 | Body | openid                               |
-| client_id             | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
-
-`uri` and `code_challenge` have been described already.
-`tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
-`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
-`state` is an optional parameter.
-`custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
-
-After the user has logged in the page will redirect to the `uri` with these paramaters
-
-| Name    | Type | Value               |
-|---------|------|---------------------|
-| code    | Body | [code]              |
-| (state) | Body | [custom_state]      |
-| iss     | Body | https://somtoday.nl |
-
-`custom_state` is the previously defined value.
-`code` has already been described
 
 ## Fetching information
 
@@ -1545,11 +1319,6 @@ You can either provide a date range or a single date. If you provide a single da
 
 ---
 
-### Homework
-
-See [the homework folder](homework/README.md)
-
----
 
 ### Undocumented:
 

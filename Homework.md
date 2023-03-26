@@ -26,7 +26,7 @@
 There are 3 different types of homework in Somtoday. In picture below you can see how they look on the website.
 For each kind of homework you can request a specific homework item by adding `/[id]` behind it, with the id from `links[0].id`. You could also use the link from `links[0].href`
 
-![Homework Types](../pics/homework-types.png)
+![Homework Types](/pics/homework-types.png)
 
 ## Fetching Homework
 
