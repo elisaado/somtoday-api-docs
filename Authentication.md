@@ -1,4 +1,4 @@
-This guide is a step-by-step tutorial on how to authenticate mimicking the SOMToday app/webapp with Somtoday. It explains the details of the parameters you need to get an access token, how to generate a code challenge, and how to submit the authorization code and login credentials to Somtoday. If you prefer to use a different guide for fetching the access token via SOMtoday login, you have that option too. Moreover, this guide also covers how to retrieve information about your school, such as their name, UUID, and location. Plus, it teaches you how to refresh the access token you obtained during the authentication process by using the POST /oauth2/token endpoint.
+This guide is a step-by-step tutorial on how to authenticate mimicking the SOMToday app/webapp with Somtoday. It explains the details of the parameters you need to get an access token, how to generate a code challenge, and how to submit the authorization code and login credentials to Somtoday. If you prefer to use a different guide for fetching the access token via SOMtoday login or via SSO, you have that option too. Moreover, this page also covers how to retrieve information about your school, such as their name, UUID, and location. Plus, it gives you information on how to refresh the access token you obtained during the authentication process by using the POST /oauth2/token endpoint.
 
 ---
 ## Getting a list of schools
@@ -111,11 +111,19 @@ The GenerateNonce() function generates a 128-character string composed of lowerc
 
 The GenerateCodeChallenge() function first creates a SHA256 hash of the codeVerifier string using the SHA256.Create() method, and then encodes it as a base64 string using Convert.ToBase64String(). The resulting string is then modified to be safe for use in a URL by replacing certain characters with URL-safe equivalents using regular expressions.
 
+When you're finished generating the link, it will look something like this: <br> 
+`https://inloggen.somtoday.nl/oauth2/authorize?redirect_uri=somtodayleerling://oauth/callback&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&response_type=code&state=[8 random characters]&scope=openid&tenant_uuid=[UUID of the school]&session=no_session&code_challenge=[code challenge]k&code_challenge_method=S256`<br><br>
+
+You are able to send the user to that generated link. They will see the usual SOMtoday login screen and will need to log into their account. When SOMtoday has authenticated them, SOMtoday will redirect them to a callback, which will look something like this:<br>
+`somtodayleerling://oauth:443/callback?code=eyJ6aXAiOiJERUYiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....&iss=https://somtoday.nl&state=[8 random characters, same as first URL]`<br>
+The `code` parameter is the access token that you are looking for.
 #### Returns
+Either one of the two options below, depending on your previous step.
 
-This will return a redirect (HTTP 302), which will redirect the user. You need to intercept that redirect url and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `authorization_code`.
+This will return a redirect (HTTP 302), which will redirect the user. You need to intercept that redirect url and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `authorization_code`. <br><br>
 
-
+A callback URL which will look something like this, the `code` parameter is the access_token that you are looking for.<br>
+`somtodayleerling://oauth:443/callback?code=eyJ6aXAiOiJERUYiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....&iss=https://somtoday.nl&state=[8 random charters, same as first URL]`
 
 ### Step 2: Telling SOMToday who you are: `POST https://inloggen.somtoday.nl/?-1.-panel-signInForm`
 
@@ -192,6 +200,112 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
   "expires_in": 3600
 }
 ```
+</details>
+
+## Authentication using SSO (single sign on)
+<details><summary>Click to open the guide for authentication using SSO</summary>
+
+### Fetching the access token via SSO: `POST /oauth2/token`
+
+#### Parameters
+
+| Name          | Type | Value                                |
+|---------------|------|--------------------------------------|
+| grant_type    | Body | authorization_code                   |
+| redirect_uri  | Body | [redirect_uri]                       |
+| code_verifier | Body | [code_verifier]                      |
+| code          | Body | [code]                               |
+| scope         | Body | openid                               |
+| client_id     | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of a few specified values. An example is: `somtodayleerling://oauth/callback`)
+`code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
+`code` is the code that has been send to the redirect uri. it is a JWT token (5 base64 url encoded blocks sepperated by '.')
+
+#### Returns
+
+```json
+{
+  "access_token": "<REDACTED>",
+  "refresh_token": "<REDACTED>",
+  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
+  "scope": "openid",
+  "somtoday_tenant": "bonhoeffer",
+  "id_token": "<REDACTED>",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+The `somtoday_api_url` is used for all non-authentication requests, like for getting grades.
+
+token_type, scope and (probably) expires_in are always the same, the other values change depending on the user, and school (the tokens are of course randomly generated).
+
+#### Example
+
+```bash
+redirect_uri='somtodayleerling://oauth/callback' code_verifier='SOME_BASE64_CODE' code='SOME_TOKEN'
+curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redirect_uri=$redirect_uri&code_verifier=$code_verifier&code=$code&scope=openid&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2"
+```
+
+#### Code verifier and challenge
+
+To generate the verifier you need to generate a random 32-byte url encoced base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
+
+```javascript
+// source: https://auth0.com/docs/authorization/flows/call-your-api-using-the-authorization-code-flow-with-pkce#create-code-challenge
+// Dependency: Node.js crypto module
+// https://nodejs.org/api/crypto.html#crypto_crypto
+function base64URLEncode(str) {
+    return str.toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+}
+var verifier = base64URLEncode(crypto.randomBytes(32));
+function sha256(buffer) {
+    return crypto.createHash('sha256').update(buffer).digest();
+}
+var challenge = base64URLEncode(sha256(verifier));
+console.log(verifier)
+console.log(challenge)
+```
+
+### The Url format
+
+The url that the client has to visit to get a login window is `https://somtoday.nl/oauth2/authorize`.
+These are the parameters:
+
+| Name                  | Type | Value                                |
+|-----------------------|------|--------------------------------------|
+| response_type         | Body | code                                 |
+| redirect_uri          | Body | [uri]                                |
+| code_challenge        | Body | [code_challenge]                     |
+| tenant_uuid           | Body | [tenant_uuid]                        |
+| oidc_iss              | Body | [oidc_iss]                           |
+| code_challenge_method | Body | [code_challenge_method]              |
+| (state)               | Body | [custom_state]                       |
+| prompt                | Body | login                                |
+| scope                 | Body | openid                               |
+| client_id             | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+
+`uri` and `code_challenge` have been described already.
+`tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
+`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
+`state` is an optional parameter.
+`custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
+
+After the user has logged in the page will redirect to the `uri` with these paramaters
+
+| Name    | Type | Value               |
+|---------|------|---------------------|
+| code    | Body | [code]              |
+| (state) | Body | [custom_state]      |
+| iss     | Body | https://somtoday.nl |
+
+`custom_state` is the previously defined value.
+`code` has already been described
+
 </details>
 
 ## Fetching the access token via SOMtoday login
