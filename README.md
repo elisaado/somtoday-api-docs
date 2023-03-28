@@ -36,8 +36,9 @@
 <!-- /TOC -->
 
 ## Some miscellaneous stuff
+<details><summary>Click to open miscellaneous stuff</summary>
 
- - Endpoint for authentication: https://somtoday.nl
+
  - Endpoint for the API is returned when you fetch the access token
  - Always include the header "Accept" with the value of "application/json" so you won't get XML. (except if you want XML :-) ) (the authentication stuff always returns JSON)<br><br>
 
@@ -74,8 +75,7 @@ Please add more if you know more.
 
 </details>
 
-
-
+</details>
 
 ## Fetching information
 
@@ -84,6 +84,7 @@ baseurl: returned when you fetch a token (`somtoday_api_url`), usually [lowercas
 All routes here are prefixed with that baseurl.
 
 ### Current student(s): `GET /rest/v1/leerlingen`
+<details><summary>Click to open</summary>
 
 This REST method might return multiple students (I cannot test), since it says /leerlingen (Dutch plural for student).
 
@@ -205,9 +206,10 @@ token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
 curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
----
+</details>
 
 ### Grades: `GET /rest/v1/resultaten/huidigVoorLeerling/[id]`
+<details><summary>Click to open</summary>
 
 Fetches the grades of the student. Note that all average grades are also grade items returned by the API. There are the different types of columns: the `type` property in the json (e.g. 'Toetskolom', 'ToetssoortGemiddeldeKolom').
 
@@ -332,9 +334,10 @@ These LowerBound and UpperBound values are the amount of grades you want to requ
 }
 ```
 
----
+</details>
 
 ### Schedule: `GET /rest/v1/afspraken`
+<details><summary>Click to open</summary>
 
 Fetch the appointments from the schedule of the student.
 
@@ -516,9 +519,10 @@ Fetch the appointments from the schedule of the student.
 curl "$school_url/rest/v1/afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen&additional=leerlingen&begindatum=2020-05-01&einddatum=2020-05-19" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
----
+</details>
 
 ### Absence Reports: `GET /rest/v1/absentiemeldingen`
+<details><summary>Click to open</summary>
 
 Fetches the absence reports of the user
 
@@ -610,8 +614,10 @@ Array of absance reports
   ]
 }
 ```
+</details>
 
 ### Study Guides: `GET /rest/v1/studiewijzers`
+<details><summary>Click to open</summary>
 
 Fetches the study guides for the user
 
@@ -839,7 +845,10 @@ Depending on the additional parameters, some of the items in the result may not 
 }
 ```
 
+</details>
+
 ### Subjects: `GET /rest/v1/vakken`
+<details><summary>Click to open</summary>
 
 Fetches the subjects for the user
 
@@ -885,9 +894,10 @@ Fetches the subjects for the user
 }
 ```
 
----
+</details>
 
 ### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]`
+<details><summary>Click to open</summary>
 
 Fetches information about the account that is connected with the Somtoday access token
 
@@ -965,9 +975,10 @@ There are some parameters seeing the 'additionalObjects' field, but I don't know
 }
 ```
 
----
+</details>
 
 ### Schooljaren: `GET /rest/v1/schooljaren` / `GET /rest/v1/schooljaren/[id]`
+<details><summary>Click to open</summary>
 
 Fetches information about a school year
 
@@ -1019,9 +1030,10 @@ When you want info about the current school year add /huidig to the url
 }
 ```
 
----
+</details>
 
 ### Vakkeuzes: `GET /rest/v1/vakkeuzes`
+<details><summary>Click to open</summary>
 
 Fetches all the subjects you are currently enrolled in.
 
@@ -1099,10 +1111,10 @@ Fetches all the subjects you are currently enrolled in.
 }
 ```
 
----
-
+</details>
 
 ### Waarnemingen: `GET /rest/v1/waarnemingen`
+<details><summary>Click to open</summary>
 
 Fetches all the waarnemingen currently tied to your account, filter them by date, isGeoorloofd and/or waarnemingSoort.
 
@@ -1318,8 +1330,7 @@ You can either provide a date range or a single date. If you provide a single da
 }
 ```
 
----
-
+</details>
 
 ### Undocumented:
 
