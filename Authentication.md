@@ -1,11 +1,29 @@
+# SOMtoday Authentication Docs
+
+---
+
 This guide is a step-by-step tutorial on how to authenticate mimicking the SOMToday app/webapp with Somtoday. It explains the details of the parameters you need to get an access token, how to generate a code challenge, and how to submit the authorization code and login credentials to Somtoday. If you prefer to use a different guide for fetching the access token via SOMtoday login or via SSO, you have that option too. Moreover, this page also covers how to retrieve information about your school, such as their name, UUID, and location. Plus, it gives you information on how to refresh the access token you obtained during the authentication process by using the POST /oauth2/token endpoint.
 
+
+---
+<!-- TOC -->
+
+- [SOMtoday Authentication Docs](#somtoday-authentication-docs)
+  - [Getting a list of schools](#getting-a-list-of-schools)
+  - [Authentication by mimicking the SOMToday app/webapp](#authentication-by-mimicking-the-somtoday-appwebapp)
+    - [Fetching the access token via Somtoday login](#step-1-fetching-the-access-token-via-somtoday-login-get-httpsinloggensomtodaynloauth2authorize)
+    - [Telling SOMToday who you are](#step-2-telling-somtoday-who-you-are-post-httpsinloggensomtodaynl-1-panel-signinform)
+    - [Telling SOMToday your password](#step-3-telling-somtoday-your-secret-code--post-httpsinloggensomtodaynllogin1-1-passwordform)
+    - [Telling SOMToday that you are done](#step-4-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
+  - [Authentication using SSO](#authentication-using-sso-single-sign-on)
+  - [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
+  - [Refreshing the access token](#refreshing-the-access-token-post-oauth2token)
 ---
 ## Getting a list of schools
 <details><summary>Click to open</summary>
 
 
-### Refreshing the access token `GET https://servers.somtoday.nl/organisaties.json`
+### Getting a list of schools `GET https://servers.somtoday.nl/organisaties.json`
 
 Each object in the "instellingen" array represents an school and contains three values. The first is it's "uuid", which is a unique identifier for the school. The second value is "naam", which represents the name of the school. The third value pair is "plaats", which represents the location of the school.
 

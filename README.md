@@ -31,6 +31,12 @@
     - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
   - [Homework](Homework.md)
+    - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
+    - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
+    - [3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`](Homework.md#3-homework-from-weeks-get-restv1studiewijzeritemweektoekenningen)<br><br>
+    - [1. Homework Made `PUT /rest/v1/swigemaakt/[id]`](Homework.md#1-homework-made-put-restv1swigemaaktid)
+    - [2. Homework Made `PUT /rest/v1/swigemaakt/cou`](Homework.md#2-homework-made-put-restv1swigemaaktcou)
+
 
 
 <!-- /TOC -->
