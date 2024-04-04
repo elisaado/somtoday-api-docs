@@ -22,15 +22,19 @@
 ---
 
 ## General Info
+<details><summary>Click to open</summary>
 
 There are 3 different types of homework in Somtoday. In picture below you can see how they look on the website.
 For each kind of homework you can request a specific homework item by adding `/[id]` behind it, with the id from `links[0].id`. You could also use the link from `links[0].href`
 
-![Homework Types](../pics/homework-types.png)
+![Homework Types](/pics/homework-types.png)
+
+</details>
 
 ## Fetching Homework
 
 ### 1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`
+<details><summary>Click to open</summary>
 
 Receives the homework from appointments after a specified date
 
@@ -286,9 +290,11 @@ Receives the homework from appointments after a specified date
 }
 ```
 
----
+</details>
 
 ### 2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`
+<details><summary>Click to open</summary>
+
 
 Receives the homework from days after a specified date.
 
@@ -540,9 +546,10 @@ Receives the homework from days after a specified date.
 }
 ```
 
----
+</details>
 
 ### 3. Homework from weeks: `GET /rest/v1/studiewijzeritemweektoekenningen`
+<details><summary>Click to open</summary>
 
 Receives the homework from weeks after a specified date.
 
@@ -753,11 +760,12 @@ Receives the homework from weeks after a specified date.
 }
 ```
 
----
+</details>
 
 ## Updating information
 
 ### 1. Homework Made `PUT /rest/v1/swigemaakt/[id]`
+<details><summary>Click to open</summary>
 
 Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object
 
@@ -847,7 +855,10 @@ The now changed `studiewijzer.RSWIGemaakt` Object
 }
 ```
 
+</details>
+
 ### 2. Homework Made `PUT /rest/v1/swigemaakt/cou`
+<details><summary>Click to open</summary>
 
 Updates the the `gemaakt` status of a `studiewijzer.RSWIGemaakt` object without knowing the id
 
@@ -938,5 +949,4 @@ The now changed or created `studiewijzer.RSWIGemaakt` Object
 }
 ```
 
-
-
+</details>
