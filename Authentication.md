@@ -69,7 +69,9 @@ In addition to these properties, each school can also have an array of "oidcurls
 ## Authentication by mimicking the SOMToday app/webapp
 <details><summary>Click to open the guide for authentication by mimicking SOMToday</summary>
 
-If you rather have a Postman example, you van view it here, but I recommend to still read through the documentation for the best understanding of the authentication process: [Postman Collection for SOMToday API](https://documenter.getpostman.com/view/19370875/2sA35Mzedp)
+If you rather have a Postman example, you van view it here, but I recommend to still read through the documentation for the best understanding of the authentication process: 
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://www.postman.com/red-equinox-452973/workspace/public-workspace/collection/19370875-46472ea9-9786-4cc0-87e0-f1f144f976cb?action=share&creator=19370875)
 
 ### Step 1: Fetching the access token via Somtoday login: `GET https://inloggen.somtoday.nl/oauth2/authorize`
 
