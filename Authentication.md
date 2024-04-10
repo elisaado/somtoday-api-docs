@@ -12,8 +12,8 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
   - [Getting a list of schools](#getting-a-list-of-schools)
   - [Authentication by mimicking the SOMToday app/webapp](#authentication-by-mimicking-the-somtoday-appwebapp)
     - [Fetching the access token via Somtoday login](#step-1-fetching-the-access-token-via-somtoday-login-get-httpsinloggensomtodaynloauth2authorize)
-    - [Telling SOMToday who you are](#step-2-telling-somtoday-who-you-are-post-httpsinloggensomtodaynl-1-panel-signinform)
-    - [Telling SOMToday your password](#step-3-telling-somtoday-your-secret-code--post-httpsinloggensomtodaynllogin1-1-passwordform)
+    - [Telling SOMToday who you are](#step-2-telling-somtoday-who-you-are-post-httpsinloggensomtodaynl0-1-panel-signinform)
+    - [Telling SOMToday your password](#step-3-telling-somtoday-your-secret-code--post-httpsinloggensomtodaynllogin2-1-passwordform)
     - [Telling SOMToday that you are done](#step-4-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
   - [Authentication using SSO](#authentication-using-sso-single-sign-on)
   - [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
@@ -25,9 +25,9 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
 
 ### Getting a list of schools `GET https://servers.somtoday.nl/organisaties.json`
 
-Each object in the "instellingen" array represents an school and contains three values. The first is it's "uuid", which is a unique identifier for the school. The second value is "naam", which represents the name of the school. The third value pair is "plaats", which represents the location of the school.
+Each object in the "instellingen" array represents a school and contains three values. The first is it's "uuid", which is a unique identifier for the school. The second value is "naam", which represents the name of the school. The third value pair is "plaats", which represents the location of the school.
 
-In addition to these properties, each school can also have an array of "oidcurls" (Object Identifier Uniform Resource Locators). This array contains objects with three values: "omschrijving", "url", and "domain_hint". These properties provide additional information about the school's authentication systems (which are used when the school uses, for example, microsoft to authenticate it's students).
+In addition to these properties, each school can also have an array of "oidcurls" (Object Identifier Uniform Resource Locators). This array contains objects with three values: "omschrijving", "url", and "domain_hint". These properties provide additional information about the school's authentication systems (which are used when the school uses, for example, microsoft to authenticate its students).
 
 #### Returns
 ```json
@@ -69,10 +69,13 @@ In addition to these properties, each school can also have an array of "oidcurls
 ## Authentication by mimicking the SOMToday app/webapp
 <details><summary>Click to open the guide for authentication by mimicking SOMToday</summary>
 
+If you rather have a Postman example, you van view it here, but I recommend to still read through the documentation for the best understanding of the authentication process: 
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://www.postman.com/red-equinox-452973/workspace/public-workspace/collection/19370875-46472ea9-9786-4cc0-87e0-f1f144f976cb?action=share&creator=19370875)
+
 ### Step 1: Fetching the access token via Somtoday login: `GET https://inloggen.somtoday.nl/oauth2/authorize`
 
 #### Parameters
-
 | Name                  | Type      | Value                                |
 |-----------------------|-----------|--------------------------------------|
 | redirect_uri          | Parameter | somtodayleerling://oauth/callback    |
@@ -85,11 +88,11 @@ In addition to these properties, each school can also have an array of "oidcurls
 | code_challenge        | Parameter | [code_challenge]                     |
 | code_challenge_method | Parameter | S256                                 |
 
-`redirect_uri`: This parameter is the URL that the user will be redirected to after authentication is completed. In this case, it's `somtodayleerling://oauth/callback`, which is a custom URI scheme that will launch the Somtoday Leerling app (or any other app that has this deeplink registered) on the user's device. I suspect that `somtodayouder://oauth/callback` will also work, since SOMToday has an parent version of thier app, but I'm not sure!
+`redirect_uri`: This parameter is the URL that the user will be redirected to after authentication is completed. In this case, it's `somtodayleerling://oauth/callback`, which is a custom URI scheme that will launch the Somtoday Leerling app (or any other app that has this deeplink registered) on the user's device. I suspect that `somtodayouder://oauth/callback` will also work, since SOMToday has a parent version of their app, but I'm not sure!
 
 `state`: This parameter is used by the client to maintain state between the request and the callback. In this case, it's a randomly generated string of 8 characters.
 
-`tenant_uuid`: This is a unique identifier for the used by SOMtoday to identify you as part of an school. This value can be found in the `uuid` property of the school object in the list of schools. This was explained above.
+`tenant_uuid`: This is a unique identifier for the used by SOMtoday to identify you as part of a school. This value can be found in the `uuid` property of the school object in the list of schools. This was explained above.
 
 `code_challenge`: This parameter is used to prevent replay attacks by generating a unique value that is used to verify the client's identity when exchanging the authorization code for an access token.
 
@@ -129,30 +132,39 @@ The GenerateNonce() function generates a 128-character string composed of lowerc
 
 The GenerateCodeChallenge() function first creates a SHA256 hash of the codeVerifier string using the SHA256.Create() method, and then encodes it as a base64 string using Convert.ToBase64String(). The resulting string is then modified to be safe for use in a URL by replacing certain characters with URL-safe equivalents using regular expressions.
 
-When you're finished generating the link, it will look something like this: <br> 
+When you're finished generating the link, it will look something like this: <br>
 `https://inloggen.somtoday.nl/oauth2/authorize?redirect_uri=somtodayleerling://oauth/callback&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&response_type=code&state=[8 random characters]&scope=openid&tenant_uuid=[UUID of the school]&session=no_session&code_challenge=[code challenge]k&code_challenge_method=S256`<br><br>
 
 You are able to send the user to that generated link. They will see the usual SOMtoday login screen and will need to log into their account. When SOMtoday has authenticated them, SOMtoday will redirect them to a callback, which will look something like this:<br>
 `somtodayleerling://oauth:443/callback?code=eyJ6aXAiOiJERUYiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....&iss=https://somtoday.nl&state=[8 random characters, same as first URL]`<br>
-The `code` parameter is the access token that you are looking for.
+The `code` parameter is the access token that you are looking for. But this is only handy when working with native apps (like the SOMtoday app). The 'url' above is a deeplink that will open an installed app, hence the `somtodayleerling://` scheme. You can use this to open the SOMtoday app (or any apps with the scheme registered) on the user's device, and the app will handle the rest of the authentication process. <br><br>
 #### Returns
-Either one of the two options below, depending on your previous step.
-
 This will return a redirect (HTTP 302), which will redirect the user. You need to intercept that redirect url and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `authorization_code`. <br><br>
+You also need to save the following cookie: 'production-authenticator-stickiness' which is a cookie value that is used to keep the user logged in. This cookie is used in the next steps of the authentication process. It looks something like this: `"5929c2cf25fe1a95"`<br><br>
+And at last, you need to save the `location` header, which is the url that the user is redirected to. This url is used in the next steps of the authentication process. It looks something like this: `https://inloggen.somtoday.nl/?auth=`
 
-A callback URL which will look something like this, the `code` parameter is the access_token that you are looking for.<br>
-`somtodayleerling://oauth:443/callback?code=eyJ6aXAiOiJERUYiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....&iss=https://somtoday.nl&state=[8 random charters, same as first URL]`
+### Step 1.1: Getting a cookie (~~for santa~~): `GET https://inloggen.somtoday.nl/`
 
-### Step 2: Telling SOMToday who you are: `POST https://inloggen.somtoday.nl/?-1.-panel-signInForm`
+| Name                                | Type      | Value                                 |
+|-------------------------------------|-----------|---------------------------------------|
+| auth                                | Parameter | `authorization_code`                  |
+| production-authenticator-stickiness | cookie    | [production-authenticator-stickiness] |
+
+
+This will return another cookie that you need to save: `JSESSIONID`. To make sure you can save the cookie I recommend to disallow the HTTP request to follow redirects.
+
+### Step 2: Telling SOMToday who you are: `POST https://inloggen.somtoday.nl/?0-1.-panel-signInForm`
 
 #### Parameters
 
-| Name                                                     | Type      | Value                        |
-|----------------------------------------------------------|-----------|------------------------------|
-| auth                                                     | Parameter | `authorization_code`         |
-| loginLink                                                | body      | x                            |
-| usernameFieldPanel:usernameFieldPanel_body:usernameField | body      | [username]                   |
-| origin                                                   | header    | https://inloggen.somtoday.nl |
+| Name                                                     | Type      | Value                                 |
+|----------------------------------------------------------|-----------|---------------------------------------|
+| auth                                                     | Parameter | `authorization_code`                  |
+| loginLink                                                | body      | x                                     |
+| usernameFieldPanel:usernameFieldPanel_body:usernameField | body      | [username]                            |
+| origin                                                   | header    | https://inloggen.somtoday.nl          |
+| JSESSIONID                                               | cookie    | [JSESSIONID]                          |
+| production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
 
 `auth`: This is the authorization code that you got from the previous step.
 
@@ -163,16 +175,17 @@ This wil not return anything useful, you are sending your username to SOMToday, 
 
 
 
-### Step 3: Telling SOMToday your secret code ;): `POST https://inloggen.somtoday.nl/login?1-1.-passwordForm`
+### Step 3: Telling SOMToday your secret code ;): `POST https://inloggen.somtoday.nl/login?2-1.-passwordForm`
 
 #### Parameters
 
-| Name                                                     | Type      | Value                        |
-|----------------------------------------------------------|-----------|------------------------------|
-| auth                                                     | Parameter | `authorization_code`         |
-| loginLink                                                | body      | x                            |
-| passwordFieldPanel:passwordFieldPanel_body:passwordField | body      | [password]                   |
-| origin                                                   | header    | https://inloggen.somtoday.nl |
+| Name                                                     | Type      | Value                                 |
+|----------------------------------------------------------|-----------|---------------------------------------|
+| loginLink                                                | body      | x                                     |
+| passwordFieldPanel:passwordFieldPanel_body:passwordField | body      | [password]                            |
+| origin                                                   | header    | https://inloggen.somtoday.nl          |
+| JSESSIONID                                               | cookie    | [JSESSIONID]                          |
+| production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
 
 `auth`: This is the authorization code that you got from step 1.
 
@@ -198,7 +211,7 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
 | code                  | Parameter | `final_authorization_code`           |
 | code_verifier         | Parameter | [code_verifier]                      |
 
-`tentant_uuid`: This is a unique identifier for the used by SOMtoday to identify you as part of an school. This value can be found in the `uuid` property of the school object in the list of schools. This was explained above.
+`tentant_uuid`: This is a unique identifier for the used by SOMtoday to identify you as part of a school. This value can be found in the `uuid` property of the school object in the list of schools. This was explained above.
 
 `final_authorization_code`: This is the authorization code that you got from step 3.
 
@@ -238,7 +251,7 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
 
 `redirect_uri` is the link redirected to after the user logged in. (Must be the same as in the login link and one of a few specified values. An example is: `somtodayleerling://oauth/callback`)
 `code_verifier` is the string that was encoded and send in the login link. (Must be the same as in the login link when encoded using the method specified in the login link)
-`code` is the code that has been send to the redirect uri. it is a JWT token (5 base64 url encoded blocks sepperated by '.')
+`code` is the code that has been sent to the redirect uri. it is a JWT token (5 base64 url encoded blocks separated by '.')
 
 #### Returns
 
@@ -268,7 +281,7 @@ curl "https://somtoday.nl/oauth2/token" -d "grant_type=authorization_code&redire
 
 #### Code verifier and challenge
 
-To generate the verifier you need to generate a random 32-byte url encoced base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
+To generate the verifier you need to generate a random 32-byte url encoded base64 value and use some algorithm to encode it. I would advise to use sha256. Here is a node.js example.
 
 ```javascript
 // source: https://auth0.com/docs/authorization/flows/call-your-api-using-the-authorization-code-flow-with-pkce#create-code-challenge
@@ -309,11 +322,11 @@ These are the parameters:
 
 `uri` and `code_challenge` have been described already.
 `tenant_uuid` and `oidc_iss` can be found in the organisaties.json inside oidcurls
-`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' wich stands for Sha256.
+`code_challenge_method` is the method used to encode the `code_verifier`. It is highly advised to use 'S256' which stands for Sha256.
 `state` is an optional parameter.
 `custom_state` will be included in the callback and can be used for identification while fetching multiple tokens.
 
-After the user has logged in the page will redirect to the `uri` with these paramaters
+After the user has logged in the page will redirect to the `uri` with these parameters
 
 | Name    | Type | Value               |
 |---------|------|---------------------|
@@ -343,7 +356,7 @@ All routes here are prefixed with the base url: `https://somtoday.nl`
 | scope      | Body | openid                               |
 | client_id  | Body | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
 
-**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
+**Note: Since April 1st of 2021, SOMToday started using a different OAuth2 implementation in their app (SSO). The requests used to contain a `client_secret`, along with the `client_id`, currently, only the `client_id` is needed. The documentation has been adapted accordingly. Thanks to everyone on Discord for giving me a heads-up about this problem, and special thanks to @jktechs for figuring out that omitting the `client_secret` makes it work again.**
 
 #### Returns
 
