@@ -1424,7 +1424,7 @@ Fetches info about the school, including your mentor.
 
 </details>
 
-### Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak[uuid]`
+### Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]`
 <details><summary>Click to open</summary>
 
 Fetches all studiemateriaal.
