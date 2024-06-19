@@ -30,6 +30,9 @@
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
     - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
+    - [Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens`](#schoolgegevens-get-restv1idschoolgegevens)
+    - [Vakanties: `GET /rest/v1/vakanties/leerling/[id]`](#vakanties-get-restv1vakantiesleerlingid)
+    - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET /rest/v1/vakken/studiemateriaal/[id]/vak[uuid]`]()
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
@@ -1333,6 +1336,306 @@ You can either provide a date range or a single date. If you provide a single da
     },
     ...
   ]
+}
+```
+</details>
+
+### Schoolgegevens: `GET /rest/v1/[id]/schoolgegevens`
+<details><summary>Click to open</summary>
+
+Fetches info about the school, including your mentor.
+
+#### Parameters
+
+| Name                       | Type      | Value                 |
+|----------------------------|-----------|-----------------------|
+| Authorization              | Header    | Bearer [access_token] |
+
+#### Returns
+
+```json
+{
+    "$type": "leerling.RLeerlingSchoolgegevens",
+    "instellingsnaam": "REDACTED",
+    "vestigingsnaam": "REDACTED",
+    "plaats": "REDACTED",
+    "straat": "REDACTED",
+    "postcode": "REDACTED",
+    "telefoonnummer": "REDACTED",
+    "email": "REDACTED",
+    "leerjaar": 99,
+    "mentoren": [
+        "REDACTED"
+    ]
+}
+```
+
+</details>
+
+### Vakanties: `GET /rest/v1/vakanties/leerling/[id]`
+<details><summary>Click to open</summary>
+
+Fetches info about the school, including your mentor.
+
+#### Parameters
+
+| Name                       | Type      | Value                 |
+|----------------------------|-----------|-----------------------|
+| Authorization              | Header    | Bearer [access_token] |
+
+#### Returns
+
+```json
+{
+    "items": [
+        {
+            "$type": "participatie.RVakantie",
+            "links": [
+                {
+                    "id": 123456789,
+                    "rel": "self",
+                    "type": "participatie.RVakantie",
+                    "href": "https://api.somtoday.nl/rest/v1/vakanties/123456789"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "participatie.RVakantie:READ:INSTANCE(123456789)",
+                    "type": "participatie.RVakantie",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(123456789)"
+                    ]
+                }
+            ],
+            "additionalObjects": {},
+            "naam": "Herfstvakantie",
+            "beginDatum": "2023-10-16T00:00:00.000+02:00",
+            "eindDatum": "2023-10-20T00:00:00.000+02:00"
+        },
+        ...
+    ]
+}
+```
+
+</details>
+
+### Studiemateriaal: `GET /rest/v1/vakanties/leerling/[id]` & `GET /rest/v1/vakanties/leerling/[id]/vak[uuid]`
+<details><summary>Click to open</summary>
+
+Fetches all studiemateriaal.
+
+First, make a request to `GET /rest/v1/vakanties/leerling/[id]`. And then to `GET /rest/v1/vakanties/leerling/[id]/vak[uuid]` with the UUID. 
+
+#### Parameters
+
+| Name                       | Type      | Value                 |
+|----------------------------|-----------|-----------------------|
+| Authorization              | Header    | Bearer [access_token] |
+
+#### Returns
+
+`GET /rest/v1/vakanties/leerling/[id]` returns:
+
+```json
+{
+    "items": [
+        {
+            "$type": "onderwijsinrichting.RVak",
+            "links": [
+                {
+                    "id": ,
+                    "rel": "self",
+                    "type": "onderwijsinrichting.RVak",
+                    "href": "https://api.somtoday.nl/rest/v1/vakken/123456789"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "onderwijsinrichting.RVak:READ:INSTANCE(123456789)",
+                    "type": "onderwijsinrichting.RVak",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(123456789)"
+                    ]
+                }
+            ],
+            "additionalObjects": {},
+            "afkorting": "ne",
+            "naam": "Nederlandse taal",
+            "UUID": "REDACTED"
+        },
+        ...
+    ]
+}
+```
+`GET /rest/v1/vakanties/leerling/[id]/vak[uuid]` returns:
+
+```json
+{
+    "$type": "studiewijzer.RStudieMateriaal",
+    "studiewijzer": {
+        "links": [
+            {
+                "id": 123456789,
+                "rel": "self",
+                "type": "studiewijzer.RStudiewijzer",
+                "href": "https://api.somtoday.nl/rest/v1/studiewijzers/123456789"
+            }
+        ],
+        "permissions": [
+            {
+                "full": "studiewijzer.RStudiewijzer:READ:INSTANCE(123456789)",
+                "type": "studiewijzer.RStudiewijzer",
+                "operations": [
+                    "READ"
+                ],
+                "instances": [
+                    "INSTANCE(123456789)"
+                ]
+            }
+        ],
+        "additionalObjects": {},
+        "uuid": "Redacted",
+        "naam": "Nederland",
+        "vestiging": {
+            "links": [
+                {
+                    "id": 123456789,
+                    "rel": "self",
+                    "type": "instelling.RVestiging",
+                    "href": "https://api.somtoday.nl/rest/v1/vestigingen/123456789"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "instelling.RVestiging:READ:INSTANCE(123456789)",
+                    "type": "instelling.RVestiging",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(123456789)"
+                    ]
+                }
+            ],
+            "additionalObjects": {},
+            "naam": "REDACTED",
+            "uuid": "REDACTED"
+        },
+        "lesgroep": {
+            "links": [
+                {
+                    "id": 123456789,
+                    "rel": "self",
+                    "type": "lesgroep.RLesgroep",
+                    "href": "https://api.somtoday.nl/rest/v1/lesgroepen/123456789"
+                }
+            ],
+            "permissions": [
+                {
+                    "full": "lesgroep.RLesgroep:READ:INSTANCE(123456789)",
+                    "type": "lesgroep.RLesgroep",
+                    "operations": [
+                        "READ"
+                    ],
+                    "instances": [
+                        "INSTANCE(123456789)"
+                    ]
+                }
+            ],
+            "additionalObjects": {},
+            "UUID": "REDACTED",
+            "naam": "REDACTED",
+            "omschrijving": "REDACTED",
+            "schooljaar": {
+                "$type": "onderwijsinrichting.RSchooljaar",
+                "links": [
+                    {
+                        "id": 12345689,
+                        "rel": "self",
+                        "type": "onderwijsinrichting.RSchooljaar",
+                        "href": "https://api.somtoday.nl/rest/v1/schooljaren/12345689"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "onderwijsinrichting.RSchooljaar:READ:INSTANCE(12345689)",
+                        "type": "onderwijsinrichting.RSchooljaar",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(12345689)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "2023/2024",
+                "vanafDatum": "2023-08-01",
+                "totDatum": "2024-07-31",
+                "isHuidig": true
+            },
+            "vak": {
+                "links": [
+                    {
+                        "id": 12345689,
+                        "rel": "self",
+                        "type": "onderwijsinrichting.RVak",
+                        "href": "https://api.somtoday.nl/rest/v1/vakken/12345689"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "onderwijsinrichting.RVak:READ:INSTANCE(12345689)",
+                        "type": "onderwijsinrichting.RVak",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(12345689)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "afkorting": "ne",
+                "naam": "Nederlandse taal",
+                "UUID": "REDACTED"
+            },
+            "heeftStamgroep": false,
+            "examendossierOndersteund": false,
+            "vestiging": {
+                "links": [
+                    {
+                        "id": 12345689,
+                        "rel": "self",
+                        "type": "instelling.RVestiging",
+                        "href": "https://api.somtoday.nl/rest/v1/vestigingen/12345689"
+                    }
+                ],
+                "permissions": [
+                    {
+                        "full": "instelling.RVestiging:READ:INSTANCE(12345689)",
+                        "type": "instelling.RVestiging",
+                        "operations": [
+                            "READ"
+                        ],
+                        "instances": [
+                            "INSTANCE(12345689)"
+                        ]
+                    }
+                ],
+                "additionalObjects": {},
+                "naam": "REDACTED",
+                "uuid": "REDACTED"
+            }
+        }
+    },
+    ...
 }
 ```
 
