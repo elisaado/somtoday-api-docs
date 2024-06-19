@@ -1476,7 +1476,7 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
     ]
 }
 ```
-`GET /rest/v1/vakken/studiemateriaal/[id]/vak[uuid]` returns:
+`GET /rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` returns:
 
 ```json
 {
