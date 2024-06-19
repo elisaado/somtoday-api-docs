@@ -1429,7 +1429,7 @@ Fetches info about the school, including your mentor.
 
 Fetches all studiemateriaal.
 
-First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to `/rest/v1/vakken/studiemateriaal/[id]/vak[uuid]` with the UUID. 
+First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to `/rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` with the UUID. 
 
 #### Parameters
 
