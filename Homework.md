@@ -40,13 +40,19 @@ Receives the homework from appointments after a specified date
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-|---------------|-----------|-----------------------|
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
-| additional    | Paramater | swigemaaktVinkjes     |
-| additional    | Paramater | leerlingen            |
-| additional    | Paramater | huiswerkgemaakt       |
-| Authorization | Header    | Bearer [access_token] |
+| Name                                             | Type      | Value                       |
+|--------------------------------------------------|-----------|-----------------------------|
+| begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)           |
+| jaarWeek                                         | Parameter | Date (yyyy~ww) (IE 2024~25) |
+| geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                        |
+| additional                                       | Paramater | swigemaaktVinkjes           |
+| additional                                       | Paramater | leerlingen                  |
+| additional                                       | Paramater | huiswerkgemaakt             |
+| additional                                       | Paramater | leerlingenMetInlevering     |
+| additional                                       | Paramater | lesgroep                    |
+| additional                                       | Paramater | leerlingProjectgroep        |
+| additional                                       | Paramater | studiewijzerId              |
+| Authorization                                    | Header    | Bearer [access_token]       |
 
 #### Returns
 
@@ -184,6 +190,59 @@ Receives the homework from appointments after a specified date
               "achternaam": "NAME"
             }
           ]
+        },
+        "lesgroep": {
+          "links": [
+            {
+              "id": 12345678901,
+              "rel": "self",
+              "type": "lesgroep.RLesgroep",
+              "href": "{{api_url}}/rest/v1/lesgroepen/12345678901"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+          "naam": "6entl4",
+          "schooljaar": {
+            "$type": "onderwijsinrichting.RSchooljaar",
+            "links": [
+              {
+                "id": 12345678,
+                "rel": "self",
+                "type": "onderwijsinrichting.RSchooljaar",
+                "href": "{{api_url}}/rest/v1/schooljaren/12345678"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "naam": "2020/2021",
+            "vanafDatum": "2020-08-01",
+            "totDatum": "2021-07-31",
+            "isHuidig": true
+          },
+          "vak": {
+            "links": [
+              {
+                "id": 12345678901,
+                "rel": "self",
+                "type": "onderwijsinrichting.RVak",
+                "href": "{{api_url}}/rest/v1/vakken/12345678901"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "afkorting": "entl",
+            "naam": "Engelse taal en literatuur"
+          },
+          "heeftStamgroep": true,
+          "examendossierOndersteund": true
+        },
+        "leerlingProjectgroep": {},
+        "studiewijzerId": 12345678901,
+        "leerlingenMetInlevering": {
+          "$type": "LongWrapper",
+          "values": []
         }
       },
       "studiewijzer": {
@@ -300,12 +359,19 @@ Receives the homework from days after a specified date.
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-|---------------|-----------|-----------------------|
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
-| additional    | Parameter | swigemaaktVinkjes     |
-| additional    | Parameter | leerlingen            |
-| Authorization | Header    | Bearer [access_token] |
+| Name                                             | Type      | Value                       |
+|--------------------------------------------------|-----------|-----------------------------|
+| begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)           |
+| jaarWeek                                         | Parameter | Date (yyyy~ww) (IE 2024~25) |
+| geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                        |
+| additional                                       | Paramater | swigemaaktVinkjes           |
+| additional                                       | Paramater | leerlingen                  |
+| additional                                       | Paramater | huiswerkgemaakt             |
+| additional                                       | Paramater | leerlingenMetInlevering     |
+| additional                                       | Paramater | lesgroep                    |
+| additional                                       | Paramater | leerlingProjectgroep        |
+| additional                                       | Paramater | studiewijzerId              |
+| Authorization                                    | Header    | Bearer [access_token]       |
 
 #### Returns
 
@@ -324,6 +390,7 @@ Receives the homework from days after a specified date.
       ],
       "permissions": [],
       "additionalObjects": {
+        "huiswerkgemaakt": null,
         "swigemaaktVinkjes": {
           "$type": "LinkableWrapper",
           "items": [
@@ -331,10 +398,10 @@ Receives the homework from days after a specified date.
               "$type": "studiewijzer.RSWIGemaakt",
               "links": [
                 {
-                  "id": 123456789012,
+                  "id": 1234567890123,
                   "rel": "self",
                   "type": "studiewijzer.RSWIGemaakt",
-                  "href": "{{api_url}}/rest/v1/swigemaakt/123456789012"
+                  "href": "{{api_url}}/rest/v1/swigemaakt/1234567890123"
                 }
               ],
               "permissions": [],
@@ -345,20 +412,20 @@ Receives the homework from days after a specified date.
                     "id": 1234567890,
                     "rel": "self",
                     "type": "leerling.RLeerlingPrimer",
-                    "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+                    "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234567890"
                   }
                 ],
                 "permissions": [],
                 "additionalObjects": {},
                 "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
-                "leerlingnummer": 100000,
-                "roepnaam": "Name",
-                "achternaam": "Name"
+                "leerlingnummer": 10000,
+                "roepnaam": "NAME",
+                "achternaam": "NAME"
               },
               "swiToekenning": {
                 "links": [
                   {
-                    "id": 123456789012,
+                    "id": 1234567890123,
                     "rel": "koppeling",
                     "type": "studiewijzer.RSWIToekenning"
                   }
@@ -375,8 +442,8 @@ Receives the homework from days after a specified date.
                   ],
                   "permissions": [],
                   "additionalObjects": {},
-                  "uuid": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
-                  "naam": "6entl4",
+                  "uuid": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
+                  "naam": "engels, leerjaar 6",
                   "vestiging": {
                     "links": [
                       {
@@ -394,10 +461,10 @@ Receives the homework from days after a specified date.
                 "studiewijzerItem": {
                   "links": [
                     {
-                      "id": 123456789012,
+                      "id": 1234567890123,
                       "rel": "self",
                       "type": "studiewijzer.RStudiewijzerItem",
-                      "href": "{{api_url}}/rest/v1/studiewijzeritems/123456789012"
+                      "href": "{{api_url}}/rest/v1/studiewijzeritems/1234567890123"
                     }
                   ],
                   "permissions": [],
@@ -414,7 +481,8 @@ Receives the homework from days after a specified date.
                   "tonen": true,
                   "notitieZichtbaarVoorLeerling": false
                 },
-                "sortering": 0
+                "sortering": 0,
+                "synchroniseertMet": "Leerjaar 6, periode 2"
               },
               "gemaakt": true
             }
@@ -427,20 +495,99 @@ Receives the homework from days after a specified date.
               "$type": "leerling.RLeerlingPrimer",
               "links": [
                 {
-                  "id": 1234567890,
+                  "id": 12345678901,
                   "rel": "self",
                   "type": "leerling.RLeerlingPrimer",
-                  "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+                  "href": "{{api_url}}/rest/v1/leerlingen/12345678901"
                 }
               ],
               "permissions": [],
               "additionalObjects": {},
-              "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
-              "leerlingnummer": 100000,
-              "roepnaam": "Name",
-              "achternaam": "Name"
+              "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
+              "leerlingnummer": 10000,
+              "roepnaam": "NAME",
+              "achternaam": "NAME"
             }
           ]
+        },
+        "lesgroep": {
+          "links": [
+            {
+              "id": 12345678901,
+              "rel": "self",
+              "type": "lesgroep.RLesgroep",
+              "href": "{{api_url}}/rest/v1/lesgroepen/12345678901"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+          "naam": "6entl4",
+          "schooljaar": {
+            "$type": "onderwijsinrichting.RSchooljaar",
+            "links": [
+              {
+                "id": 12345678,
+                "rel": "self",
+                "type": "onderwijsinrichting.RSchooljaar",
+                "href": "{{api_url}}/rest/v1/schooljaren/12345678"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "naam": "2020/2021",
+            "vanafDatum": "2020-08-01",
+            "totDatum": "2021-07-31",
+            "isHuidig": true
+          },
+          "vak": {
+            "links": [
+              {
+                "id": 12345678901,
+                "rel": "self",
+                "type": "onderwijsinrichting.RVak",
+                "href": "{{api_url}}/rest/v1/vakken/12345678901"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "afkorting": "entl",
+            "naam": "Engelse taal en literatuur"
+          },
+          "heeftStamgroep": true,
+          "examendossierOndersteund": true
+        },
+        "leerlingProjectgroep": {},
+        "studiewijzerId": 12345678901,
+        "leerlingenMetInlevering": {
+          "$type": "LongWrapper",
+          "values": []
+        }
+      },
+      "studiewijzer": {
+        "links": [
+          {
+            "id": 12345678901,
+            "rel": "koppeling",
+            "type": "studiewijzer.RAbstractStudiewijzer"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "uuid": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+        "naam": "6entl4",
+        "vestiging": {
+          "links": [
+            {
+              "id": 12345678901,
+              "rel": "self",
+              "type": "instelling.RVestiging",
+              "href": "{{api_url}}/rest/v1/vestigingen/12345678901"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "naam": "SchoolName"
         }
       },
       "studiewijzer": {
@@ -555,15 +702,19 @@ Receives the homework from weeks after a specified date.
 
 #### Parameters
 
-| Name          | Type      | Value                 |
-|---------------|-----------|-----------------------|
-| begintNaOfOp  | Parameter | Date (yyyy-MM-dd)     |
-| schooljaar    | Parameter | School Year ID        |
-| weeknummer    | Parameter | [number]              |
-| weeknummer    | Parameter | etc..                 |
-| additional    | Parameter | swigemaaktVinkjes     |
-| additional    | Parameter | leerlingen            |
-| Authorization | Header    | Bearer [access_token] |
+| Name                                             | Type      | Value                   |
+|--------------------------------------------------|-----------|-------------------------|
+| begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)       |
+| weeknummer                                       | Parameter | Number [1-52]           |
+| geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                    |
+| additional                                       | Paramater | swigemaaktVinkjes       |
+| additional                                       | Paramater | leerlingen              |
+| additional                                       | Paramater | huiswerkgemaakt         |
+| additional                                       | Paramater | leerlingenMetInlevering |
+| additional                                       | Paramater | lesgroep                |
+| additional                                       | Paramater | leerlingProjectgroep    |
+| additional                                       | Paramater | studiewijzerId          |
+| Authorization                                    | Header    | Bearer [access_token]   |
 
 #### Returns
 
@@ -582,6 +733,7 @@ Receives the homework from weeks after a specified date.
       ],
       "permissions": [],
       "additionalObjects": {
+        "huiswerkgemaakt": null,
         "swigemaaktVinkjes": {
           "$type": "LinkableWrapper",
           "items": [
@@ -589,10 +741,10 @@ Receives the homework from weeks after a specified date.
               "$type": "studiewijzer.RSWIGemaakt",
               "links": [
                 {
-                  "id": 123456789012,
+                  "id": 1234567890123,
                   "rel": "self",
                   "type": "studiewijzer.RSWIGemaakt",
-                  "href": "{{api_url}}/rest/v1/swigemaakt/123456789012"
+                  "href": "{{api_url}}/rest/v1/swigemaakt/1234567890123"
                 }
               ],
               "permissions": [],
@@ -603,20 +755,20 @@ Receives the homework from weeks after a specified date.
                     "id": 1234567890,
                     "rel": "self",
                     "type": "leerling.RLeerlingPrimer",
-                    "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+                    "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234567890"
                   }
                 ],
                 "permissions": [],
                 "additionalObjects": {},
-                "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
-                "leerlingnummer": 100000,
-                "roepnaam": "Name",
-                "achternaam": "Name"
+                "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+                "leerlingnummer": 10000,
+                "roepnaam": "NAME",
+                "achternaam": "NAME"
               },
               "swiToekenning": {
                 "links": [
                   {
-                    "id": 12345678901,
+                    "id": 1234567890123,
                     "rel": "koppeling",
                     "type": "studiewijzer.RSWIToekenning"
                   }
@@ -634,7 +786,7 @@ Receives the homework from weeks after a specified date.
                   "permissions": [],
                   "additionalObjects": {},
                   "uuid": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
-                  "naam": "Klas 6entl4",
+                  "naam": "engels, leerjaar 6",
                   "vestiging": {
                     "links": [
                       {
@@ -652,10 +804,10 @@ Receives the homework from weeks after a specified date.
                 "studiewijzerItem": {
                   "links": [
                     {
-                      "id": 12345678901,
+                      "id": 1234567890123,
                       "rel": "self",
                       "type": "studiewijzer.RStudiewijzerItem",
-                      "href": "{{api_url}}/rest/v1/studiewijzeritems/12345678901"
+                      "href": "{{api_url}}/rest/v1/studiewijzeritems/1234567890123"
                     }
                   ],
                   "permissions": [],
@@ -672,8 +824,8 @@ Receives the homework from weeks after a specified date.
                   "tonen": true,
                   "notitieZichtbaarVoorLeerling": false
                 },
-                "sortering": 1,
-                "synchroniseertMet": "Engels klas 6 periode 4"
+                "sortering": 0,
+                "synchroniseertMet": "Leerjaar 6, periode 2"
               },
               "gemaakt": true
             }
@@ -686,20 +838,99 @@ Receives the homework from weeks after a specified date.
               "$type": "leerling.RLeerlingPrimer",
               "links": [
                 {
-                  "id": 1234567890,
+                  "id": 12345678901,
                   "rel": "self",
                   "type": "leerling.RLeerlingPrimer",
-                  "href": "{{api_url}}/rest/v1/leerlingen/1234567890"
+                  "href": "{{api_url}}/rest/v1/leerlingen/12345678901"
                 }
               ],
               "permissions": [],
               "additionalObjects": {},
               "UUID": "12abc34e-12a3-1a2b-a1b2-1a2b34cd5e67",
-              "leerlingnummer": 100000,
-              "roepnaam": "Name",
-              "achternaam": "Name"
+              "leerlingnummer": 10000,
+              "roepnaam": "NAME",
+              "achternaam": "NAME"
             }
           ]
+        },
+        "lesgroep": {
+          "links": [
+            {
+              "id": 12345678901,
+              "rel": "self",
+              "type": "lesgroep.RLesgroep",
+              "href": "{{api_url}}/rest/v1/lesgroepen/12345678901"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "UUID": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+          "naam": "6entl4",
+          "schooljaar": {
+            "$type": "onderwijsinrichting.RSchooljaar",
+            "links": [
+              {
+                "id": 12345678,
+                "rel": "self",
+                "type": "onderwijsinrichting.RSchooljaar",
+                "href": "{{api_url}}/rest/v1/schooljaren/12345678"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "naam": "2020/2021",
+            "vanafDatum": "2020-08-01",
+            "totDatum": "2021-07-31",
+            "isHuidig": true
+          },
+          "vak": {
+            "links": [
+              {
+                "id": 12345678901,
+                "rel": "self",
+                "type": "onderwijsinrichting.RVak",
+                "href": "{{api_url}}/rest/v1/vakken/12345678901"
+              }
+            ],
+            "permissions": [],
+            "additionalObjects": {},
+            "afkorting": "entl",
+            "naam": "Engelse taal en literatuur"
+          },
+          "heeftStamgroep": true,
+          "examendossierOndersteund": true
+        },
+        "leerlingProjectgroep": {},
+        "studiewijzerId": 12345678901,
+        "leerlingenMetInlevering": {
+          "$type": "LongWrapper",
+          "values": []
+        }
+      },
+      "studiewijzer": {
+        "links": [
+          {
+            "id": 12345678901,
+            "rel": "koppeling",
+            "type": "studiewijzer.RAbstractStudiewijzer"
+          }
+        ],
+        "permissions": [],
+        "additionalObjects": {},
+        "uuid": "12abc34-12a3-1a2b-a1b2-1a2b34cd5e67",
+        "naam": "6entl4",
+        "vestiging": {
+          "links": [
+            {
+              "id": 12345678901,
+              "rel": "self",
+              "type": "instelling.RVestiging",
+              "href": "{{api_url}}/rest/v1/vestigingen/12345678901"
+            }
+          ],
+          "permissions": [],
+          "additionalObjects": {},
+          "naam": "SchoolName"
         }
       },
       "studiewijzer": {
