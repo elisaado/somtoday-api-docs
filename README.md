@@ -30,6 +30,7 @@
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
     - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
+    - [ICallander: `GET /rest/v1/icalendar`](#icalander-get-restv1icalendar)
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
@@ -1333,6 +1334,30 @@ You can either provide a date range or a single date. If you provide a single da
     },
     ...
   ]
+}
+```
+
+</details>
+
+### ICalander: `GET /rest/v1/icalendar`
+<details><summary>Click to open</summary>
+
+Fetches the icalander token.
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+
+#### Returns
+
+```json
+{
+    "links": [],
+    "permissions": [],
+    "additionalObjects": {},
+    "leerlingICalendarLink": "https://api.somtoday.nl/rest/v1/icalendar/stream/REDACTED"
 }
 ```
 
