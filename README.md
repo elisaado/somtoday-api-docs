@@ -902,19 +902,20 @@ Fetches the subjects for the user
 
 </details>
 
-### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]`
+### Account: `GET /rest/v1/account/` / `GET /rest/v1/account/[id]` / `GET /rest/v1/account/me`
 <details><summary>Click to open</summary>
 
 Fetches information about the account that is connected with the Somtoday access token
 
 #### Parameters
 
-| Name          | Type   | Value                 |
-|---------------|--------|-----------------------|
-| id            | URL    | [user-id]             |
-| Authorization | Header | Bearer [access_token] |
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| id            | URL       | [user-id]             |
+| Authorization | Header    | Bearer [access_token] |
+| additional    | Parameter | restricties           |
 
-There are some parameters seeing the 'additionalObjects' field, but I don't know what they are.
+
 #### Returns
 
 
@@ -944,7 +945,51 @@ There are some parameters seeing the 'additionalObjects' field, but I don't know
           ]
         }
       ],
-      "additionalObjects": {},
+      "additionalObjects": {
+        "restricties": {
+          "$type": "LinkableWrapper",
+          "items": [
+            {
+              "$type": "restricties.REloRestricties",
+              "links": [],
+              "permissions": [],
+              "additionalObjects": {},
+              "vestigingsId": REDACTED,
+              "leerlingId": REDACTED,
+              "mobieleAppAan": true,
+              "studiewijzerAan": true,
+              "berichtenVerzendenAan": false,
+              "leermiddelenAan": true,
+              "adviezenTokenAan": true,
+              "opmerkingRapportCijferTonenAan": true,
+              "periodeGemiddeldeTonenResultaatAan": true,
+              "rapportGemiddeldeTonenResultaatAan": true,
+              "rapportCijferTonenResultaatAan": true,
+              "toetssoortgemiddeldenAan": true,
+              "seResultaatAan": true,
+              "stamgroepLeerjaarAan": true,
+              "emailWijzigenAan": false,
+              "mobielWijzigenAan": false,
+              "wachtwoordWijzigenAan": true,
+              "absentiesBekijkenAan": true,
+              "absentieConstateringBekijkenAan": true,
+              "absentieMaatregelBekijkenAan": true,
+              "absentieMeldingBekijkenAan": true,
+              "berichtenBekijkenAan": true,
+              "cijfersBekijkenAan": true,
+              "huiswerkBekijkenAan": true,
+              "nieuwsBekijkenAan": true,
+              "pasfotoLeerlingTonenAan": true,
+              "pasfotoMedewerkerTonenAan": false,
+              "profielBekijkenAan": true,
+              "roosterBekijkenAan": true,
+              "roosterBeschikbaarIcalAan": true,
+              "vakkenBekijkenAan": true,
+              "lesurenVerbergenSettingAan": false
+            }
+          ]
+        }
+      },
       "gebruikersnaam": "[REDACTED]",
       "accountPermissions": [],
       "persoon": {
