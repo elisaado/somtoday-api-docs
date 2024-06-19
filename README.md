@@ -32,7 +32,7 @@
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens`](#schoolgegevens-get-restv1idschoolgegevens)
     - [Vakanties: `GET /rest/v1/vakanties/leerling/[id]`](#vakanties-get-restv1vakantiesleerlingid)
-    - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET /rest/v1/vakken/studiemateriaal/[id]/vak[uuid]`]()
+    - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET /rest/v1/vakken/studiemateriaal/[id]/vak[uuid]`](#studiemateriaal-get-restv1vakantiesleerlingid--get-restv1vakantiesleerlingidvakuuid)
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
