@@ -1422,12 +1422,12 @@ Fetches info about the school, including your mentor.
 
 </details>
 
-### Studiemateriaal: `GET /rest/v1/vakanties/leerling/[id]` & `GET /rest/v1/vakanties/leerling/[id]/vak[uuid]`
+### Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak[uuid]`
 <details><summary>Click to open</summary>
 
 Fetches all studiemateriaal.
 
-First, make a request to `GET /rest/v1/vakanties/leerling/[id]`. And then to `GET /rest/v1/vakanties/leerling/[id]/vak[uuid]` with the UUID. 
+First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to `/rest/v1/vakken/studiemateriaal/[id]/vak[uuid]` with the UUID. 
 
 #### Parameters
 
@@ -1437,7 +1437,7 @@ First, make a request to `GET /rest/v1/vakanties/leerling/[id]`. And then to `GE
 
 #### Returns
 
-`GET /rest/v1/vakanties/leerling/[id]` returns:
+`GET /rest/v1/vakken/studiemateriaal/[id]` returns:
 
 ```json
 {
@@ -1473,7 +1473,7 @@ First, make a request to `GET /rest/v1/vakanties/leerling/[id]`. And then to `GE
     ]
 }
 ```
-`GET /rest/v1/vakanties/leerling/[id]/vak[uuid]` returns:
+`GET /rest/v1/vakken/studiemateriaal/[id]/vak[uuid]` returns:
 
 ```json
 {
