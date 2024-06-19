@@ -1349,7 +1349,8 @@ Fetches info about the school, including your mentor.
 
 | Name                       | Type      | Value                 |
 |----------------------------|-----------|-----------------------|
-| Authorization              | Header    | Bearer [access_token] |
+| id            | URL    | [user id]             |
+| Authorization | Header | Bearer [access_token] |
 
 #### Returns
 
