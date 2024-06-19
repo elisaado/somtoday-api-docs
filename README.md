@@ -1435,7 +1435,8 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
 
 | Name                       | Type      | Value                 |
 |----------------------------|-----------|-----------------------|
-| Authorization              | Header    | Bearer [access_token] |
+| id            | URL    | [user id]             |
+| Authorization | Header | Bearer [access_token] |
 
 #### Returns
 
