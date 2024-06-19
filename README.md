@@ -32,7 +32,7 @@
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens`](#schoolgegevens-get-restv1idschoolgegevens)
     - [Vakanties: `GET /rest/v1/vakanties/leerling/[id]`](#vakanties-get-restv1vakantiesleerlingid)
-    - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET /rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]`](#studiemateriaal-get-restv1vakantiesleerlingid--get-restv1vakantiesleerlingidvakuuid)
+    - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET /rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]`](#studiemateriaal-get-restv1vakkenstudiemateriaalid--get-restv1vakkenstudiemateriaalidvakuuid--restv1studiemateriaalalgemeenid)
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
@@ -1392,8 +1392,8 @@ Fetches info about the school, including your mentor.
 
 #### Parameters
 
-| Name                       | Type      | Value                 |
-|----------------------------|-----------|-----------------------|
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
 | id            | URL    | [user id]             |
 | Authorization | Header | Bearer [access_token] |
 
@@ -1425,8 +1425,8 @@ Fetches info about the school, including your mentor.
 
 #### Parameters
 
-| Name                       | Type      | Value                 |
-|----------------------------|-----------|-----------------------|
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
 | id            | URL    | [user id]             |
 | Authorization | Header | Bearer [access_token] |
 
@@ -1469,17 +1469,17 @@ Fetches info about the school, including your mentor.
 
 </details>
 
-### Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]`
+### Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` & `/rest/v1/studiemateriaal/algemeen/[id]`
 <details><summary>Click to open</summary>
 
-Fetches all studiemateriaal.
+Fetches all studiemateriaal. (I.E. Annual supplements, online textbooks, etc.)
 
-First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to `/rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` with the UUID. 
+First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to `/rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` with the UUID of subject which studiemateriaal you want to fetch. 
 
 #### Parameters
 
-| Name                       | Type      | Value                 |
-|----------------------------|-----------|-----------------------|
+| Name          | Type   | Value                 |
+|---------------|--------|-----------------------|
 | id            | URL    | [user id]             |
 | Authorization | Header | Bearer [access_token] |
 
@@ -1494,7 +1494,7 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
             "$type": "onderwijsinrichting.RVak",
             "links": [
                 {
-                    "id": ,
+                    "id": 123456789,
                     "rel": "self",
                     "type": "onderwijsinrichting.RVak",
                     "href": "https://api.somtoday.nl/rest/v1/vakken/123456789"
@@ -1686,6 +1686,108 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
     ...
 }
 ```
+`GET /rest/v1/studiemateriaal/algemeen/[id]` returns:
+
+```json
+{
+  "items": [
+    {
+      "$type": "leermiddel.REduRoutePortalUserProduct",
+      "links": [
+        {
+          "id": 123456789,
+          "rel": "self",
+          "type": "leermiddel.REduRoutePortalUserProduct",
+          "href": "https://api.somtoday.nl/rest/v1/edurouteportaluserproduct/123456789"
+        }
+      ],
+      "permissions": [
+        {
+          "full": "leermiddel.REduRoutePortalUserProduct:READ:INSTANCE(123456789)",
+          "type": "leermiddel.REduRoutePortalUserProduct",
+          "operations": ["READ"],
+          "instances": ["INSTANCE(123456789)"]
+        }
+      ],
+      "additionalObjects": {},
+      "leerling": {
+        "$type": "leerling.RLeerlingPrimer",
+        "links": [
+          {
+            "id": 9496745174,
+            "rel": "self",
+            "type": "leerling.RLeerlingPrimer",
+            "href": "https://api.somtoday.nl/rest/v1/leerlingen/9496745174"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leerling.RLeerlingPrimer:READ:INSTANCE(9496745174)",
+            "type": "leerling.RLeerlingPrimer",
+            "operations": ["READ"],
+            "instances": ["INSTANCE(9496745174)"]
+          }
+        ],
+        "additionalObjects": {},
+        "UUID": "f8cf6f6c-c213-4526-8ba1-6a306cf724a4",
+        "leerlingnummer": 123456,
+        "roepnaam": "{{first_name}}",
+        "achternaam": "{{last_name}}"
+      },
+      "product": {
+        "$type": "leermiddel.REduRoutePortalProduct",
+        "links": [
+          {
+            "id": 1234567890123,
+            "rel": "self",
+            "type": "leermiddel.REduRoutePortalProduct",
+            "href": "https://api.somtoday.nl/rest/v1/edurouteportalproduct/1234567890123"
+          }
+        ],
+        "permissions": [
+          {
+            "full": "leermiddel.REduRoutePortalProduct:READ:INSTANCE(1234567890123)",
+            "type": "leermiddel.REduRoutePortalProduct",
+            "operations": ["READ"],
+            "instances": ["INSTANCE(1234567890123)"]
+          }
+        ],
+        "additionalObjects": {},
+        "title": "Chemie Overal ed 5.0 vwo 5 FLEX  boek + online",
+        "url": "https://toegang.noordhoff.nl/1234567890123",
+        "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "methodeInformatie": {
+          "$type": "leermiddel.RMethodeInformatie",
+          "links": [
+            {
+              "id": 1234567890123,
+              "rel": "self",
+              "type": "leermiddel.RMethodeInformatie",
+              "href": "https://api.somtoday.nl/rest/v1/methodeinformatie/1234567890123"
+            }
+          ],
+          "permissions": [
+            {
+              "full": "leermiddel.RMethodeInformatie:READ:INSTANCE(1234567890123)",
+              "type": "leermiddel.RMethodeInformatie",
+              "operations": ["READ"],
+              "instances": ["INSTANCE(1234567890123)"]
+            }
+          ],
+          "additionalObjects": {},
+          "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "dashboardMethodeNaam": "Chemie overal",
+          "methode": "Chemie overal",
+          "uitgever": "Noordhoff"
+        }
+      },
+      "UUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    ...
+  ]
+}
+
+```
 
 </details>
 
@@ -1696,3 +1798,5 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
 - `GET /rest/v1/leerlingadresseringen`
 - `GET /rest/v1/verzorgers/`
 - `GET /rest/v1/onderwijsopafstandperiodes/`
+- `GET /rest/v1/edurouteportaluserproduct/[id]`
+- `GET /rest/v1/methodeinformatie/[id]`
