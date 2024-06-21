@@ -32,7 +32,6 @@
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
     - [ICalendar: `GET /rest/v1/icalendar`](#icalendar-get-restv1icalendar)
     - [ICalendar: `DELETE /rest/v1/icalendar`](#icalendar-delete-restv1icalendar)
-    ```
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
