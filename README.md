@@ -1341,7 +1341,7 @@ You can either provide a date range or a single date. If you provide a single da
 
 </details>
 
-### ICalander: `GET /rest/v1/icalendar`
+### ICalendar: `GET /rest/v1/icalendar`
 <details><summary>Click to open</summary>
 
 Fetches the url to the icalendar stream.
