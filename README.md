@@ -33,6 +33,8 @@
     - [Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens`](#schoolgegevens-get-restv1idschoolgegevens)
     - [Vakanties: `GET /rest/v1/vakanties/leerling/[id]`](#vakanties-get-restv1vakantiesleerlingid)
     - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` & `/rest/v1/studiemateriaal/algemeen/[id]`](#studiemateriaal-get-restv1vakkenstudiemateriaalid--get-restv1vakkenstudiemateriaalidvakuuid--restv1studiemateriaalalgemeenid)
+    - [ICalendar: `GET /rest/v1/icalendar`](#icalendar-get-restv1icalendar)
+    - [ICalendar: `DELETE /rest/v1/icalendar`](#icalendar-delete-restv1icalendar)
   - [Homework](Homework.md)
     - [1. Homework from appointments: `GET /rest/v1/studiewijzeritemafspraaktoekenningen`](Homework.md#1-homework-from-appointments-get-restv1studiewijzeritemafspraaktoekenningen)
     - [2. Homework from days: `GET /rest/v1/studiewijzeritemdagtoekenningen`](Homework.md#2-homework-from-days-get-restv1studiewijzeritemdagtoekenningen)
@@ -1791,6 +1793,46 @@ First, make a request to `GET /rest/v1/vakken/studiemateriaal/[id]`. And then to
 
 </details>
 
+### ICalendar: `GET /rest/v1/icalendar`
+<details><summary>Click to open</summary>
+
+Fetches the url to the icalendar stream.
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+
+#### Returns
+
+```json
+{
+    "links": [],
+    "permissions": [],
+    "additionalObjects": {},
+    "leerlingICalendarLink": "https://api.somtoday.nl/rest/v1/icalendar/stream/REDACTED"
+}
+```
+
+</details>
+
+### ICalendar: `DELETE /rest/v1/icalendar`
+<details><summary>Click to open</summary>
+
+Deletes the currently active icalendar stream
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+
+#### Returns
+
+NONE
+
+</details>
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
