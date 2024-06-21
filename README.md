@@ -1365,6 +1365,22 @@ Fetches the icalander token.
 
 </details>
 
+### ICalendar: `DELETE /rest/v1/icalendar`
+<details><summary>Click to open</summary>
+
+Deletes the currently active icalendar stream
+
+#### Parameters
+
+| Name          | Type      | Value                 |
+|---------------|-----------|-----------------------|
+| Authorization | Header    | Bearer [access_token] |
+
+#### Returns
+
+NONE
+
+</details>
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
