@@ -45,13 +45,13 @@ Receives the homework from appointments after a specified date
 | begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)           |
 | jaarWeek                                         | Parameter | Date (yyyy~ww) (IE 2024~25) |
 | geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                        |
-| additional                                       | Paramater | swigemaaktVinkjes           |
-| additional                                       | Paramater | leerlingen                  |
-| additional                                       | Paramater | huiswerkgemaakt             |
-| additional                                       | Paramater | leerlingenMetInlevering     |
-| additional                                       | Paramater | lesgroep                    |
-| additional                                       | Paramater | leerlingProjectgroep        |
-| additional                                       | Paramater | studiewijzerId              |
+| additional                                       | Parameter | swigemaaktVinkjes           |
+| additional                                       | Parameter | leerlingen                  |
+| additional                                       | Parameter | huiswerkgemaakt             |
+| additional                                       | Parameter | leerlingenMetInlevering     |
+| additional                                       | Parameter | lesgroep                    |
+| additional                                       | Parameter | leerlingProjectgroep        |
+| additional                                       | Parameter | studiewijzerId              |
 | Authorization                                    | Header    | Bearer [access_token]       |
 
 #### Returns
@@ -364,13 +364,13 @@ Receives the homework from days after a specified date.
 | begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)           |
 | jaarWeek                                         | Parameter | Date (yyyy~ww) (IE 2024~25) |
 | geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                        |
-| additional                                       | Paramater | swigemaaktVinkjes           |
-| additional                                       | Paramater | leerlingen                  |
-| additional                                       | Paramater | huiswerkgemaakt             |
-| additional                                       | Paramater | leerlingenMetInlevering     |
-| additional                                       | Paramater | lesgroep                    |
-| additional                                       | Paramater | leerlingProjectgroep        |
-| additional                                       | Paramater | studiewijzerId              |
+| additional                                       | Parameter | swigemaaktVinkjes           |
+| additional                                       | Parameter | leerlingen                  |
+| additional                                       | Parameter | huiswerkgemaakt             |
+| additional                                       | Parameter | leerlingenMetInlevering     |
+| additional                                       | Parameter | lesgroep                    |
+| additional                                       | Parameter | leerlingProjectgroep        |
+| additional                                       | Parameter | studiewijzerId              |
 | Authorization                                    | Header    | Bearer [access_token]       |
 
 #### Returns
@@ -707,13 +707,13 @@ Receives the homework from weeks after a specified date.
 | begintNaOfOp                                     | Parameter | Date (yyyy-MM-dd)       |
 | weeknummer                                       | Parameter | Number [1-52]           |
 | geenDifferentiatieOfGedifferentieerdVoorLeerling | Parameter | [id]                    |
-| additional                                       | Paramater | swigemaaktVinkjes       |
-| additional                                       | Paramater | leerlingen              |
-| additional                                       | Paramater | huiswerkgemaakt         |
-| additional                                       | Paramater | leerlingenMetInlevering |
-| additional                                       | Paramater | lesgroep                |
-| additional                                       | Paramater | leerlingProjectgroep    |
-| additional                                       | Paramater | studiewijzerId          |
+| additional                                       | Parameter | swigemaaktVinkjes       |
+| additional                                       | Parameter | leerlingen              |
+| additional                                       | Parameter | huiswerkgemaakt         |
+| additional                                       | Parameter | leerlingenMetInlevering |
+| additional                                       | Parameter | lesgroep                |
+| additional                                       | Parameter | leerlingProjectgroep    |
+| additional                                       | Parameter | studiewijzerId          |
 | Authorization                                    | Header    | Bearer [access_token]   |
 
 #### Returns
