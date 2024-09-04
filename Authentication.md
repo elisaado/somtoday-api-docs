@@ -153,6 +153,14 @@ And at last, you need to save the `location` header, which is the url that the u
 
 This will return another cookie that you need to save: `JSESSIONID`. To make sure you can save the cookie I recommend to disallow the HTTP request to follow redirects.
 
+
+### Step 2: Deciding if is a username+password flow or a username first-flow
+
+When logging in somtoday, there'll be 2 options on how to send your username and password.
+
+username+password flow: After entering your school and pressing submit, there'll appear 2 input fields for username & password
+
+
 ### Step 2: Telling SOMToday who you are: `POST https://inloggen.somtoday.nl/?0-1.-panel-signInForm`
 
 #### Parameters
