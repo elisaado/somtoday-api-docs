@@ -12,9 +12,8 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
   - [Getting a list of schools](#getting-a-list-of-schools)
   - [Authentication by mimicking the SOMToday app/webapp](#authentication-by-mimicking-the-somtoday-appwebapp)
     - [Fetching the access token via Somtoday login](#step-1-fetching-the-access-token-via-somtoday-login-get-httpsinloggensomtodaynloauth2authorize)
-    - [Telling SOMToday who you are](#step-2-telling-somtoday-who-you-are-post-httpsinloggensomtodaynl0-1-panel-signinform)
-    - [Telling SOMToday your password](#step-3-telling-somtoday-your-secret-code--post-httpsinloggensomtodaynllogin2-1-passwordform)
-    - [Telling SOMToday that you are done](#step-4-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
+    - [Deciding if it is a username+password flow or an username first-flow](#step-2-deciding-if-it-is-a-usernamepassword-flow-or-an-username-first-flow)
+    - [Telling SOMToday that you are done](#step-3-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
   - [Authentication using SSO](#authentication-using-sso-single-sign-on)
   - [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
   - [Refreshing the access token](#refreshing-the-access-token-post-oauth2token)
@@ -154,36 +153,25 @@ And at last, you need to save the `location` header, which is the url that the u
 This will return another cookie that you need to save: `JSESSIONID`. To make sure you can save the cookie I recommend to disallow the HTTP request to follow redirects.
 
 
-### Step 2: Deciding if is a username+password flow or a username first-flow
+### Step 2: Deciding if it is a username+password flow or an username first-flow
 
 When logging in somtoday, there'll be 2 options on how to send your username and password.
 
-username+password flow: After entering your school and pressing submit, there'll appear 2 input fields for username & password
+username+password flow: After entering your school and pressing submit, there'll appear 2 input fields for username & password.
 
+username first-flow: After entering your school and pressing submit, there'll appear only 1 input field for the username.
 
-### Step 2: Telling SOMToday who you are: `POST https://inloggen.somtoday.nl/?0-1.-panel-signInForm`
+To decide which flow it is, we'll have to send one request.
 
-#### Parameters
-
-| Name                                                     | Type      | Value                                 |
-|----------------------------------------------------------|-----------|---------------------------------------|
-| auth                                                     | Parameter | `authorization_code`                  |
-| loginLink                                                | body      | x                                     |
-| usernameFieldPanel:usernameFieldPanel_body:usernameField | body      | [username]                            |
-| origin                                                   | header    | https://inloggen.somtoday.nl          |
-| JSESSIONID                                               | cookie    | [JSESSIONID]                          |
-| production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
-
-`auth`: This is the authorization code that you got from the previous step.
-
-`username`: This is the username of the user that you want to authenticate.
-
+```
+POST /0-1.-panel-signInForm&auth=<authorization_code>
+Origin: https://inloggen.somtoday.nl
+```
 #### Returns
-This wil not return anything useful, you are sending your username to SOMToday, who will link you username to the `authorization_code` that you sent with the request.
 
+Don't follow the redirect, check if the ``auth`` parameter exists in the 'Location' header. If exists, then it is a **username + password flow**, otherwise it is an **username first-flow**
 
-
-### Step 3: Telling SOMToday your secret code ;): `POST https://inloggen.somtoday.nl/login?2-1.-passwordForm`
+#### Authentication with username first-flow: `POST https://inloggen.somtoday.nl/login?2-1.-passwordForm`
 
 #### Parameters
 
@@ -193,6 +181,7 @@ This wil not return anything useful, you are sending your username to SOMToday, 
 | passwordFieldPanel:passwordFieldPanel_body:passwordField | body      | [password]                            |
 | origin                                                   | header    | https://inloggen.somtoday.nl          |
 | JSESSIONID                                               | cookie    | [JSESSIONID]                          |
+| auth                                                     | param     | `authorization_code`
 | production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
 
 `auth`: This is the authorization code that you got from step 1.
@@ -203,9 +192,23 @@ This wil not return anything useful, you are sending your username to SOMToday, 
 #### Returns
 A redirect (HTTP 302), you need to intercept this redirect and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `final_authorization_code`.
 
+#### Authentication with username + password flow `POST https://inloggen.somtoday.nl/?0-1.-panel-signInForm`
+
+| Name                                                     | Type      | Value                                 |
+|----------------------------------------------------------|-----------|---------------------------------------|
+| loginLink                                                | body      | x                                     |
+| usernameFieldPanel:usernameFieldPanel_body:usernameField | body      | [username]
+| passwordFieldPanel:passwordFieldPanel_body:passwordField | body      | [password]                            |
+| origin                                                   | header    | https://inloggen.somtoday.nl          |
+| auth                                                     | param     | `authorization_code`
+| JSESSIONID                                               | cookie    | [JSESSIONID]                          |
+| production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
 
 
-### Step 4: Telling SOMToday that you are done: `POST https://inloggen.somtoday.nl/oauth2/token`
+#### Returns
+A redirect (HTTP 302), you need to intercept this redirect and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `final_authorization_code`.
+
+### Step 3: Telling SOMToday that you are done: `POST https://inloggen.somtoday.nl/oauth2/token`
 
 #### Parameters
 
@@ -221,7 +224,7 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
 
 `tentant_uuid`: This is a unique identifier for the used by SOMtoday to identify you as part of a school. This value can be found in the `uuid` property of the school object in the list of schools. This was explained above.
 
-`final_authorization_code`: This is the authorization code that you got from step 3.
+`final_authorization_code`: This is the authorization code that you got from step 2.
 
 `code_verifier`: This is the code verifier that you generated in step 1.
 
