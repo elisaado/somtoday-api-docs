@@ -16,6 +16,7 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
     - [Telling SOMToday that you are done](#step-3-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
   - [Authentication using SSO](#authentication-using-sso-single-sign-on)
   - [Fetching the access token via SOMtoday login (Possibly deprecated)](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
+  
   - [Refreshing the access token](#refreshing-the-access-token-post-oauth2token)
 ---
 ## Getting a list of schools
@@ -77,8 +78,8 @@ If you rather have a Postman example, you van view it here, but I recommend to s
 #### Parameters
 | Name                  | Type      | Value                                |
 |-----------------------|-----------|--------------------------------------|
-| redirect_uri          | Parameter | somtodayleerling://oauth/callback    |
-| client_id             | Parameter | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+| redirect_uri          | Parameter | somtoday://nl.topicus.somtoday.leerling/oauth/callback|
+| client_id             | Parameter | somtoday-leerling-native |
 | state                 | Parameter | [state]                              |
 | response_type         | Parameter | code                                 |
 | scope                 | Parameter | openid                               |
@@ -87,7 +88,7 @@ If you rather have a Postman example, you van view it here, but I recommend to s
 | code_challenge        | Parameter | [code_challenge]                     |
 | code_challenge_method | Parameter | S256                                 |
 
-`redirect_uri`: This parameter is the URL that the user will be redirected to after authentication is completed. In this case, it's `somtodayleerling://oauth/callback`, which is a custom URI scheme that will launch the Somtoday Leerling app (or any other app that has this deeplink registered) on the user's device. I suspect that `somtodayouder://oauth/callback` will also work, since SOMToday has a parent version of their app, but I'm not sure!
+`redirect_uri`: This parameter is the URL that the user will be redirected to after authentication is completed. In this case, it's `somtoday://nl.topicus.somtoday.leerling/oauth/callback`, which is a custom URI scheme that will launch the Somtoday Leerling app (or any other app that has this deeplink registered) on the user's device. I suspect that `somtodayouder://oauth/callback` will also work, since SOMToday has a parent version of their app, but I'm not sure!
 
 `state`: This parameter is used by the client to maintain state between the request and the callback. In this case, it's a randomly generated string of 8 characters.
 
@@ -189,6 +190,7 @@ Don't follow the redirect, check if the ``auth`` parameter exists in the 'Locati
 `password`: This is the password of the user that you want to authenticate.
 
 
+***The reason that we're only submitting our `password` is because we submitted already our username before to decide what flow it is.***
 #### Returns
 A redirect (HTTP 302), you need to intercept this redirect and parse the query parameters. The `code` parameter is the authorization code that you need for the next parts of the authentication process, I will refer to this as the `final_authorization_code`.
 
@@ -350,12 +352,12 @@ After the user has logged in the page will redirect to the `uri` with these para
 
 </details>
 
-## Fetching the access token via SOMtoday login
+## Fetching the access token via SOMtoday login (Possibly deprecated)
 <details><summary>Click to open the guide for fetching the access token via SOMtoday login</summary>
 
 All routes here are prefixed with the base url: `https://somtoday.nl`
 
-### Fetching the access token via Somtoday login: `POST /oauth2/token` (Possibly deprecated)
+### Fetching the access token via Somtoday login: `POST /oauth2/token`
 
 #### Parameters
 
