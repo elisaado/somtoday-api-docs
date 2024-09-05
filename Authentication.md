@@ -15,7 +15,7 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
     - [Deciding if it is a username+password flow or an username first-flow](#step-2-deciding-if-it-is-a-usernamepassword-flow-or-an-username-first-flow)
     - [Telling SOMToday that you are done](#step-3-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
   - [Authentication using SSO](#authentication-using-sso-single-sign-on)
-  - (POSSIBLY DEPRECATED) [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
+  - [Fetching the access token via SOMtoday login (Possibly deprecated)](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
   - [Refreshing the access token](#refreshing-the-access-token-post-oauth2token)
 ---
 ## Getting a list of schools
