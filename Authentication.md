@@ -15,7 +15,7 @@ This guide is a step-by-step tutorial on how to authenticate mimicking the SOMTo
     - [Deciding if it is a username+password flow or an username first-flow](#step-2-deciding-if-it-is-a-usernamepassword-flow-or-an-username-first-flow)
     - [Telling SOMToday that you are done](#step-3-telling-somtoday-that-you-are-done-post-httpsinloggensomtodaynloauth2token)
   - [Authentication using SSO](#authentication-using-sso-single-sign-on)
-  - [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
+  - (POSSIBLY DEPRECATED) [Fetching the access token via SOMtoday login](#fetching-the-access-token-via-somtoday-login-post-oauth2token)
   - [Refreshing the access token](#refreshing-the-access-token-post-oauth2token)
 ---
 ## Getting a list of schools
@@ -355,7 +355,7 @@ After the user has logged in the page will redirect to the `uri` with these para
 
 All routes here are prefixed with the base url: `https://somtoday.nl`
 
-### Fetching the access token via Somtoday login: `POST /oauth2/token`
+### Fetching the access token via Somtoday login: `POST /oauth2/token` (Possibly deprecated)
 
 #### Parameters
 
