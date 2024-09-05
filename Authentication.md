@@ -219,7 +219,7 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
 | grant_type            | Parameter | authorization_code                   |
 | session               | Parameter | no_session                           |
 | scope                 | Parameter | openid                               |
-| client_id             | Parameter | D50E0C06-32D1-4B41-A137-A9A850C892C2 |
+| client_id             | Parameter | somtoday-leerling-native             |
 | tenant_uuid           | Parameter | [tenant_uuid]                        |
 | code                  | Parameter | `final_authorization_code`           |
 | code_verifier         | Parameter | [code_verifier]                      |
