@@ -133,7 +133,7 @@ The GenerateNonce() function generates a 128-character string composed of lowerc
 The GenerateCodeChallenge() function first creates a SHA256 hash of the codeVerifier string using the SHA256.Create() method, and then encodes it as a base64 string using Convert.ToBase64String(). The resulting string is then modified to be safe for use in a URL by replacing certain characters with URL-safe equivalents using regular expressions.
 
 When you're finished generating the link, it will look something like this: <br>
-`https://inloggen.somtoday.nl/oauth2/authorize?redirect_uri=somtodayleerling://oauth/callback&client_id=D50E0C06-32D1-4B41-A137-A9A850C892C2&response_type=code&state=[8 random characters]&scope=openid&tenant_uuid=[UUID of the school]&session=no_session&code_challenge=[code challenge]k&code_challenge_method=S256`<br><br>
+`https://inloggen.somtoday.nl/oauth2/authorize?redirect_uri=somtoday://nl.topicus.somtoday.leerling/oauth/callback&client_id=somtoday-leerling-native&response_type=code&state=[8 random characters]&scope=openid&tenant_uuid=[UUID of the school]&session=no_session&code_challenge=[code challenge]k&code_challenge_method=S256`<br><br>
 
 You are able to send the user to that generated link. They will see the usual SOMtoday login screen and will need to log into their account. When SOMtoday has authenticated them, SOMtoday will redirect them to a callback, which will look something like this:<br>
 `somtodayleerling://oauth:443/callback?code=eyJ6aXAiOiJERUYiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....&iss=https://somtoday.nl&state=[8 random characters, same as first URL]`<br>
@@ -164,10 +164,20 @@ username first-flow: After entering your school and pressing submit, there'll ap
 
 To decide which flow it is, we'll have to send one request.
 
-```
-POST /0-1.-panel-signInForm&auth=<authorization_code>
-Origin: https://inloggen.somtoday.nl
-```
+#### `POST /0-1.-panel-signInForm`
+| Name                                                     | Type      | Value                                 |
+|----------------------------------------------------------|-----------|---------------------------------------|
+| usernameFieldPanel:usernameFieldPanel_body:usernameField | body      | [username]                            |
+| Origin                                                   | header    | https://inloggen.somtoday.nl          |
+| JSESSIONID                                               | cookie    | [JSESSIONID]                          |
+| auth                                                     | param     | `authorization_code`                  |
+| production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
+
+
+`auth`: This is the authorization code that you got from step 1.
+
+`username`: This is the username of the user that you want to authenticate.
+
 #### Returns
 
 Don't follow the redirect, check if the ``auth`` parameter exists in the 'Location' header. If exists, then it is a **username + password flow**, otherwise it is an **username first-flow**
@@ -182,7 +192,7 @@ Don't follow the redirect, check if the ``auth`` parameter exists in the 'Locati
 | passwordFieldPanel:passwordFieldPanel_body:passwordField | body      | [password]                            |
 | origin                                                   | header    | https://inloggen.somtoday.nl          |
 | JSESSIONID                                               | cookie    | [JSESSIONID]                          |
-| auth                                                     | param     | `authorization_code`
+| auth                                                     | param     | `authorization_code`                  |
 | production-authenticator-stickiness                      | cookie    | [production-authenticator-stickiness] |
 
 `auth`: This is the authorization code that you got from step 1.
