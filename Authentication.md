@@ -158,9 +158,9 @@ This will return another cookie that you need to save: `JSESSIONID`. To make sur
 
 When logging in to somtoday, there'll be 2 options on how to send your username and password.
 
-username+password flow: After entering your school and pressing submit, there'll appear 2 input fields for username & password.
+username+password flow: After entering your school and pressing "Volgende", there will appear 2 input fields for username & password.
 
-username first-flow: After entering your school and pressing submit, there'll appear only 1 input field for the username.
+username first-flow: After entering your school and pressing "Volgende", there only appears 1 input field for the username.
 
 To decide which flow it is, we'll have to send one request.
 
@@ -180,7 +180,7 @@ To decide which flow it is, we'll have to send one request.
 
 #### Returns
 
-Don't follow the redirect, check if the ``auth`` parameter exists in the 'Location' header. If exists, then it is a **username + password flow**, otherwise it is an **username first-flow**
+Don't follow the redirect, check if the ``auth`` parameter exists in the 'Location' header. If it exists, then you need to use the **username + password flow**, otherwise it is a **username first-flow**
 
 #### Authentication with username first-flow: `POST https://inloggen.somtoday.nl/login?2-1.-passwordForm`
 
