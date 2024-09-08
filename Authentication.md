@@ -156,7 +156,7 @@ This will return another cookie that you need to save: `JSESSIONID`. To make sur
 
 ### Step 2: Deciding if it is a username+password flow or an username first-flow
 
-When logging in somtoday, there'll be 2 options on how to send your username and password.
+When logging in to somtoday, there'll be 2 options on how to send your username and password.
 
 username+password flow: After entering your school and pressing submit, there'll appear 2 input fields for username & password.
 
