@@ -1833,6 +1833,7 @@ Deletes the currently active icalendar stream
 NONE
 
 </details>
+
 ### Undocumented:
 
 - `GET /rest/v1/medewerkers/ontvangers`
