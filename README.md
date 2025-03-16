@@ -30,6 +30,7 @@
     - [School Years: `GET /rest/v1/schooljaren`](#schooljaren-get-restv1schooljaren--get-restv1schooljarenid)
     - [Vakkeuzes: `GET /rest/v1/vakkeuzes`](#vakkeuzes-get-restv1vakkeuzes)
     - [Waarnemingen: `GET /rest/v1/waarnemingen`](#waarnemingen-get-restv1waarnemingen)
+    - [Messages: `GET /rest/v1/boodschappen/conversaties`](#messages-get-restv1boodschappenconversaties)
     - [Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens`](#schoolgegevens-get-restv1idschoolgegevens)
     - [Vakanties: `GET /rest/v1/vakanties/leerling/[id]`](#vakanties-get-restv1vakantiesleerlingid)
     - [Studiemateriaal: `GET /rest/v1/vakken/studiemateriaal/[id]` & `GET rest/v1/vakken/studiemateriaal/[id]/vak/[uuid]` & `/rest/v1/studiemateriaal/algemeen/[id]`](#studiemateriaal-get-restv1vakkenstudiemateriaalid--get-restv1vakkenstudiemateriaalidvakuuid--restv1studiemateriaalalgemeenid)
@@ -1383,6 +1384,140 @@ You can either provide a date range or a single date. If you provide a single da
     },
     ...
   ]
+}
+```
+</details>
+
+### Messages: `GET /rest/v1/boodschappen/conversaties`
+<details><summary>Click to open</summary>
+Fetches your SomToday messages/berichten.
+
+#### Parameters
+
+| Name          | Type      | Value                  |
+|---------------|-----------|------------------------|
+| Authorization | Header    | Bearer [access_token]  |
+| additional    | Parameter | verzondenDoorGebruiker |
+| additional    | Parameter | verzenderCorrespondent |
+| additional    | Parameter | aantalExtraOntvangers  |
+| additional    | Parameter | actiefVoorGebruiker    |
+| alle          | Parameter | true/false             |
+
+#### Returns
+```json
+{
+    "items":[
+        {
+            "$type":"berichten.RBoodschapConversatie",
+            "boodschappen":[
+                {
+                    "links":[
+                        {
+                            "id":1234567890,
+                            "rel":"koppeling",
+                            "type":"berichten.RBoodschap"
+                        }
+                    ],
+            "permissions":[],
+            "additionalObjects":{
+                "aantalExtraOntvangers":0,
+                "verzondenDoorGebruiker":false,
+                "ontvangerCorrespondenten":{
+                    "$type":"NonLinkableWrapper",
+                    "items":[
+                        {
+                            "$type":"berichten.RBoodschapCorrespondent",
+                            "naam":"REDACTED",
+                            "vakken":[]
+                        },
+                            {
+                                "$type":"berichten.RBoodschapCorrespondent",
+                                "naam":"REDACTED",
+                                "vakken":[]
+                                }
+                    ]             
+                },
+                    "verzenderCorrespondent":{
+                        "$type":"berichten.RBoodschapCorrespondent",
+                        "naam":"REDACTED",
+                        "sorteerNaam":"REDACTED",
+                        "initialen":"REDACTED",
+                        "vakken":[
+                            {
+                                "links":[
+                                    {
+                                        "id":1234567890,
+                                        "rel":"self",
+                                        "type":"onderwijsinrichting.RVak",
+                                        "href":"https://api.somtoday.nl/rest/v1/vakken/1234567890"
+                                        }
+                                    ],
+                                    "permissions":[
+                                        {
+                                            "full":"onderwijsinrichting.RVak:READ,UPDATE,DELETE:INSTANCE(1234567890)",
+                                            "type":"onderwijsinrichting.RVak",
+                                            "operations":["READ","UPDATE","DELETE"],
+                                            "instances":["INSTANCE(1234567890)"]
+                                        }
+                                    ],
+                                    "additionalObjects":{},
+                                    "afkorting":"schk",
+                                    "naam":"scheikunde",
+                                    "UUID":"UUID"
+                            }
+                        ]
+                    },
+                    "actiefVoorGebruiker":true,
+                    "isOuderavondUitnodiging":false
+            },
+            "startPublicatie":"tijd",
+            "verzendDatum":"tijd",
+            "wijzigingsDatum":"tijd",
+            "draft":false,
+            "onderwerp":"REDACTED",
+            "inhoud":"REDACTED",
+            "prioriteit":"NORMAAL",
+            "notificatieType":"Bericht",
+            "bijlages":[
+                {
+                    "links":[
+                        {
+                            "id":1234567890,
+                            "rel":"koppeling",
+                            "type":"berichten.RBoodschapBijlage"
+                        }
+                    ],
+                    "permissions":[],
+                    "additionalObjects":{},
+                    "assemblyResults":[
+                        {
+                            "links":[
+                                {
+                                    "id":1234567890,
+                                    "rel":"koppeling",
+                                    "type":"cloudfiles.bestanden.RAssemblyResult"
+                                }
+                            ],
+                            "permissions":[],
+                            "additionalObjects":{},
+                            "assemblyFileType":"MISC",
+                            "fileExtension":"xlsx",
+                            "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "fileSize":11039,
+                            "fileType":"office",
+                            "fileUrl":"REDACTED.xlsx",
+                            "sslUrl":"REDACTED.xlsx",
+                            "fileName":"REDACTED.xlsx"
+                        }
+                    ],
+                    "sortering":0
+                }
+            ]
+                }
+            ]
+        },
+        ...
+    ]
 }
 ```
 </details>
