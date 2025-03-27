@@ -1522,7 +1522,7 @@ Fetches your SomToday messages/berichten.
 ```
 </details>
 
-### Schoolgegevens: `GET /rest/v1/[id]/schoolgegevens`
+### Schoolgegevens: `GET /rest/v1/leerlingen/[id]/schoolgegevens` 
 <details><summary>Click to open</summary>
 
 Fetches info about the school, including your mentor.
