@@ -91,7 +91,7 @@ Please add more if you know more.
 
 ## Fetching information
 
-baseurl: returned when you fetch a token (`somtoday_api_url`), usually [lowercase snakecased schoolname]-api.somtoday.nl
+baseurl: returned when you fetch a token (`somtoday_api_url`), usually api.somtoday.nl.
 
 All routes here are prefixed with that baseurl.
 
