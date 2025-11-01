@@ -282,7 +282,7 @@ A redirect (HTTP 302), you need to intercept this redirect and parse the query p
 {
   "access_token": "<REDACTED>",
   "refresh_token": "<REDACTED>",
-  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
+  "somtoday_api_url": "https://api.somtoday.nl",
   "scope": "openid",
   "somtoday_tenant": "bonhoeffer",
   "id_token": "<REDACTED>",
@@ -387,7 +387,7 @@ All routes here are prefixed with the base url: `https://somtoday.nl`
 {
   "access_token": "<REDACTED>",
   "refresh_token": "<REDACTED>",
-  "somtoday_api_url": "https://bonhoeffer-api.somtoday.nl",
+  "somtoday_api_url": "https://api.somtoday.nl",
   "scope": "openid",
   "somtoday_tenant": "bonhoeffer",
   "id_token": "<REDACTED>",
