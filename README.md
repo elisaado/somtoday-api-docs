@@ -125,7 +125,7 @@ Depending on the additional parameters, some of the items in the result may not 
           "id": 1234,
           "rel": "self",
           "type": "leerling.RLeerling",
-          "href": "https://bonhoeffer-api.somtoday.nl/rest/v1/leerlingen/1234"
+          "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234"
         }
       ],
       "permissions": [
@@ -165,7 +165,7 @@ Depending on the additional parameters, some of the items in the result may not 
 #### Example
 
 ```bash
-token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl
+token='<REDACTED>' school_url=https://api.somtoday.nl
 curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
@@ -189,7 +189,7 @@ curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Acce
       "id": 1234,
       "rel": "self",
       "type": "leerling.RLeerling",
-      "href": "https://bonhoeffer-api.somtoday.nl/rest/v1/leerlingen/1234"
+      "href": "https://api.somtoday.nl/rest/v1/leerlingen/1234"
     }
   ],
   "permissions": [
@@ -214,7 +214,7 @@ curl "$school_url/rest/v1/leerlingen" -H "Authorization: Bearer $token" -H "Acce
 #### Example
 
 ```bash
-token='<REDACTED>' school_url=https://bonhoeffer-api.somtoday.nl id=1234
+token='<REDACTED>' school_url=https://api.somtoday.nl id=1234
 curl "$school_url/rest/v1/leerlingen/$id" -H "Authorization: Bearer $token" -H "Accept: application/json"
 ```
 
