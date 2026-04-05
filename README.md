@@ -1,6 +1,12 @@
 # SOMtoday REST API docs
 
-#### Discord
+#### Community
+
+##### Matrix (bridged to Discord)
+
+[![Matrix chat](https://img.shields.io/matrix/somtoday%3Aelisaado.com?server_fqdn=matrix.elisaado.com&fetchMode=summary)](https://matrix.to/#/#somtoday:elisaado.com)
+
+##### Discord (bridged to Matrix)
 
 [![Discord Chat](https://img.shields.io/discord/789249810032361502.svg)](https://discord.gg/yE3e3erCut)
 
